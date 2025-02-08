@@ -1,0 +1,22 @@
+[mat-dialog-title] {
+  color: #fff;
+  background-color: var(--danger-color);
+  padding: 5px 5px;
+  border-bottom-right-radius: 20px;
+  border-top-right-radius: 20px;
+  max-width: 400px;
+  min-width: 250px;
+}
+
+mat-card {
+  background-color: #ecf0f1;
+  max-width: 400px;
+}
+
+mat-card-subtitle {
+  color: var(--danger-color);
+}
+
+.note{
+  font-size: 13px;
+}

@@ -1,0 +1,18 @@
+
+<mat-dialog-content class="mat-typography">
+
+  <image-cropper [ngStyle]="{width: '300px'}"
+                 [imageChangedEvent]="imageChangedEvent"
+                 [maintainAspectRatio]="true"
+                 (imageCropped)="imageCropped($event)"
+                 [roundCropper]="true"
+                   (imageLoaded)="imageLoaded()"
+                   (cropperReady)="cropperReady()"
+                   (loadImageFailed)="loadImageFailed()"
+  ></image-cropper>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-raised-button (click)="closeData()">Cancel</button>
+  <button mat-raised-button cdkFocusInitial color="primary" (click)="selectImage()">Select Image</button>
+</mat-dialog-actions>
+

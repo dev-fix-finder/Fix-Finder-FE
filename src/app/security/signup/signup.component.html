@@ -1,0 +1,64 @@
+<div class="outer">
+  <div class="inner">
+    <h1 class="back-button">
+      <span routerLink="/process/home"> <mat-icon>keyboard_backspace</mat-icon>&nbsp; Home page</span>
+    </h1>
+
+    <div class="login-context">
+      <div class="left-side">
+        <div class="shadow">
+
+        </div>
+      </div>
+      <div class="right-side">
+        <div class="right-side-shadow">
+          <div class="container">
+            <div class="login-element-outer">
+              <h1 class="login-text">Register</h1>
+              <p class="login-para">
+                Embark on Your Journey, Register with FixFinder
+              </p>
+              <br><br>
+              <form [formGroup]="userForm">
+                  <div class="data-outer" id="name">
+                    <input formControlName="name" type="text" placeholder="Name">
+                  </div>
+
+                <br>
+                <div class="data-outer">
+                  <input autocomplete="off" formControlName="email"  type="email" placeholder="User email">
+                </div>
+                <br>
+                <div class="data-outer">
+                  <input autocomplete="off" formControlName="password" placeholder="password"  type="{{passwordState?'password':'text'}}">
+                  <div class="icon-outer" (click)="passwordState=!passwordState">
+                    <mat-icon>
+                      {{passwordState?'visibility_off':'visibility'}}
+                    </mat-icon>
+                  </div>
+                </div>
+                <br>
+                <div class="data-outer">
+                  <input autocomplete="off" formControlName="confirmPassword" placeholder="Confirm password"  type="{{passwordState?'password':'text'}}">
+                  <div class="icon-outer" (click)="passwordState=!passwordState">
+                    <mat-icon>
+                      {{passwordState?'visibility_off':'visibility'}}
+                    </mat-icon>
+                  </div>
+                </div>
+                <br>
+                <div class="login-button-outer">
+                  <button mat-raised-button  type="button" [disabled]="userForm.invalid" (click)="signup()">Create Account</button>
+                </div>
+                <div class="sign-up-outer">
+                  <h1 class="sign-up" >Already have an account? <span routerLink="/security/login">Login.</span></h1>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

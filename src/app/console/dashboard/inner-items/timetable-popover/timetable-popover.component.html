@@ -1,0 +1,27 @@
+<h3 mat-dialog-title>{{ formattedDate?.day }}<sup>{{ formattedDate?.ordinalSuffix }}</sup>
+  of {{ formattedDate?.month }} {{ formattedDate?.year }}</h3>
+<mat-dialog-content>
+  <div *ngIf="timetable; else loading">
+    <div *ngFor="let event of timetable">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>{{ event?.name }}</mat-card-title>
+          <mat-card-subtitle>{{ event?.time }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-list>
+            <mat-list-item>{{ event?.topic }}</mat-list-item>
+            <mat-list-item class="note">{{ event?.note }}</mat-list-item>
+          </mat-list>
+        </mat-card-content>
+      </mat-card>
+      <br>
+    </div>
+  </div>
+
+  <ng-template #loading>
+    <mat-card>
+      <mat-card-content>No session</mat-card-content>
+    </mat-card>
+  </ng-template>
+</mat-dialog-content>

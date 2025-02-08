@@ -1,1 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
+//@import 'ngx-toastr/toastr';
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+:root {
+  --primary-color: #1A2238;
+  --secondary-color: #34495E;
+  --danger-color: #E74C3C;
+  --orange-color: rgb(255, 102, 0);
+  --dark-gray-color: #D9D9D9;
+  --light-gray-color: #EBEDEF;
+  --navy-blue-color: #012E6A;
+  --blue-color: #0D99FF;
+  --green-color: #16A085;
+  --light-green-color: #31D8DA;
+  --purple-color: #4D33F9;
+  --font-color: #FFF;
+}

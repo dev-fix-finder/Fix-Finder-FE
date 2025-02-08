@@ -1,0 +1,77 @@
+<div class="outer">
+
+  <img *ngIf="!expanded" alt="logo" class="logo" src="assets/logo/fix-finder-high-resolution-logo-black.png">
+
+  <div (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()" [ngStyle]="{'width':expanded?'280px':'70px'}"
+       class="left"
+       id="left">
+    <div class="nav-outer">
+      <div class="ham-outer">
+        <div (click)="triggerNav()" class="ham-inner">
+          <mat-icon>menu</mat-icon>
+        </div>
+        <div *ngIf="expanded" class="logo-outer">
+          <img alt="logo" src="assets/logo/fix-finder-high-resolution-logo-black.png">
+        </div>
+      </div>
+
+      <div [ngStyle]="{'display':expanded?'flex':''}" class="avatar-outer">
+        <div class="avatar-inner">
+          <input
+            #fileInput
+            (change)="onFileSelected($event)"
+            accept="image/*"
+            style="display: none"
+            type="file"
+          />
+          <img alt="profile pick" src="{{profileAvatar}}">
+          <div (click)="fileInput.click()" class="add-image-outer">
+            <mat-icon>edit</mat-icon>
+          </div>
+        </div>
+
+        <div *ngIf="expanded" class="user-details-outer">
+          <h1 #tooltip="matTooltip" class="name"
+              matTooltip="{{selectedData?.fullName}}"
+              matTooltipHideDelay="300">{{ selectedData?.fullName.toString().substring(0, 15) }}<span
+            *ngIf="selectedData?.fullName.length>15">...</span></h1>
+          <h4 class="nic">{{ selectedData?.nic }}</h4>
+        </div>
+
+      </div>
+
+      <ul [ngStyle]="{'display':expanded?'block':''}" class="menu-wrapper">
+        <li class="list-inner" routerLink="/console/playground/dashboard" routerLinkActive="active">
+          <div class="icon-outer">
+            <mat-icon class="nav-icon">dashboard</mat-icon>
+          </div>
+          <div *ngIf="expanded" class="nav-context">
+            Dashboard
+          </div>
+        </li>
+        <li class="list-inner" routerLink="/console/playground/my-jobs"
+            routerLinkActive="active">
+          <div class="icon-outer">
+            <mat-icon class="nav-icon">code</mat-icon>
+          </div>
+          <div *ngIf="expanded" class="nav-context">
+            My Jobs
+          </div>
+        </li>
+        <li class="list-inner" routerLink="/console/playground/my-profile" routerLinkActive="active">
+          <div class="icon-outer">
+            <mat-icon class="nav-icon">settings</mat-icon>
+          </div>
+          <div *ngIf="expanded" class="nav-context">
+            Settings
+          </div>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+  <div class="right">
+    <router-outlet></router-outlet>
+  </div>
+</div>
+

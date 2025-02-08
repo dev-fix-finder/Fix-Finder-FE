@@ -1,0 +1,49 @@
+<div class="main-outer">
+  <div class="top-outer">
+    <h1 class="title">Dashboard</h1>
+    <div class="top-bar-icon-outer">
+      <div class="top-bar-icon-inner">
+        <!-- <div class="dot notification-dot"></div> -->
+        <mat-icon>notifications</mat-icon>
+      </div>
+      <div class="top-bar-icon-inner">
+        <!-- <div class="dot"></div> -->
+        <mat-icon routerLink="/process/logout">logout</mat-icon>
+      </div>
+    </div>
+  </div>
+  <div class="name-outer">
+    <h1 class="name">Welcome back, {{this.selectedData?.fullName}}</h1>
+  </div>
+
+  <div class="calander-program-outer">
+    <div class="row" style="margin: 0;">
+      <div class="col-12 col-md-8 program-outer">
+        <div class="program-inner">
+<!--          <app-available-programs></app-available-programs>-->
+        </div>
+      </div>
+      <div class="col-12 col-md-4 calander-outer">
+
+        <div class="calander-inner">
+          <mat-calendar (selectedChange)="onDateSelected($event)"></mat-calendar>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="performance-hours-outer">
+    <div class="row" style="margin: 0;">
+      <!--<div class="col-12 col-md-8 perfomance-hours-inner">
+        <div class="chart-inner">
+          <app-performance-meter></app-performance-meter>
+        </div>
+      </div>-->
+
+     <!-- <div class="col-12 col-md-4 perfomance-hours-inner">
+        <div class="todo-list-outer">
+            <h4 class="todo-text">Enable soon</h4>
+        </div>
+      </div>-->
+    </div>
+  </div>
+</div>
