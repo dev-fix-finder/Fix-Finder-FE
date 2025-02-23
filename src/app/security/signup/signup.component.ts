@@ -6,6 +6,7 @@ import {AuthService} from '../../share/services/auth/auth.service';
 import {ToastrService} from 'ngx-toastr';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
+import {MatCheckbox} from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-signup',
@@ -13,7 +14,8 @@ import {MatButtonModule} from '@angular/material/button';
     RouterLink,
     MatIconModule,
     ReactiveFormsModule,
-    MatButtonModule
+    MatButtonModule,
+    MatCheckbox
   ],
   templateUrl: './signup.component.html',
   standalone: true,
@@ -23,15 +25,18 @@ export class SignupComponent {
 
 
   userForm = new FormGroup({
-    fName: new FormControl('',
+    isTradesPerson: new FormControl('',
       [Validators.required, Validators.minLength(3), Validators.maxLength(45)]),
-    lName: new FormControl('',
+    name: new FormControl('',
       [Validators.required, Validators.minLength(3), Validators.maxLength(45)]),
     email: new FormControl('',
       [Validators.required, Validators.email]),
     password: new FormControl('',
       [Validators.required, Validators.minLength(6), Validators.maxLength(45)]),
+    confirmPassword: new FormControl('',
+      [Validators.required, Validators.minLength(6), Validators.maxLength(45)]),
   });
+  
   passwordState: boolean = false;
 
   constructor(
@@ -90,8 +95,8 @@ export class SignupComponent {
   }
 
   ngOnInit(): void {
-  /*  if (this.cookieManager.tokenIsExists('token')) {
-      this.router.navigateByUrl('/console')
-    }*/
+    /*  if (this.cookieManager.tokenIsExists('token')) {
+        this.router.navigateByUrl('/console')
+      }*/
   }
 }

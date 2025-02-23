@@ -12,12 +12,20 @@ import {VerificationPoolComponent} from './console/verification-pool/verificatio
 import {PlaygroundComponent} from './console/playground/playground.component';
 import {DashboardComponent} from './console/dashboard/dashboard.component';
 import {LogoutComponent} from './process/logout/logout.component';
+import {UserRegisterComponent} from './process/user-register/user-register.component';
+import {ProfileContextComponent} from './console/profile/profile-context/profile-context.component';
+import {UserTypeSelectionComponent} from './security/user-type-selection/user-type-selection.component';
+import {MyJobsComponent} from './console/my-jobs/my-jobs.component';
+import {MyScheduleComponent} from './console/my-schedule/my-schedule.component';
+import {MessagesComponent} from './console/messages/messages.component';
+import {HireTradesmenComponent} from './console/hire-tradesmen/hire-tradesmen.component';
 
 export const routes: Routes = [
   {path: '', redirectTo: 'security/login', pathMatch: 'full'},
   {
     path: 'security', component: SecurityContextComponent, children: [
-      {path: '', redirectTo: 'login', pathMatch: 'full'},
+      {path: '', redirectTo: 'user-type', pathMatch: 'full'},
+      {path: 'user-type', component: UserTypeSelectionComponent},
       {path: 'login', component: LoginComponent},
       {path: 'signup', component: SignupComponent},
       {path: 'forgot-password', component: ForgetPasswordPageComponent},
@@ -34,6 +42,11 @@ export const routes: Routes = [
         path: 'playground', component: PlaygroundComponent, children: [
           {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
           {path: 'dashboard', component: DashboardComponent},
+          {path: 'my-schedule', component: MyScheduleComponent},
+          {path: 'hire-trades-person', component: HireTradesmenComponent},
+          {path: 'my-jobs', component: MyJobsComponent},
+          {path: 'messages', component: MessagesComponent},
+          {path: 'my-profile', component: ProfileContextComponent},
         ]
       },
     ]
@@ -43,6 +56,7 @@ export const routes: Routes = [
       {path: '', redirectTo: 'home', pathMatch: 'full'},
       {path: 'home', component: LandingPageContextComponent},
       {path: 'logout', component: LogoutComponent},
+      {path: 'register', component: UserRegisterComponent},
     ]
   }
 ];
