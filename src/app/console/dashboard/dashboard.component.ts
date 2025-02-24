@@ -1,18 +1,9 @@
-import {Component, ElementRef, ViewChild} from '@angular/core';
+import {Component} from '@angular/core';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {RouterLink} from '@angular/router';
 import {MatIconModule} from '@angular/material/icon';
 import {MatDialog} from '@angular/material/dialog';
 import {TimetablePopoverComponent} from './inner-items/timetable-popover/timetable-popover.component';
-import {
-  ProfileCardsContextComponent
-} from '../../share/components/profile-cards/profile-cards-context/profile-cards-context.component';
-import {
-  TradespersonDashboardComponent
-} from './inner-items/tradesperson/tradesperson-dashboard/tradesperson-dashboard.component';
-import {NgForOf} from '@angular/common';
-import {CalendarModule, DateAdapter} from 'angular-calendar';
-import {adapterFactory} from 'angular-calendar/date-adapters/moment';
 
 @Component({
   selector: 'app-dashboard',
@@ -31,7 +22,8 @@ export class DashboardComponent {
   selectedData: any;
 
   constructor(
-    public dialog: MatDialog) {
+    public dialog: MatDialog
+  ) {
   }
 
   ngOnInit(): void {

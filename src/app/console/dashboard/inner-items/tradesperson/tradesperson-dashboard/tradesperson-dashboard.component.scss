@@ -1,0 +1,26 @@
+.active-route {
+  border-bottom: 2px solid var(--navy-blue-color) !important;
+  opacity: 1;
+  border-radius: 0;
+}
+
+.tab-menu {
+  padding: 0 20px;
+  height: 40px;
+  border-top: 1px solid var(--dark-gray-color);
+  box-shadow: 0 0px 4px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.10);
+  background-color: #F5F5F5;
+}
+
+.btn:hover {
+  border: 0;
+  outline: none;
+}
+
+.btn {
+  padding: 0 10px!important;
+  height: 35px;
+  width: fit-content!important;
+  color: black;
+  font-size: 13px;
+}

@@ -1,0 +1,85 @@
+<div class="hire-tradesmen-outer">
+  <form [formGroup]="categoryForm" #f="ngForm">
+    <div class="row">
+      <div class="col-12 col-md-3 column">
+        <mat-form-field appearance="outline" class="example-full-width input-size">
+          <mat-label>Trades Category</mat-label>
+          <mat-select formControlName="category">
+            <mat-option [value]="'carpenter'">Carpenter</mat-option>
+            <mat-option [value]="'plumber'">Plumber</mat-option>
+            <mat-option [value]="'gardner'">Gardner</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+  </form>
+  <div class="map-container">
+    <google-map width="100%" [center]="center" [zoom]="zoom" [options]="mapOptions" (mapClick)="onMapClick($event)">
+      <map-marker *ngFor="let marker of markers" [position]="marker.position" [title]="marker.title"></map-marker>
+    </google-map>
+  </div>
+
+  <div class="trades-person-list">
+    <div class="table-outer">
+      <div class="table-inner">
+        <table class="table table-hover">
+          <thead>
+          <tr>
+            <!--            <th>Select</th>-->
+            <th>Name</th>
+            <th>Age</th>
+            <th>Experience</th>
+            <th>Ratings</th>
+            <th>Service Charges (Daily)/(LKR)</th>
+            <th>Verified State</th>
+          </tr>
+          </thead>
+          <tbody>
+          <!--          <tr *ngFor="let payment of allPayments">-->
+          <tr>
+            <!--            <td>-->
+            <!--              <mat-checkbox></mat-checkbox>-->
+            <!--            </td>-->
+            <td>John</td>
+            <td>25</td>
+            <td>2 Years</td>
+            <td>5.0</td>
+            <td>2000</td>
+            <td>Verified</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <form [formGroup]="hireForm" #f1="ngForm">
+    <div class="row">
+      <div class="col-12 col-md-3 column">
+        <mat-form-field appearance="outline" class="example-full-width input-size">
+          <mat-label>Title</mat-label>
+          <input type="text" matInput formControlName="title">
+        </mat-form-field>
+      </div>
+      <div class="col-12 col-md-3 column">
+        <mat-form-field appearance="outline" class="example-full-width input-size">
+          <mat-label>Offer Price</mat-label>
+          <input type="text" matInput formControlName="offerPrice">
+        </mat-form-field>
+      </div>
+      <div class="col-12 column">
+        <mat-form-field appearance="outline" class="example-full-width input-size">
+          <mat-label>Description</mat-label>
+          <textarea type="text" matInput formControlName="description"></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+  </form>
+
+  <div class="button-outer">
+    <button mat-raised-button class="submit-button" [disabled]="categoryForm.invalid && hireForm.invalid"
+            (click)="submitJobRequest(f)">Submit Job Request
+    </button>
+  </div>
+</div>
+

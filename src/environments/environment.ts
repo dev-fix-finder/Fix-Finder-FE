@@ -7,8 +7,18 @@ export const environment = {
   // baseUrl:'http://195.35.21.13:8080/api/v1/',
   // authUrl: "http://195.35.21.13:8080/"
 
-  baseUrl:'http://localhost:8080/api/v1/',
-  authUrl: "http://localhost:8080/"
+  baseUrl: 'http://localhost:8080/api/v1/',
+  authUrl: "http://localhost:8080/",
+  googleMapsApiKey: 'AIzaSyDNydKhIv4WkXIHXxX_Qi4yitU_Ics15Qg',
+  firebaseConfig: {
+    apiKey: "AIzaSyBUEZC37QIyokQlxDyewEIeIsTMftX78Hk",
+    authDomain: "finder-8b826.firebaseapp.com",
+    projectId: "finder-8b826",
+    storageBucket: "finder-8b826.firebasestorage.app",
+    messagingSenderId: "510612128492",
+    appId: "1:510612128492:web:02dd8039c9318b442ddbc9",
+    measurementId: "G-9GPB07CMKF"
+  }
 };
 
 /*

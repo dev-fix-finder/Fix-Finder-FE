@@ -1,0 +1,45 @@
+.hire-tradesmen-outer{
+  padding: 10px;
+}
+
+.map-container {
+  width: 100%;
+  height: 500px;
+  border-radius: 10px;
+}
+
+.table-outer {
+  margin: 20px 0;
+  width: 100%;
+  height: auto;
+  overflow: auto;
+}
+
+.table-inner {
+  min-width: 800px;
+}
+
+.table {
+  border: 0.5px solid #e1e1e1;
+  border-radius: 5px !important;
+}
+
+.check_circle {
+  color: #16A085;
+}
+.example-full-width {
+  width: 100% !important;
+}
+
+.button-outer {
+  text-align: right;
+  margin-top: 20px;
+  button{
+    background-color: var(--green-color);
+  }
+}
+
+.submit-button {
+  border-radius: 100px;
+  color: white;
+}

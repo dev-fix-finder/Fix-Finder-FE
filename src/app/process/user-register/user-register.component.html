@@ -1,0 +1,82 @@
+<div class="outer container">
+  <h2 class="heading">Create Your Trades person Account here</h2>
+  <p class="message">At FixFinder, we value each tradesman's journey of professional growth. Our Trades person registration process is designed with your success in mind. Join our vibrant community of professionals and gain access to top-notch hiring jobs, our verification process that will propel your career forward. Whether you're a novice eager to embark on your work life adventure or a seasoned workings seeking to expand your skill set, FixFinder is your trusted partner in shaping a bright future in your industry. Register now and unlock a world of opportunities.</p>
+  <hr>
+  <form [formGroup]="studentRegForm" #f="ngForm">
+    <div class="row">
+      <div class="col-12 col-md-3 column">
+        <mat-form-field appearance="outline" class="example-full-width input-size">
+          <mat-label>Trades Category</mat-label>
+          <mat-select>
+            <mat-option [value]="'carpenter'">Carpenter</mat-option>
+            <mat-option [value]="'plumber'">Plumber</mat-option>
+            <mat-option [value]="'gardner'">Gardner</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-12 col-md-3 column">
+        <mat-form-field appearance="outline" class="example-full-width input-size">
+          <mat-label>Experience</mat-label>
+          <mat-select>
+            <mat-option [value]="'1'">1 year</mat-option>
+            <mat-option [value]="'2'">2 year</mat-option>
+            <mat-option [value]="'3'">3 year</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 col-lg-6 column">
+        <mat-form-field appearance="outline" class="example-full-width input-size">
+          <mat-label>NIC</mat-label>
+          <input formControlName="nic" matInput>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row background-row">
+      <div class="col-12 col-md-3 column">
+        <mat-form-field appearance="outline" class="example-full-width input-size">
+          <mat-label>Country</mat-label>
+          <input formControlName="country" matInput>
+        </mat-form-field>
+      </div>
+      <div class="col-12 col-md-3 column">
+        <mat-form-field appearance="outline" class="example-full-width input-size">
+          <mat-label>City</mat-label>
+          <input formControlName="city" matInput>
+        </mat-form-field>
+      </div>
+      <div class="col-12 col-md-3 column">
+        <mat-form-field appearance="outline" class="example-full-width input-size">
+          <mat-label>Postal</mat-label>
+          <input formControlName="postal" matInput>
+        </mat-form-field>
+      </div>
+      <div class="col-12 col-md-12 column">
+        <mat-form-field appearance="outline" class="example-full-width input-size">
+          <mat-label>Address</mat-label>
+          <textarea formControlName="address" matInput rows="3"></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row background-row">
+      <div class="col-12 col-md-3 column">
+        <mat-form-field appearance="outline" class="example-full-width input-size">
+          <mat-label>Contact (Mobile)</mat-label>
+          <input placeholder="+94 123456789" formControlName="mobile" matInput>
+        </mat-form-field>
+      </div>
+      <div class="col-12 col-md-3 column">
+        <mat-form-field appearance="outline" class="example-full-width input-size">
+          <mat-label>Contact (Home)</mat-label>
+          <input placeholder="+94 123456789" formControlName="home" matInput>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="button-outer">
+      <button mat-raised-button class="create-acc-button" [disabled]="studentRegForm.invalid"
+              (click)="studentRegistrationSubmit(f)">Create Account
+      </button>
+    </div>
+  </form>
+</div>

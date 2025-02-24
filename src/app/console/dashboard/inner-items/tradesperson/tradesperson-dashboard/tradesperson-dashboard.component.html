@@ -1,0 +1,9 @@
+<div class="main-outer">
+  <nav mat-tab-nav-bar class="tab-menu">
+    <a mat-tab-link class="btn" *ngFor="let tabItem of tabs" [routerLink]="tabItem.route"
+       routerLinkActive="active-route">
+      {{tabItem.label}}
+    </a>
+  </nav>
+  <router-outlet></router-outlet>
+</div>
