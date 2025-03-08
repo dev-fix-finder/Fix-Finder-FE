@@ -1,0 +1,67 @@
+<div class="main-outer">
+  <div class="col-one">
+    <div class="main-header">
+      <div class="logo-inner" routerLink="/">
+        <img src="/assets/logo/fix-finder-high-resolution-logo-black.png" alt=""></div>
+    </div>
+  </div>
+  <div class="col-two">
+    <ul>
+      <li routerLink="/main/home" routerLinkActive="active-route"><a>Home</a></li>
+      <li routerLink="/main/product" routerLinkActive="active-route"><a>Product</a></li>
+      <li routerLink="/main/blog" routerLinkActive="active-route"><a>Blog</a></li>
+      <li routerLink="/main/about" routerLinkActive="active-route"><a>About</a></li>
+      <li routerLink="/main/contact" routerLinkActive="active-route"><a>Contact</a></li>
+    </ul>
+  </div>
+  <div class="col-three">
+    <div class="inquiry-outer">
+      <p>>Sign in as</p>
+      <button class="inquiry text-button" mat-flat-button (click)="routeToSignIn('TRADES-PERSON')">Trades person</button>
+      <button class="inquiry text-button" mat-flat-button (click)="routeToSignIn('CLIENT')">Client</button>
+      <!--        <div (click)="inquiryPopUp($event)" class="inquiry icon-button">-->
+      <!--          <mat-icon>contact_support_outline</mat-icon>-->
+      <!--        </div>-->
+    </div>
+    <div (click)="manageNavBar()" class="mat-divider-field">
+      <mat-icon class="menu">menu</mat-icon>
+    </div>
+  </div>
+</div>
+<div *ngIf="navSliderState" class="main-nav-slider">
+  <div class="main-nav-slider-inner">
+    <div class="logo-outer-1">
+      <div class="logo-inner" routerLink="/">
+        <img
+          src="https://firebasestorage.googleapis.com/v0/b/taste-mates.appspot.com/o/logo%2FLogo.png?alt=media&token=e11b29e1-def5-4afc-a255-2c8ffd2e35f9"
+          alt="">
+      </div>
+      <button class="nav-button" (click)="manageNavBar()">
+        <mat-icon class="back-arrow">menu_open</mat-icon>
+      </button>
+    </div>
+    <div class="content-outer">
+      <ul class="nav-list">
+        <li (click)="manageNavBar()" routerLink="/main/home" routerLinkActive="activated-route">
+          Home
+        </li>
+        <li (click)="manageNavBar()" routerLink="/main/product" routerLinkActive="activated-route">
+          Product
+        </li>
+        <li (click)="manageNavBar()" routerLink="/main/blog" routerLinkActive="activated-route">
+          Blog
+        </li>
+        <li (click)="manageNavBar()" routerLink="/main/about" routerLinkActive="activated-route">
+          About
+        </li>
+        <li (click)="manageNavBar()" routerLink="/main/contact" routerLinkActive="activated-route">
+          Contact
+        </li>
+      </ul>
+    </div>
+    <div class="inquiry-button-outer">
+      <button class="inquiry" mat-flat-button>Sign in as Trades person</button>
+      <button class="inquiry" mat-flat-button>Sign in as Client</button>
+    </div>
+  </div>
+</div>

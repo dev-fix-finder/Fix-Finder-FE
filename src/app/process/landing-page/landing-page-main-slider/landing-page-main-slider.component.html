@@ -1,0 +1,46 @@
+<div class="main-outer">
+  <owl-carousel-o [options]="customOptions">
+    <ng-container *ngFor="let slide of advertisements; index as i">
+      <ng-template carouselSlide>
+        <div class="ng-carousel-outer">
+          <div class="ng-carousel-background"
+               [ngStyle]="{'background': 'url(' + slide + ')','background-size': 'cover'}">
+            <div class="detail-outer">
+              <div class="details">
+                <div class="offer">
+                  <h1 data-aos="fade-right"
+                      data-aos-offset="200"
+                      data-aos-delay="30"
+                      data-aos-duration="1000"
+                      data-aos-once="true">{{caption_main_slider[i]}}</h1>
+                </div>
+                <!--                <p data-aos="fade-right"-->
+                <!--                   data-aos-offset="200"-->
+                <!--                   data-aos-delay="30"-->
+                <!--                   data-aos-duration="1500"-->
+                <!--                   data-aos-once="true">{{caption_main_slider1[i]}}</p>-->
+                <!--                <h1 class="second-text" data-aos="fade-right"-->
+                <!--                    data-aos-offset="200"-->
+                <!--                    data-aos-delay="30"-->
+                <!--                    data-aos-duration="2000"-->
+                <!--                    data-aos-once="true">{{caption_main_slider2[i]}}</h1>-->
+                <!--                <div class="hr-outer" data-aos="fade-right"-->
+                <!--                     data-aos-offset="200"-->
+                <!--                     data-aos-delay="30"-->
+                <!--                     data-aos-duration="2500"-->
+                <!--                     data-aos-once="true">-->
+                <!--                  <div class="hr"></div>-->
+                <!--                </div>-->
+                <!--                <h1 class="last-text" data-aos="fade-right"-->
+                <!--                    data-aos-offset="200"-->
+                <!--                    data-aos-delay="30"-->
+                <!--                    data-aos-duration="3000"-->
+                <!--                    data-aos-once="true">{{caption_main_slider3[i]}}</h1>-->
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </ng-container>
+  </owl-carousel-o>
+</div>
