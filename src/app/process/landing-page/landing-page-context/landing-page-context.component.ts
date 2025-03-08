@@ -5,12 +5,16 @@ import {
 import {
   LandingPagePopularServicesComponent
 } from '../landing-page-popular-services/landing-page-popular-services.component';
+import {MainHeaderComponent} from '../../../share/components/main-header/main-header.component';
+import {LandingPageMainSliderComponent} from '../landing-page-main-slider/landing-page-main-slider.component';
 
 @Component({
   selector: 'app-landing-page-context',
   imports: [
     LandingPageFeatureHighlightsComponent,
-    LandingPagePopularServicesComponent
+    LandingPagePopularServicesComponent,
+    MainHeaderComponent,
+    LandingPageMainSliderComponent
   ],
   templateUrl: './landing-page-context.component.html',
   standalone: true,

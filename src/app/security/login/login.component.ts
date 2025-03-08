@@ -7,6 +7,7 @@ import {MatInputModule} from '@angular/material/input';
 import {ToastrService} from 'ngx-toastr';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
+import {UserStateService} from '../../share/states/user-state/user-state.service';
 
 @Component({
   selector: 'app-login',
@@ -30,12 +31,19 @@ export class LoginComponent {
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required, Validators.minLength(6)]),
   });
+  userType: string = '';
 
   constructor(
+    private userStateService: UserStateService,
     private authService: AuthService,
     private toastr: ToastrService,
     private router: Router,
   ) {
+
+    this.userStateService.userType$.subscribe((userType) => {
+      this.userType = userType;
+    });
+
   }
 
   login() {
@@ -43,7 +51,13 @@ export class LoginComponent {
       timeOut: 3000,
     });
 
-    this.router.navigateByUrl('/console').then()
+    if (this.userType === 'CLIENT') {
+      this.router.navigateByUrl('/console').then()
+    } else if (this.userType === 'TRADES-PERSON') {
+      this.router.navigateByUrl('/process/register').then()
+    }
+
+
     /*const data = {
       userName: this.loginForm.get('email')?.value!,
       password: this.loginForm.get('password')?.value!

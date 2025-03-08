@@ -14,18 +14,16 @@ import {DashboardComponent} from './console/dashboard/dashboard.component';
 import {LogoutComponent} from './process/logout/logout.component';
 import {UserRegisterComponent} from './process/user-register/user-register.component';
 import {ProfileContextComponent} from './console/profile/profile-context/profile-context.component';
-import {UserTypeSelectionComponent} from './security/user-type-selection/user-type-selection.component';
 import {MyJobsComponent} from './console/my-jobs/my-jobs.component';
 import {MyScheduleComponent} from './console/my-schedule/my-schedule.component';
 import {MessagesComponent} from './console/messages/messages.component';
 import {HireTradesmenComponent} from './console/hire-tradesmen/hire-tradesmen.component';
 
 export const routes: Routes = [
-  {path: '', redirectTo: 'security/login', pathMatch: 'full'},
+  {path: '', redirectTo: 'process/home', pathMatch: 'full'},
   {
     path: 'security', component: SecurityContextComponent, children: [
-      {path: '', redirectTo: 'user-type', pathMatch: 'full'},
-      {path: 'user-type', component: UserTypeSelectionComponent},
+      {path: '', redirectTo: 'login', pathMatch: 'full'},
       {path: 'login', component: LoginComponent},
       {path: 'signup', component: SignupComponent},
       {path: 'forgot-password', component: ForgetPasswordPageComponent},

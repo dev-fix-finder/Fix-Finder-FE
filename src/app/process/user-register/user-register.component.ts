@@ -85,6 +85,7 @@ export class UserRegisterComponent {
     let home = this.studentRegForm.get('home')?.value!;
 
     const data = {}
+    this.router.navigateByUrl('/console/verification').then()
 
   }
 

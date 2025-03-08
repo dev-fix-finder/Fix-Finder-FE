@@ -25,8 +25,6 @@ export class SignupComponent {
 
 
   userForm = new FormGroup({
-    isTradesPerson: new FormControl('',
-      [Validators.required, Validators.minLength(3), Validators.maxLength(45)]),
     name: new FormControl('',
       [Validators.required, Validators.minLength(3), Validators.maxLength(45)]),
     email: new FormControl('',
@@ -36,7 +34,7 @@ export class SignupComponent {
     confirmPassword: new FormControl('',
       [Validators.required, Validators.minLength(6), Validators.maxLength(45)]),
   });
-  
+
   passwordState: boolean = false;
 
   constructor(

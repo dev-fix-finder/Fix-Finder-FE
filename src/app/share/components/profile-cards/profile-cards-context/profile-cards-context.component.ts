@@ -1,10 +1,9 @@
-import { Component } from '@angular/core';
-import {ProfileCardComponent} from '../profile-card/profile-card.component';
+import {Component} from '@angular/core';
 
 @Component({
   selector: 'app-profile-cards-context',
   imports: [
-    ProfileCardComponent
+    // ProfileCardComponent
   ],
   templateUrl: './profile-cards-context.component.html',
   standalone: true,

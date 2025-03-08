@@ -13,11 +13,11 @@
           <br><br>
            <form [formGroup]="loginForm" (ngSubmit)="login()">
             <div class="data-outer">
-              <input formControlName="email" type="email" placeholder="user email here" autocomplete="off" autofill="off">
+              <input formControlName="email" type="email" placeholder="user email here" autocomplete="off">
             </div>
             <br>
             <div class="data-outer">
-              <input formControlName="password" placeholder="Password" type="{{passwordState?'password':'text'}}" autocomplete="off" autofill="off">
+              <input formControlName="password" placeholder="Password" type="{{passwordState?'password':'text'}}" autocomplete="off">
               <div class="icon-outer" (click)="passwordState=!passwordState">
                 <mat-icon>
                   {{passwordState?'visibility_off':'visibility'}}
