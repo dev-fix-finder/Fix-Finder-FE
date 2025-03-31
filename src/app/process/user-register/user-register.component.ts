@@ -5,8 +5,9 @@ import {MatInputModule} from '@angular/material/input';
 import {ToastrService} from 'ngx-toastr';
 import {CookieManagerService} from '../../share/services/cookie-manager/cookie-manager.service';
 import {Router} from '@angular/router';
-import {MatButton} from '@angular/material/button';
-import {MatOption, MatSelect} from '@angular/material/select';
+import {MatButton, MatButtonModule} from '@angular/material/button';
+import {MatOption, MatSelect, MatSelectModule} from '@angular/material/select';
+import {NgForOf} from '@angular/common';
 
 @Component({
   selector: 'app-user-register',
@@ -14,9 +15,9 @@ import {MatOption, MatSelect} from '@angular/material/select';
     MatFormFieldModule,
     ReactiveFormsModule,
     MatInputModule,
-    MatButton,
-    MatSelect,
-    MatOption
+    MatButtonModule,
+    MatSelectModule,
+    NgForOf
   ],
   templateUrl: './user-register.component.html',
   standalone: true,
@@ -24,28 +25,45 @@ import {MatOption, MatSelect} from '@angular/material/select';
 })
 export class UserRegisterComponent {
 
-  userId: string = '';
-  personalData: any = null;
+  professions = [
+    { value: 'carpenter', viewValue: 'Carpenter' },
+    { value: 'plumber', viewValue: 'Plumber' },
+    { value: 'gardener', viewValue: 'Gardener' },
+    { value: 'electrician', viewValue: 'Electrician' },
+    { value: 'painter', viewValue: 'Painter' },
+    { value: 'mason', viewValue: 'Mason' },
+    { value: 'mechanic', viewValue: 'Mechanic' }
+  ];
 
-  studentRegForm = new FormGroup({
-    nic: new FormControl(null, [Validators.required,
-      Validators.pattern('(?:19|20)?\\d{3}[0-9]{8}|[0-9]{9}[x|X|v|V]')]),
-    country: new FormControl(null),
-    city: new FormControl(null),
-    postal: new FormControl(null),
-    address: new FormControl(null),
-    mobile: new FormControl(null, [Validators.required, Validators.pattern('^\\+(?:[0-9] ?){6,14}[0-9]$')
-    ]),
-    home: new FormControl('', [Validators.pattern('^\\+(?:[0-9] ?){6,14}[0-9]$')
-    ]),
+  daysOfWeek = [
+    { value: 'monday', viewValue: 'Monday' },
+    { value: 'tuesday', viewValue: 'Tuesday' },
+    { value: 'wednesday', viewValue: 'Wednesday' },
+    { value: 'thursday', viewValue: 'Thursday' },
+    { value: 'friday', viewValue: 'Friday' },
+    { value: 'saturday', viewValue: 'Saturday' },
+    { value: 'sunday', viewValue: 'Sunday' }
+  ];
+
+  personalInfoForm = new FormGroup({
+    nic: new FormControl('', [Validators.required]),
+    gender: new FormControl(null),
+    longitude: new FormControl('', [Validators.required]),
+    latitude: new FormControl('', [Validators.required]),
+    country: new FormControl('', [Validators.required]),
+    city: new FormControl('', [Validators.required]),
+    address: new FormControl('', [Validators.required]),
+    mobile: new FormControl('', [Validators.required, Validators.pattern('^\\+(?:[0-9] ?){6,14}[0-9]$')])
   });
 
-  constructor(
-    private toastr: ToastrService,
-    private cookieManager: CookieManagerService,
-    private router: Router
-  ) {
-  }
+  professionalInfoForm = new FormGroup({
+    profession: new FormControl('', [Validators.required]),
+    experience: new FormControl(null, [Validators.required]),
+    hourlyRate: new FormControl('', [Validators.required]),
+    availableDays: new FormControl([], [Validators.required])
+  });
+
+  constructor(private toastr: ToastrService, private router: Router) {}
 
   ngOnInit(): void {
 
@@ -74,15 +92,22 @@ export class UserRegisterComponent {
       this.router.navigateByUrl('/console/verification');
     }*/
   }
-
-  studentRegistrationSubmit(f: FormGroupDirective) {
-    let nic = this.studentRegForm.get('nic')?.value!;
-    let country = this.studentRegForm.get('country')?.value!;
-    let city = this.studentRegForm.get('city')?.value!;
-    let postal = this.studentRegForm.get('postal')?.value!;
-    let address = this.studentRegForm.get('address')?.value!;
-    let mobile = this.studentRegForm.get('mobile')?.value!;
-    let home = this.studentRegForm.get('home')?.value!;
+  // tradesPersonRegistrationSubmit(fPersonal: FormGroupDirective, fProfessional: FormGroupDirective) {
+  //   if (this.personalInfoForm.valid && this.professionalInfoForm.valid) {
+  //     this.toastr.success('Registration Successful', 'Success');
+  //     this.router.navigateByUrl('/console/verification');
+  //   } else {
+  //     this.toastr.error('Please fill in all required fields.', 'Error');
+  //   }
+  // }
+  tradesPersonRegistrationSubmit(fPersonal: FormGroupDirective, fProfessional: FormGroupDirective) {
+    let nic = this.personalInfoForm.get('nic')?.value!;
+    let country = this.personalInfoForm.get('country')?.value!;
+    let city = this.personalInfoForm.get('city')?.value!;
+    let postal = this.personalInfoForm.get('postal')?.value!;
+    let address = this.personalInfoForm.get('address')?.value!;
+    let mobile = this.personalInfoForm.get('mobile')?.value!;
+    let home = this.personalInfoForm.get('home')?.value!;
 
     const data = {}
     this.router.navigateByUrl('/console/verification').then()

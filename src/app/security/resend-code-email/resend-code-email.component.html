@@ -1,4 +1,4 @@
-<div class="main-outer">
+<!--<div class="main-outer">
 
 
   <div class="context">
@@ -14,9 +14,39 @@
       <div class="col-12">
         <button type="submit" mat-raised-button [disabled]="form.invalid">send code</button>
       </div>
+      <div class="sign-up-outer">
+        <h1 class="sign-up">Didn't received code? <span routerLink="/security/resend">Resend Code</span></h1>
+      </div>
     </form>
-    <h4 class="resend">
-      <span routerLink="/security/login">login</span>
-    </h4>
+  </div>
+</div>-->
+<div class="main-outer">
+  <div class="outer">
+    <div class="inner">
+      <div class="inner-left">
+        <div class="shadow"></div>
+      </div>
+      <div class="inner-right">
+        <div class="login-element-outer">
+          <h1 class="login-text">Resend code</h1>
+          <p class="login-para">
+            Resend code to your email attached with FixFinder
+          </p>
+          <br><br>
+          <form action="" style="width: 100%" [formGroup]="form" (ngSubmit)="resend()">
+            <div class="data-outer">
+              <input formControlName="email" type="number" placeholder="Verification Code" autocomplete="off">
+            </div>
+            <br>
+            <div class="verify-button-outer">
+              <button mat-raised-button [disabled]="form.invalid" type="submit">Send code</button>
+            </div>
+            <div class="sign-up-outer">
+              <h1 class="sign-up" >Already have an account? <span routerLink="/security/login">Login.</span></h1>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

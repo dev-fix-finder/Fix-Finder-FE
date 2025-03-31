@@ -1,55 +1,64 @@
 <div class="outer container">
-  <h2 class="heading">Create Your Trades person Account here</h2>
-  <p class="message">At FixFinder, we value each tradesman's journey of professional growth. Our Trades person registration process is designed with your success in mind. Join our vibrant community of professionals and gain access to top-notch hiring jobs, our verification process that will propel your career forward. Whether you're a novice eager to embark on your work life adventure or a seasoned workings seeking to expand your skill set, FixFinder is your trusted partner in shaping a bright future in your industry. Register now and unlock a world of opportunities.</p>
+  <h2 class="heading">Create Your Tradesperson Account Here</h2>
+  <p class="message">
+    At FixFinder, we value each tradesperson's journey of professional growth...
+  </p>
   <hr>
-  <form [formGroup]="studentRegForm" #f="ngForm">
+
+  <form [formGroup]="personalInfoForm" #fPersonal="ngForm">
+    <h1 class="title">Personal Information</h1>
     <div class="row">
       <div class="col-12 col-md-3 column">
-        <mat-form-field appearance="outline" class="example-full-width input-size">
-          <mat-label>Trades Category</mat-label>
-          <mat-select>
-            <mat-option [value]="'carpenter'">Carpenter</mat-option>
-            <mat-option [value]="'plumber'">Plumber</mat-option>
-            <mat-option [value]="'gardner'">Gardner</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div class="col-12 col-md-3 column">
-        <mat-form-field appearance="outline" class="example-full-width input-size">
-          <mat-label>Experience</mat-label>
-          <mat-select>
-            <mat-option [value]="'1'">1 year</mat-option>
-            <mat-option [value]="'2'">2 year</mat-option>
-            <mat-option [value]="'3'">3 year</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-12 col-lg-6 column">
         <mat-form-field appearance="outline" class="example-full-width input-size">
           <mat-label>NIC</mat-label>
-          <input formControlName="nic" matInput>
+          <input formControlName="nic" matInput type="text">
+        </mat-form-field>
+      </div>
+
+      <div class="col-12 col-md-3 column">
+        <mat-form-field appearance="outline" class="example-full-width input-size">
+          <mat-label>Gender (Optional)</mat-label>
+          <mat-select formControlName="gender">
+            <mat-option value="MALE">Male</mat-option>
+            <mat-option value="FEMALE">Female</mat-option>
+            <mat-option value="RATHER_NOT_SAY">Rather Not Say</mat-option>
+          </mat-select>
         </mat-form-field>
       </div>
     </div>
-    <div class="row background-row">
+
+    <div class="row">
+      <div class="col-12 col-md-3 column">
+        <mat-form-field appearance="outline" class="example-full-width input-size">
+          <mat-label>Mobile</mat-label>
+          <input placeholder="+94 123456789" formControlName="mobile" matInput type="tel">
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 col-md-3 column">
+        <mat-form-field appearance="outline" class="example-full-width input-size">
+          <mat-label>Longitude</mat-label>
+          <input formControlName="longitude" matInput type="text">
+        </mat-form-field>
+      </div>
+      <div class="col-12 col-md-3 column">
+        <mat-form-field appearance="outline" class="example-full-width input-size">
+          <mat-label>Latitude</mat-label>
+          <input formControlName="latitude" matInput type="text">
+        </mat-form-field>
+      </div>
       <div class="col-12 col-md-3 column">
         <mat-form-field appearance="outline" class="example-full-width input-size">
           <mat-label>Country</mat-label>
-          <input formControlName="country" matInput>
+          <input formControlName="country" matInput type="text">
         </mat-form-field>
       </div>
       <div class="col-12 col-md-3 column">
         <mat-form-field appearance="outline" class="example-full-width input-size">
           <mat-label>City</mat-label>
-          <input formControlName="city" matInput>
-        </mat-form-field>
-      </div>
-      <div class="col-12 col-md-3 column">
-        <mat-form-field appearance="outline" class="example-full-width input-size">
-          <mat-label>Postal</mat-label>
-          <input formControlName="postal" matInput>
+          <input formControlName="city" matInput type="text">
         </mat-form-field>
       </div>
       <div class="col-12 col-md-12 column">
@@ -59,24 +68,54 @@
         </mat-form-field>
       </div>
     </div>
-    <div class="row background-row">
+  </form>
+
+  <form [formGroup]="professionalInfoForm" #fProfessional="ngForm">
+    <h1 class="title">Professional Details</h1>
+    <div class="row">
       <div class="col-12 col-md-3 column">
         <mat-form-field appearance="outline" class="example-full-width input-size">
-          <mat-label>Contact (Mobile)</mat-label>
-          <input placeholder="+94 123456789" formControlName="mobile" matInput>
+          <mat-label>Trade/Profession</mat-label>
+          <mat-select formControlName="profession">
+            <mat-option *ngFor="let profession of professions" [value]="profession.value">
+              {{ profession.viewValue }}
+            </mat-option>
+          </mat-select>
         </mat-form-field>
       </div>
+
       <div class="col-12 col-md-3 column">
         <mat-form-field appearance="outline" class="example-full-width input-size">
-          <mat-label>Contact (Home)</mat-label>
-          <input placeholder="+94 123456789" formControlName="home" matInput>
+          <mat-label>Years of Experience</mat-label>
+          <input type="number" matInput formControlName="experience">
         </mat-form-field>
       </div>
-    </div>
-    <div class="button-outer">
-      <button mat-raised-button class="create-acc-button" [disabled]="studentRegForm.invalid"
-              (click)="studentRegistrationSubmit(f)">Create Account
-      </button>
+
+      <div class="col-12 col-md-3 column">
+        <mat-form-field appearance="outline" class="example-full-width input-size">
+          <mat-label>Hourly Rate</mat-label>
+          <input type="text" matInput formControlName="hourlyRate">
+        </mat-form-field>
+      </div>
+
+      <div class="col-12 col-md-3 column">
+        <mat-form-field appearance="outline" class="example-full-width input-size">
+          <mat-label>Available Days</mat-label>
+          <mat-select formControlName="availableDays" multiple>
+            <mat-option *ngFor="let day of daysOfWeek" [value]="day.value">
+              {{ day.viewValue }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
     </div>
   </form>
+
+  <div class="button-outer">
+    <button mat-raised-button class="create-acc-button"
+            [disabled]="personalInfoForm.invalid || professionalInfoForm.invalid"
+            (click)="tradesPersonRegistrationSubmit(fPersonal,fProfessional)">
+      Create Account
+    </button>
+  </div>
 </div>

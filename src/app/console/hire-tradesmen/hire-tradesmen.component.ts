@@ -36,7 +36,7 @@ export class HireTradesmenComponent {
   })
 
   center: google.maps.LatLngLiteral = {lat: 6.9341, lng: 79.84997};
-  zoom = 10;
+  zoom = 14;
   markers: { position: google.maps.LatLngLiteral; title: string }[] = [];
 
   mapOptions: google.maps.MapOptions = {

@@ -1,7 +1,8 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {CookieManagerService} from '../../share/services/cookie-manager/cookie-manager.service';
 import {AuthService} from '../../share/services/auth/auth.service';
 import {Router} from '@angular/router';
+import {LoadingService} from '../../share/services/loading/loading.service';
 
 @Component({
   selector: 'app-verification-pool',
@@ -10,55 +11,42 @@ import {Router} from '@angular/router';
   standalone: true,
   styleUrl: './verification-pool.component.scss'
 })
-export class VerificationPoolComponent {
+export class VerificationPoolComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private cookieManager: CookieManagerService
+    private loadingService: LoadingService
   ) {
   }
 
   ngOnInit(): void {
+    console.log('request recieved')
     this.check();
   }
 
   private check() {
-    this.router.navigateByUrl('/console/playground/dashboard').then();
-    /* this.loadingService.mainLoader.next(true);
-     if (this.cookieManager.tokenIsExists('token')) {
-       this.authService.getUserData(this.cookieManager.getToken()).subscribe(response => {
-         if (response.code === 200) {
-           this.cookieManager.setPersonalData(response.data);
-           let tempArr: [] = response.data.role;
-           let selectedRole = tempArr.find(e => e == 'STUDENT');
-           if (selectedRole) {
-             this.studentService.getStudentData(response.data.property_id).subscribe(studentData => {
-               if (studentData.code === 200) {
-                 this.studentService.verifyStudentState().subscribe(response => {
-                   if (response.data) {
-                     this.cookieManager.setStudentId(studentData.data);
-                     this.router.navigateByUrl('/console/playground/home');
-                     return;
-                   } else {
-                     this.router.navigateByUrl('/process/student-status');
-                     return;
-                   }
-                 });
-               }
-             })
-           } else {
-             this.router.navigateByUrl('/process/student-registration');
-           }
-         }
-       })
-
-       //     this.cookieManager.logout();
-       //     this.router.navigateByUrl('/security/login').then();
-
-     } else {
-       this.cookieManager.logout();
-       this.router.navigateByUrl('/security/login').then();
-     }
-     this.loadingService.mainLoader.next(false);*/
+    this.loadingService.mainLoader.next(true);
+    console.log(sessionStorage.getItem('token'))
+    if (sessionStorage.getItem('token')) {
+      this.authService.getUserData(sessionStorage.getItem('token')).subscribe(response => {
+        if (response.code === 200) {
+          sessionStorage.setItem('personalData', response.data);
+          let tempArr: [] = response.data.role;
+          let selectedUserRole = tempArr.find(e => e == 'USER');
+          if (selectedUserRole) {
+            let tradesPersonRole = tempArr.find(e => e == 'TRADEPERSON');
+            let superAdminRole = tempArr.find(e => e == 'SUPER_ADMIN');
+            if (tradesPersonRole || superAdminRole) {
+              this.router.navigateByUrl('/console/playground/dashboard');
+            } else {
+              this.router.navigateByUrl('/process/register');
+            }
+          }
+        }
+      })
+    } else {
+      this.router.navigateByUrl('/security/login').then();
+    }
+    this.loadingService.mainLoader.next(false);
   }
 }

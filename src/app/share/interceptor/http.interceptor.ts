@@ -2,26 +2,42 @@ import {HttpEvent, HttpHandlerFn, HttpInterceptorFn, HttpRequest} from '@angular
 import {catchError, finalize, Observable, throwError} from 'rxjs';
 import {inject} from '@angular/core';
 import {CookieManagerService} from '../services/cookie-manager/cookie-manager.service';
+import {ToastrService} from 'ngx-toastr';
+import {LoadingService} from '../services/loading/loading.service';
 
 export const httpInterceptor: HttpInterceptorFn = (request: HttpRequest<any>, next: HttpHandlerFn): Observable<HttpEvent<any>> => {
-  const cookieManager = inject(CookieManagerService); // Inject the AuthService
+  const token = sessionStorage.getItem('token')
+  const toastr = inject(ToastrService); // Inject ToastrService
+  const loadingService = inject(LoadingService); // Inject ToastrService
 
-  const modifiedRequest = request.clone({
-    setHeaders: {
-      Authorization: cookieManager.getToken()
-    }
-  });
-  console.log(modifiedRequest.headers);
-  return next(modifiedRequest).pipe(
+  loadingService.mainLoader.next(true);
+
+  if (token) {
+    request = request.clone({
+      setHeaders: {
+        //@ts-ignore
+        Authorization: token
+      }
+    });
+  }
+
+  return next(request).pipe(
     catchError(err => {
+      let errorMessage = 'Unauthorized'
       if (err.status === 401 || err.status === 403) {
-        alert('Unauthorized');
+        if (request.url.includes('/api/user/profile')) {
+          errorMessage = 'You need to log in to view your profile.';
+        }/* else if (request.url.includes('/api/admin/dashboard')) {
+          errorMessage = 'Admin access required!';
+        }*/
+
+        toastr.error(errorMessage, 'Warning!');
       }
       const error = err.error.message || err.statusText;
       return throwError(() => new Error(error));
     }),
     finalize(() => {
-      console.log('Request finalized');
+      loadingService.mainLoader.next(false);
     })
   );
 };

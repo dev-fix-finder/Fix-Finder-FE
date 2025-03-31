@@ -7,8 +7,8 @@ export const environment = {
   // baseUrl:'http://195.35.21.13:8080/api/v1/',
   // authUrl: "http://195.35.21.13:8080/"
 
-  baseUrl: 'http://localhost:8080/api/v1/',
-  authUrl: "http://localhost:8080/",
+  baseUrl: 'http://localhost:8000/api/v1/',
+  authUrl: "http://localhost:8000/",
   googleMapsApiKey: 'AIzaSyDNydKhIv4WkXIHXxX_Qi4yitU_Ics15Qg',
   firebaseConfig: {
     apiKey: "AIzaSyBUEZC37QIyokQlxDyewEIeIsTMftX78Hk",

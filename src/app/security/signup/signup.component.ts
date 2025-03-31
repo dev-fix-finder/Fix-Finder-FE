@@ -6,7 +6,6 @@ import {AuthService} from '../../share/services/auth/auth.service';
 import {ToastrService} from 'ngx-toastr';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
-import {MatCheckbox} from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-signup',
@@ -14,8 +13,7 @@ import {MatCheckbox} from '@angular/material/checkbox';
     RouterLink,
     MatIconModule,
     ReactiveFormsModule,
-    MatButtonModule,
-    MatCheckbox
+    MatButtonModule
   ],
   templateUrl: './signup.component.html',
   standalone: true,
@@ -25,7 +23,9 @@ export class SignupComponent {
 
 
   userForm = new FormGroup({
-    name: new FormControl('',
+    firstName: new FormControl('',
+      [Validators.required, Validators.minLength(3), Validators.maxLength(45)]),
+    lastName: new FormControl('',
       [Validators.required, Validators.minLength(3), Validators.maxLength(45)]),
     email: new FormControl('',
       [Validators.required, Validators.email]),
@@ -61,8 +61,13 @@ export class SignupComponent {
     }
 
     const data = {
-      //signup request payload
+      email: this.userForm.get('email')?.value!,
+      firstName: this.userForm.get('firstName')?.value!,
+      lastName: this.userForm.get('lastName')?.value!,
+      password: this.userForm.get('confirmPassword')?.value!,
+      registerDate: new Date()
     }
+
 
     this.authService.signup(data).subscribe(response => {
       if (response.code === 201) {

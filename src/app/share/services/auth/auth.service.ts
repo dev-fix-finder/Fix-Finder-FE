@@ -22,33 +22,33 @@ export class AuthService {
   }
 
   signup(data: any) {
-    return this.http.post<any>(this.baseUrl + 'users/register', data)
+    return this.http.post<any>(this.baseUrl + 'user/register', data)
   }
 
   public verify(
     code: number,
     email: string
   ): Observable<any> {
-    return this.http.post(this.baseUrl + 'users/verify?email=' + email + '&code=' + code, {});
+    return this.http.post(this.baseUrl + 'user/verify?email=' + email + '&code=' + code, {});
   }
 
   public resend(
     email: string
   ): Observable<any> {
-    return this.http.post(this.baseUrl + 'users/resend?email=' + email, {});
+    return this.http.post(this.baseUrl + 'user/resend?email=' + email, {});
   }
 
   public forgotPasswordSendVerificationCode(
     email: string
   ): Observable<any> {
-    return this.http.post(this.baseUrl + 'users/forgot-password-verify?email=' + email, {});
+    return this.http.post(this.baseUrl + 'user/forgot-password-verify?email=' + email, {});
   }
 
   public verifyReset(
     code: number,
     email: string
   ): Observable<any> {
-    return this.http.post(this.baseUrl + 'users/verify-reset?email=' + email + '&code=' + code, {});
+    return this.http.post(this.baseUrl + 'user/verify-reset?email=' + email + '&code=' + code, {});
   }
 
   public resetPassword(
@@ -56,8 +56,14 @@ export class AuthService {
     email: string,
     password: string,
   ): Observable<any> {
-    return this.http.post(this.baseUrl + 'users/reset-password?email=' + email + '&code=' + code , {
-      password: password
-    });
+    return this.http.post(this.baseUrl + 'user/reset-password?email=' + email + '&code=' + code + '&password=' + password, {});
   }
+
+  public getUserData(
+    token: string | null
+  ): Observable<any> {
+    console.log('works')
+    return this.http.get(this.baseUrl + 'user/details?token=' + token);
+  }
+
 }

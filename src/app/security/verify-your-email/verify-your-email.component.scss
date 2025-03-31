@@ -1,0 +1,203 @@
+.main-outer {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.outer {
+  max-width: 875px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.inner {
+  border: 1px solid rgba(98, 100, 106, 0.5);
+  border-radius: 12px;
+  width: 100%;
+  height: 90vh;
+  display: flex;
+  overflow: hidden;
+}
+
+.inner-left {
+  border: 1px solid black;
+  flex-basis: 50%;
+  height: 100%;
+  //background-color: #76293A;
+  background-image: url('/assets/security-pages/Tradesman+to+Teacher.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.shadow {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(47, 28, 106, 0.5);
+}
+
+.inner-right {
+  flex-basis: 50%;
+  height: 100%;
+  padding: 45px 40px 0 40px;
+}
+
+.login-text {
+  font-family: "Macan", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 130%;
+}
+
+.login-para {
+  font: 400 16px / 24px "Macan", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #62646a;
+}
+
+
+.data-outer {
+  width: 100%;
+  height: 44px;
+  border: 1px solid #62646a;
+  border-radius: 5px;
+  display: flex;
+  padding: 5px 0;
+
+  input {
+    flex: 1;
+    background: none;
+    color: #62646a;
+    border: none;
+    padding: 0 10px;
+  }
+
+  input::placeholder {
+    color: #62646a;
+  }
+
+  input:focus {
+    outline: none;
+  }
+
+}
+
+input {
+  color: #62646a;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  transition: background-color 5000s ease-in-out 0s;
+  background-color: transparent !important;
+  -webkit-text-fill-color: #62646a;
+}
+
+.forgot-show-outer {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  margin-top: 10px;
+}
+
+.show-password, .forgot-password {
+  flex: 1;
+}
+
+.show-pwd-text {
+  color: #62646a;
+}
+
+.icon-outer {
+  width: 30px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  mat-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #62646a;
+    font-size: 18px;
+  }
+}
+
+.forgot-password {
+  display: flex;
+  justify-content: flex-end;
+
+  span {
+    color: #62646a;
+    cursor: pointer;
+  }
+
+  span:hover {
+    color: #62646a;
+    text-decoration: underline;
+  }
+}
+
+.login-button-outer {
+  width: 100%;
+  height: 44px;
+
+  button {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(47, 28, 106, 0.5);
+    font-size: 18px;
+    font-weight: 500;
+    border: none;
+    border-radius: 5px;
+  }
+}
+
+.sign-up-outer {
+  height: 50px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sign-up {
+  color: #62646a;
+  font-size: 15px;
+
+  span {
+    color: #292929;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .inner-left {
+    border: 1px solid black;
+    flex-basis: 40%;
+  }
+  .inner-right {
+    flex-basis: 60%;
+  }
+}
+
+@media only screen and (max-width: 576px) {
+  .inner-left {
+    display: none;
+    flex-basis: 0;
+  }
+  .inner-right {
+    padding: 20px;
+    flex-basis: 100%;
+  }
+  .break{
+    display: none;
+  }
+}

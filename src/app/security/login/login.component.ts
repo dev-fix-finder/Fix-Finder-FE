@@ -8,6 +8,8 @@ import {ToastrService} from 'ngx-toastr';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {UserStateService} from '../../share/states/user-state/user-state.service';
+import {first} from "rxjs";
+import {HttpResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -47,41 +49,27 @@ export class LoginComponent {
   }
 
   login() {
-    this.toastr.success('Successfully login', 'Success', {
-      timeOut: 3000,
-    });
-
-    if (this.userType === 'CLIENT') {
-      this.router.navigateByUrl('/console').then()
-    } else if (this.userType === 'TRADES-PERSON') {
-      this.router.navigateByUrl('/process/register').then()
-    }
-
-
-    /*const data = {
-      userName: this.loginForm.get('email')?.value!,
+    const data = {
+      username: this.loginForm.get('email')?.value!,
       password: this.loginForm.get('password')?.value!
     }
 
     this.authService.login(data).pipe(first())
       .subscribe(
-        data => {
-          if (data?.code === 200) {
-            // sessionStorage.setItem("userFullName", data?.data?.userFullName);
-            // sessionStorage.setItem("userEmail", data?.data?.userEmail);
-            // sessionStorage.setItem("userMobile", data?.data?.userMobile);
-            // this.snackBarService.openSuccessSnackBar('Successfully login', 'close')
-          } else {
-            // this.snackBarService.openErrorSnackBar('Authentication Failed', 'close')
-            this.loginForm.reset();
+        (data: HttpResponse<any>) => {
+          sessionStorage.setItem("token", data.headers.get('Authorization')!);
+          this.toastr.success('welcome again!', 'Success', {
+            timeOut: 3000,
+          });
+          if (this.userType === 'CLIENT') {
+            this.router.navigateByUrl('/console').then()
+          } else if (this.userType === 'TRADES-PERSON') {
+            this.router.navigateByUrl('/console/verification').then()
           }
-          if (sessionStorage.getItem('userFullName') && sessionStorage.getItem('userEmail') && sessionStorage.getItem('userMobile')) {
-            this.router.navigateByUrl('/process').then()
-          }
-
-        }, error => {
-          // this.snackBarService.openErrorSnackBar('An error has occurred, please try again later', 'close')
-        });*/
+        },
+        error => {
+          this.toastr.error('username or password incorrect!', 'Warning!');
+        })
   }
 
   forgotPassword() {

@@ -1,117 +1,56 @@
 <div class="main-outer">
   <div class="outer">
     <div class="header">
-      <div class="header-text">
-        Personal Details
-      </div>
-      <div class="navigations">
-        <!--        <mat-icon (click)="editUserDetails()">edit</mat-icon>-->
-      </div>
+      <div class="header-text">Personal Details</div>
     </div>
     <div class="contain">
       <div class="data-inner">
         <p class="text-q">Email</p>
         <p class="text-a">{{ userData?.email }}</p>
-        <p class="text-a">{{ 'kavinduhasintha9@gmail.com' }}</p>
       </div>
       <div class="data-inner">
         <p class="text-q">Name</p>
-        <p class="text-a">{{ 'Kavindu Hasintha' }}</p>
+        <p class="text-a">{{ userData?.name }}</p>
       </div>
       <div class="data-inner">
         <p class="text-q">Mobile</p>
-        <p class="text-a">{{ '0714856728' }}</p>
+        <p class="text-a">{{ userData?.mobile }}</p>
       </div>
       <div class="data-inner">
         <p class="text-q">Address</p>
-        <p class="text-a">{{ 'Homadola Estate, Udugama.' }}</p>
+        <p class="text-a">{{ userData?.address }}</p>
       </div>
     </div>
-    <hr>
-    <div class="header ">
-      <div class="header-text">
-        User Details
-      </div>
-      <div class="navigations">
-        <!--        <mat-icon (click)="editUserDetails()">edit</mat-icon>-->
-      </div>
+    <hr/>
+    <div class="header">
+      <div class="header-text">User Details</div>
     </div>
     <div class="contain">
       <div class="data-inner">
         <p class="text-q">NIC</p>
         <p class="text-a">{{ data?.nic }}</p>
-        <p class="text-a">199930210888</p>
       </div>
-      <div class="data-inner">
-        <p class="text-q">Portfolio</p>
-        <p class="text-a">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Culpa facilis minima saepe. A ad
-          aperiam asperiores commodi deserunt fugit modi nesciunt placeat, sapiente voluptates? Incidunt nobis
-          praesentium quo reprehenderit sequi!</p>
-      </div>
-      <div class="data-outer">
-        <h6 class="title">Favorite Books</h6>
-
-        <div class="element-outer">
-          <div (click)="deleteBookData(skill)"
-               *ngFor="let skill of allSkills"
-               class="element">
-            <div class="shadow">
-              <mat-icon>delete</mat-icon>
-            </div>
-            {{skill}}
-          </div>
-
-          <div (click)="loadFavBooksForEdit()" class="element-last-add">
-            <p><i class="fa-solid fa-book-open"></i> &nbsp; Add &nbsp;
-              <mat-icon>add</mat-icon>
-            </p>
-          </div>
-
-        </div>
-      </div>
-
-
-
-
-
-
-
-     <!-- <div class="data-inner">
-&lt;!&ndash;        <p class="text-q">Skills</p>&ndash;&gt;
-        <mat-form-field class="example-chip-list full-width input-size" appearance="outline">
+    </div>
+    <div class="row">
+      <div class="column col-12">
+        <mat-form-field appearance="outline" class="example-full-width input-size">
           <mat-label>Skills</mat-label>
-          <mat-chip-grid #chipGrid aria-label="Fruit selection">
-            @for (skill of skills(); track $index) {
-              <mat-chip-row (removed)="remove(skill)">
-                {{skill}}
-                <button matChipRemove [attr.aria-label]="'remove ' + skill">
-                  <mat-icon>cancel</mat-icon>
-                </button>
-              </mat-chip-row>
-            }
+          <mat-chip-grid #reactiveChipGrid aria-label="Enter Skills" [formControl]="skillFormControl">
+            <mat-chip-row *ngFor="let keyword of reactiveKeywords(); trackBy: trackByKeyword"
+                          (removed)="removeReactiveKeyword(keyword)">
+              {{ keyword }}
+              <button matChipRemove [attr.aria-label]="'Remove ' + keyword">
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip-row>
           </mat-chip-grid>
           <input
-            name="currentFruit"
-            placeholder="New Fruit..."
-            #fruitInput
-            [(ngModel)]="currentFruit"
-            [matChipInputFor]="chipGrid"
-            [matAutocomplete]="auto"
-            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-            (matChipInputTokenEnd)="add($event)"
+            placeholder="Add skill..."
+            [matChipInputFor]="reactiveChipGrid"
+            (matChipInputTokenEnd)="addReactiveKeyword($event)"
           />
-          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event); fruitInput.value = ''">
-            @for (fruit of filteredFruits(); track fruit) {
-              <mat-option [value]="fruit">{{fruit}}</mat-option>
-            }
-          </mat-autocomplete>
         </mat-form-field>
-&lt;!&ndash;        <p class="text-a">Testing</p>&ndash;&gt;
-      </div>-->
-     <!-- <div class="data-inner">
-        <p class="text-q">other relevant Fields</p>
-        <p class="text-a">Testing</p>
-      </div>-->
+      </div>
     </div>
   </div>
 </div>

@@ -1,1 +1,30 @@
-<p>verify-your-email works!</p>
+<div class="main-outer">
+  <div class="outer">
+    <div class="inner">
+      <div class="inner-left">
+        <div class="shadow"></div>
+      </div>
+      <div class="inner-right">
+        <div class="login-element-outer">
+          <h1 class="login-text">Verify your account</h1>
+          <p class="login-para">
+            Verify your email attached with FixFinder
+          </p>
+          <br><br>
+          <form [formGroup]="form" (ngSubmit)="verify()">
+            <div class="data-outer">
+              <input formControlName="code" type="number" placeholder="Verification Code" autocomplete="off">
+            </div>
+            <br>
+            <div class="verify-button-outer">
+              <button mat-raised-button [disabled]="form.invalid" type="submit">Verify</button><!-- [disabled]="loginForm.invalid"-->
+            </div>
+            <div class="sign-up-outer">
+              <h1 class="sign-up" >Didn't received code? <span routerLink="/security/resend">Resend Code</span></h1>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
