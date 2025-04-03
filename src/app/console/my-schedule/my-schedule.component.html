@@ -1,36 +1,32 @@
-<div class="my-schedule-outer row">
-  <div class="calender-outer col-12 col-sm-6">
+<div class="my-schedule-outer">
+  <div class="calender-outer">
     <div class="calender-inner">
-      <mat-calendar
-        [dateFilter]="myFilter"
-        (selectedChange)="onDateSelected($event)"
-        ngSkipHydration>
-      </mat-calendar>
+      <full-calendar [options]="calendarOptions"></full-calendar>
     </div>
-  </div>
-  <div class="scheduled-description col-12 col-sm-6">
-    <div *ngIf="timetable; else loading">
-      <div *ngFor="let event of timetable">
-        <mat-card>
-          <mat-card-header>
-            <mat-card-title>{{ event?.name }}</mat-card-title>
-            <mat-card-subtitle>{{ event?.time }}</mat-card-subtitle>
-          </mat-card-header>
-          <mat-card-content>
-            <mat-list>
-              <mat-list-item>{{ event?.topic }}</mat-list-item>
-              <mat-list-item class="note">{{ event?.note }}</mat-list-item>
-            </mat-list>
-          </mat-card-content>
-        </mat-card>
-        <br>
-      </div>
-    </div>
-
-    <ng-template #loading>
-      <mat-card>
-        <mat-card-content>No session</mat-card-content>
-      </mat-card>
-    </ng-template>
   </div>
 </div>
+<!-- <div class="scheduled-description col-12 col-sm-6">
+   <div *ngIf="timetable; else loading">
+     <div *ngFor="let event of timetable">
+       <mat-card>
+         <mat-card-header>
+           <mat-card-title>{{ event?.name }}</mat-card-title>
+           <mat-card-subtitle>{{ event?.time }}</mat-card-subtitle>
+         </mat-card-header>
+         <mat-card-content>
+           <mat-list>
+             <mat-list-item>{{ event?.topic }}</mat-list-item>
+             <mat-list-item class="note">{{ event?.note }}</mat-list-item>
+           </mat-list>
+         </mat-card-content>
+       </mat-card>
+       <br>
+     </div>
+   </div>
+
+   <ng-template #loading>
+     <mat-card>
+       <mat-card-content>No session</mat-card-content>
+     </mat-card>
+   </ng-template>
+ </div>-->

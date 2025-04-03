@@ -1,1 +1,49 @@
-<p>messages works!</p>
+<div class="main">
+  <div class="user-list">
+    <div
+      *ngFor="let user of users"
+      class="nav-user"
+      [class.active]="selectedUser === user"
+      (click)="selectUser(user)">
+      <div class="nav-user-wrapper">
+        <img class="pfp-small" [src]="user.profilePicture" alt="User profile">
+        <p>{{ user.name }}</p>
+      </div>
+      <div class="status-icon" [class.online]="user.online"></div>
+    </div>
+  </div>
+
+  <div class="chatroom" *ngIf="selectedUser">
+    <!-- Chat Details Section -->
+    <div class="chat-details" *ngIf="selectedUser; else noChat">
+      <img class="chat-pfp" [src]="selectedUser.profilePicture" alt="User profile">
+      <div class="chat-details-info">
+        <h3>{{ selectedUser.name }}</h3>
+        <div class="status" [class.online]="selectedUser.online">
+          {{ selectedUser.online ? 'Online' : 'Offline' }}
+        </div>
+      </div>
+    </div>
+    <ng-template #noChat>
+      <div class="chat-details no-chat">Select a chat to start messaging</div>
+    </ng-template>
+    <div class="message-channel">
+      <div *ngFor="let message of messages" [ngClass]="{'this-user': message.sentByCurrentUser}" class="message">
+        <ng-container *ngIf="!message.sentByCurrentUser">
+          <img class="pfp-small" [src]="message.user?.profilePicture" alt="User profile">
+        </ng-container>
+        <div class="message-content">
+          <p>{{ message.text }}</p>
+        </div>
+        <ng-container *ngIf="message.sentByCurrentUser">
+          <img class="pfp-small" [src]="currentUser!.profilePicture" alt="User profile">
+        </ng-container>
+      </div>
+    </div>
+
+    <div class="text-input-wrapper">
+      <textarea rows="1" [(ngModel)]="newMessage" class="text-input" placeholder="Say something..."></textarea>
+      <button (click)="sendMessage()">Send</button>
+    </div>
+  </div>
+</div>

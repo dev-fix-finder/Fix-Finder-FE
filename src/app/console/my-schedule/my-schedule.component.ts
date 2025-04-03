@@ -1,76 +1,78 @@
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component, isDevMode} from '@angular/core';
 import {CalendarCommonModule, CalendarModule} from 'angular-calendar';
-import {MatCalendar, MatDatepicker} from '@angular/material/datepicker';
-import {MatCard, MatCardContent, MatCardHeader, MatCardSubtitle, MatCardTitle} from '@angular/material/card';
-import {MatList, MatListItem} from '@angular/material/list';
-import {NgForOf, NgIf} from '@angular/common';
+import {FullCalendarModule} from '@fullcalendar/angular';
+import {CalendarOptions, EventClickArg} from '@fullcalendar/core';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import interactionPlugin from '@fullcalendar/interaction';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-my-schedule',
   imports: [
     CalendarCommonModule,
     CalendarModule,
-    MatCalendar,
-    MatCard,
-    MatCardContent,
-    MatCardHeader,
-    MatCardSubtitle,
-    MatCardTitle,
-    MatList,
-    MatListItem,
-    NgForOf,
-    NgIf
+    FullCalendarModule
   ],
   templateUrl: './my-schedule.component.html',
   standalone: true,
   styleUrl: './my-schedule.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  // host: isDevMode() ? {} : { 'ngSkipHydration': '' },
 })
 export class MyScheduleComponent {
-  // List of specific dates to disable (YYYY-MM-DD format)
-  disabledDates = ['2025-02-25','2025-02-26', '2025-02-28', '2025-03-05'];
-  selectedDate: Date = new Date();
-  formattedDate: { month: string; year: number; ordinalSuffix: string; day: number; } | undefined;
-  timetable: any;
 
-  myFilter = (d: Date | null): boolean => {
-    if (!d) return false; // Ensure d is not null
-    const day = d.getDay(); // Get day of the week (0 = Sunday, 6 = Saturday)
-
-    // Convert date to YYYY-MM-DD format for easy comparison
-    const dateStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-
-    // Disable  specific dates
-    return !this.disabledDates.includes(dateStr);
+  calendarOptions: CalendarOptions = {
+    initialView: 'dayGridMonth',  // Ensure this view type is available
+    plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
+    headerToolbar: {
+      left: 'prev,next today',
+      center: 'title',
+      right: 'dayGridMonth,timeGridWeek,timeGridDay'
+    },
+    selectable: true,
+    editable: false,
+    events: [
+      {
+        title: 'Meeting',
+        start: '2025-04-01T06:00:00',
+        end: '2025-04-01T09:00:00'
+      },
+      {title: 'Conference', start: '2025-04-10'}
+    ],
+    eventClick: this.handleEventClick.bind(this),
   };
 
-  onDateSelected($event: any) {
-    console.log($event)
-  }
-
-  timetableDate() {
-    const day = this.selectedDate.getDate();
-    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-
-    return {
-      day: day,
-      ordinalSuffix: this.getOrdinalSuffix(day),
-      month: monthNames[this.selectedDate.getMonth()],
-      year: this.selectedDate.getFullYear()
+  handleEventClick(eventClickArg: EventClickArg) {
+    const start = eventClickArg.event.start;
+    const end = eventClickArg.event.end;
+    if (start) {
+      if (end === undefined || end === null) {
+        Swal.fire({
+          title: eventClickArg.event.title,
+          html: `<h5>${this.formatDateTime(start)}</h5><p>Whole day</p>`,
+          showConfirmButton: false,
+          // icon: 'error',
+          // confirmButtonText: 'Cool'
+        })
+      } else {
+        Swal.fire({
+          title: eventClickArg.event.title,
+          html: `<h5>${this.formatDateTime(start)}</h5><p>${eventClickArg.event.start?.toLocaleTimeString()}  -  ${eventClickArg.event.end?.toLocaleTimeString()}</p>`,
+          showConfirmButton: false,
+          // icon: 'error',
+          // confirmButtonText: 'Cool'
+        })
+      }
     }
   }
 
-  getOrdinalSuffix(day: number): string {
-    if (day > 3 && day < 21) return 'th';
-    switch (day % 10) {
-      case 1:
-        return 'st';
-      case 2:
-        return 'nd';
-      case 3:
-        return 'rd';
-      default:
-        return 'th';
-    }
+  formatDateTime(date: Date): string {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Month is 0-based
+    const day = String(date.getDate()).padStart(2, '0');
+
+    return `${year}-${month}-${day}`;
   }
+
 }

@@ -37,6 +37,10 @@ body {
   @include mat.all-component-densities(-3);
   @include mat.button-density(0);
 }
+.filter-input-size {
+  @include mat.all-component-densities(-7);
+  @include mat.button-density(0);
+}
 
 .full-width {
   width: 100%;
