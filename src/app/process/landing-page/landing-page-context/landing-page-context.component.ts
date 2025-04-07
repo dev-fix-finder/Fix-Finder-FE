@@ -11,10 +11,10 @@ import {LandingPageMainSliderComponent} from '../landing-page-main-slider/landin
 @Component({
   selector: 'app-landing-page-context',
   imports: [
-    LandingPageFeatureHighlightsComponent,
-    LandingPagePopularServicesComponent,
-    MainHeaderComponent,
-    LandingPageMainSliderComponent
+    // LandingPageFeatureHighlightsComponent,
+    // LandingPagePopularServicesComponent,
+    // MainHeaderComponent,
+    // LandingPageMainSliderComponent
   ],
   templateUrl: './landing-page-context.component.html',
   standalone: true,

@@ -46,7 +46,10 @@ export class MessagesComponent {
       online: false
     }
   ];
-
+constructor() {
+  console.info('Component constructor');
+  console.table(this.conversations)
+}
   currentUser: User = {
     id: 0,
     name: 'You',

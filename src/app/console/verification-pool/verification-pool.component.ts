@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {CookieManagerService} from '../../share/services/cookie-manager/cookie-manager.service';
 import {AuthService} from '../../share/services/auth/auth.service';
 import {Router} from '@angular/router';
 import {LoadingService} from '../../share/services/loading/loading.service';
@@ -26,11 +25,11 @@ export class VerificationPoolComponent implements OnInit {
 
   private check() {
     this.loadingService.mainLoader.next(true);
-    console.log(sessionStorage.getItem('token'))
+    console.log(sessionStorage.getItem('token'));
     if (sessionStorage.getItem('token')) {
       this.authService.getUserData(sessionStorage.getItem('token')).subscribe(response => {
         if (response.code === 200) {
-          sessionStorage.setItem('personalData', response.data);
+          sessionStorage.setItem('personalData', JSON.stringify(response.data));
           let tempArr: [] = response.data.role;
           let selectedUserRole = tempArr.find(e => e == 'USER');
           if (selectedUserRole) {

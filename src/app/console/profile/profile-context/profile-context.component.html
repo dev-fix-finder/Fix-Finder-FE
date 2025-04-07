@@ -1,2 +1,305 @@
-<app-profile-slider></app-profile-slider>
-<app-profile-user-details></app-profile-user-details>
+<div class="profile-outer">
+  <div class="profile-card">
+    <div class="cover-photo">
+      <div class="profile-picture">
+        <img
+          src="https://media.licdn.com/dms/image/v2/D5603AQG4yBQi4CGcsg/profile-displayphoto-shrink_200_200/B56ZTP4EGQHwAY-/0/1738654369206?e=2147483647&v=beta&t=52kuZDpL5H8dNb2QYuW9MTvjkKkusFNdEB0gtKPCBGc"
+          alt="profile pic">
+      </div>
+      <div class="name">Kavindu Hashintha</div>
+      <div class="verified-state">verified</div>
+      <div class="un-verified-state">unverified</div>
+    </div>
+  </div>
+  <div class="profile-details">
+    <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+      <mat-tab label="Personal Information">
+        <div class="personal-information">
+          <form [formGroup]="personalInfoForm">
+            <div class="row form-outer">
+
+              <div class="col-12 column">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>User ID</mat-label>
+                  <input formControlName="userId" matInput type="text">
+                </mat-form-field>
+              </div>
+
+              <div class="col-12 column">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>Name</mat-label>
+                  <input formControlName="name" matInput type="text">
+                </mat-form-field>
+              </div>
+
+              <div class="col-12 column">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>NIC</mat-label>
+                  <input formControlName="nic" placeholder="NIC" matInput type="text">
+                </mat-form-field>
+              </div>
+
+              <div class="col-12 column">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>Gender (Optional)</mat-label>
+                  <mat-select formControlName="gender">
+                    <mat-option value="MALE">Male</mat-option>
+                    <mat-option value="FEMALE">Female</mat-option>
+                    <mat-option value="RATHER_NOT_SAY">Rather Not Say</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <div class="col-12 column">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>Date of Birth</mat-label>
+                  <input matInput [matDatepicker]="picker" formControlName="dob">
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+              </div>
+
+              <div class="col-12 column">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>Email</mat-label>
+                  <input matInput formControlName="email" type="email">
+                </mat-form-field>
+              </div>
+
+              <div class="col-12 column">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>Mobile</mat-label>
+                  <input placeholder="+94 123456789" formControlName="mobile" matInput type="tel">
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="map-panel">
+                <google-map width="600px" height="400px" [center]="center" [zoom]="zoom" [options]="mapOptions"
+                            (mapClick)="onMapClick($event)">
+                  <map-marker *ngFor="let marker of markers" [position]="marker.position" [label]="marker.title">
+                  </map-marker>
+                </google-map>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-12 col-md-6 column">
+                <mat-form-field appearance="outline" class="location-width input-size">
+                  <mat-label>Longitude</mat-label>
+                  <input formControlName="longitude" matInput type="text">
+                </mat-form-field>
+              </div>
+              <div class="col-12 col-md-6 column">
+                <mat-form-field appearance="outline" class="location-width input-size">
+                  <mat-label>Latitude</mat-label>
+                  <input formControlName="latitude" matInput type="text">
+                </mat-form-field>
+              </div>
+              <div class="col-12 col-md-6 column">
+                <mat-form-field appearance="outline" class="location-width input-size">
+                  <mat-label>Country</mat-label>
+                  <input formControlName="country" matInput type="text">
+                </mat-form-field>
+              </div>
+              <div class="col-12 col-md-6 column">
+                <mat-form-field appearance="outline" class="location-width input-size">
+                  <mat-label>City</mat-label>
+                  <input formControlName="city" matInput type="text">
+                </mat-form-field>
+              </div>
+              <div class="col-12 column">
+                <mat-form-field appearance="outline" class="location-width input-size">
+                  <mat-label>Address</mat-label>
+                  <textarea formControlName="address" matInput rows="3"></textarea>
+                </mat-form-field>
+              </div>
+            </div>
+          </form>
+        </div>
+      </mat-tab>
+
+      <mat-tab label="Professional Informations">
+        <div class="professional-information">
+          <form [formGroup]="professionalInfoForm">
+            <div class="row">
+              <div class="col-12 column">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>Trade/Profession</mat-label>
+                  <mat-select formControlName="profession">
+                    <mat-option *ngFor="let profession of professions" [value]="profession.value">
+                      {{ profession.viewValue }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-12 column">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>Years of Experience</mat-label>
+                  <input type="number" matInput formControlName="experience">
+                </mat-form-field>
+              </div>
+              <div class="col-12 column">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>Skills</mat-label>
+                  <input type="text" matInput formControlName="skills">
+                </mat-form-field>
+              </div>
+              <div class="col-12 column">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>Hourly Rate</mat-label>
+                  <input type="text" matInput formControlName="hourlyRate">
+                </mat-form-field>
+              </div>
+              <div class="col-12 column">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>Fixed Pricing</mat-label>
+                  <input type="text" matInput formControlName="fixedServicePricing">
+                </mat-form-field>
+              </div>
+              <div class="col-12 column">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>Available Days</mat-label>
+                  <mat-select formControlName="availableDays" multiple>
+                    <mat-option *ngFor="let day of daysOfWeek" [value]="day.value">{{ day.viewValue }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-12 column">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>Available Slots</mat-label>
+                  <input type="text" matInput formControlName="availabilitySlots" placeholder="e.g. 10:00:00,15:00:00">
+                </mat-form-field>
+              </div>
+            </div>
+          </form>
+        </div>
+      </mat-tab>
+
+      <mat-tab label="Portfolio">
+        <div class="portfolio">
+          <form [formGroup]="portfolioForm">
+            <div class="row">
+              <div class="col-12 column">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>Work Samples (Base64)</mat-label>
+                  <textarea formControlName="workSamples" matInput rows="3"></textarea>
+                </mat-form-field>
+              </div>
+              <div class="col-12 column">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>Testimonials</mat-label>
+                  <textarea formControlName="testimonials" matInput rows="3"></textarea>
+                </mat-form-field>
+              </div>
+              <div class="col-12 column">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>Website Link</mat-label>
+                  <input matInput formControlName="websiteLink">
+                </mat-form-field>
+              </div>
+              <div class="col-12 column">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>Social Media Link</mat-label>
+                  <input matInput formControlName="socialMediaLink">
+                </mat-form-field>
+              </div>
+            </div>
+          </form>
+        </div>
+      </mat-tab>
+
+      <mat-tab label="Banking Details">
+        <div class="banking-details">
+          <form [formGroup]="bankingDetailsForm">
+            <div class="row">
+              <div class="col-12 column">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>Account Number</mat-label>
+                  <input matInput formControlName="accountNumber">
+                </mat-form-field>
+              </div>
+              <div class="col-12 column">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>Bank Branch</mat-label>
+                  <input matInput formControlName="bankBranch">
+                </mat-form-field>
+              </div>
+              <div class="col-12 column">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>Bank Name</mat-label>
+                  <input matInput formControlName="bankName">
+                </mat-form-field>
+              </div>
+              <div class="col-12 column">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>Payment Preference</mat-label>
+                  <input matInput formControlName="paymentPreference">
+                </mat-form-field>
+              </div>
+              <div class="col-12 column">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>Tax Documents</mat-label>
+                  <input matInput formControlName="taxComplianceDocuments">
+                </mat-form-field>
+              </div>
+            </div>
+          </form>
+        </div>
+      </mat-tab>
+
+      <mat-tab label="Additional Information">
+        <div class="additional-information">
+          <form [formGroup]="additionalInfoForm">
+            <div class="row">
+              <div class="col-12 column">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>Emergency Contact</mat-label>
+                  <input matInput formControlName="emergencyContact">
+                </mat-form-field>
+              </div>
+              <div class="col-12 column">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>Languages (IDs)</mat-label>
+                  <input matInput formControlName="languageIds" placeholder="e.g. 1,2">
+                </mat-form-field>
+              </div>
+              <div class="col-12 column">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>Work Radius (km)</mat-label>
+                  <input matInput type="number" formControlName="workRadius">
+                </mat-form-field>
+              </div>
+            </div>
+          </form>
+        </div>
+      </mat-tab>
+
+      <mat-tab label="Verification & Compliance">
+        <div class="verification-and-compliance">
+          <form [formGroup]="verificationForm">
+            <h1 class="title">Verification & Compliance</h1>
+            <div class="row">
+              <div class="col-12 column">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>Gov ID Proof (Base64)</mat-label>
+                  <input matInput formControlName="governmentIdProof">
+                </mat-form-field>
+              </div>
+              <div class="col-12 column">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>Professional Certification (Base64)</mat-label>
+                  <input matInput formControlName="professionalCertification">
+                </mat-form-field>
+              </div>
+              <div class="col-12 column">
+                <mat-checkbox formControlName="backgroundCheckConsent">Background Check Consent</mat-checkbox>
+              </div>
+            </div>
+          </form>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

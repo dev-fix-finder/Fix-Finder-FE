@@ -129,76 +129,49 @@
         </form>
       </div>
       <div class="profile-cards-outer">
-        <div class="cards-outer" (click)="previewProfile(data.profileId)">
-          <div [ngStyle]="{'background':'url(https://images.pexels.com/photos/1704488/pexels-photo-1704488.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500)','background-size':'cover'}"
-               class="profile-card">
+        <div class="cards-outer" (click)="previewProfile()">
+          <div
+            [ngStyle]="{'background':'url(https://images.pexels.com/photos/1704488/pexels-photo-1704488.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500)','background-size':'cover'}"
+            class="profile-card">
             <div class="profile-card-inner">
               <div class="text-outer">
                 <h2 class="name">Kavindu Hashintha</h2>
                 <p class="rate">Rate: Rs.375/hour</p>
               </div>
-              <!--      <p class="location">{{data.city}} {{data.country}}</p>-->
               <p class="location">Udugama</p>
             </div>
           </div>
         </div>
-        <div class="cards-outer" (click)="previewProfile(data.profileId)">
-          <div [ngStyle]="{'background':'url(https://images.pexels.com/photos/697509/pexels-photo-697509.jpeg?cs=srgb&dl=pexels-andrewperformance1-697509.jpg&fm=jpg)','background-size':'cover'}"
-               class="profile-card">
+        <div class="cards-outer" (click)="previewProfile()">
+          <div
+            [ngStyle]="{'background':'url(https://images.pexels.com/photos/697509/pexels-photo-697509.jpeg?cs=srgb&dl=pexels-andrewperformance1-697509.jpg&fm=jpg)','background-size':'cover'}"
+            class="profile-card">
             <div class="profile-card-inner">
               <div class="text-outer">
                 <h2 class="name">Name: Kavindu Hashintha</h2>
                 <p class="rate">Rate: Rs.375/hour</p>
               </div>
-              <!--      <p class="location">{{data.city}} {{data.country}}</p>-->
               <p class="location">Udugama</p>
             </div>
           </div>
         </div>
-        <div class="cards-outer" (click)="previewProfile(data.profileId)">
-          <div [ngStyle]="{'background':'url(https://images.pexels.com/photos/697509/pexels-photo-697509.jpeg?cs=srgb&dl=pexels-andrewperformance1-697509.jpg&fm=jpg)','background-size':'cover'}"
-               class="profile-card">
+        <div class="cards-outer" (click)="previewProfile()">
+          <div
+            [ngStyle]="{'background':'url(https://images.pexels.com/photos/697509/pexels-photo-697509.jpeg?cs=srgb&dl=pexels-andrewperformance1-697509.jpg&fm=jpg)','background-size':'cover'}"
+            class="profile-card">
             <div class="profile-card-inner">
               <div class="text-outer">
                 <h2 class="name">Name: Kavindu Hashintha</h2>
                 <p class="rate">Rate: Rs.375/hour</p>
               </div>
-              <!--      <p class="location">{{data.city}} {{data.country}}</p>-->
               <p class="location">Udugama</p>
             </div>
           </div>
         </div>
-<!--        <div class="cards-outer" (click)="previewProfile(data.profileId)">-->
-<!--          <div [ngStyle]="{'background':'url(https://images.pexels.com/photos/1704488/pexels-photo-1704488.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500)','background-size':'cover'}"-->
-<!--               class="profile-card">-->
-<!--            <div class="profile-card-inner">-->
-<!--              <div class="text-outer">-->
-<!--                <h2 class="name">Kavindu Hashintha</h2>-->
-<!--                <p class="rate">Rate: Rs.375/hour</p>-->
-<!--              </div>-->
-<!--              &lt;!&ndash;      <p class="location">{{data.city}} {{data.country}}</p>&ndash;&gt;-->
-<!--              <p class="location">Udugama</p>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="cards-outer" (click)="previewProfile(data.profileId)">-->
-<!--          <div [ngStyle]="{'background':'url(https://images.pexels.com/photos/1704488/pexels-photo-1704488.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500)','background-size':'cover'}"-->
-<!--               class="profile-card">-->
-<!--            <div class="profile-card-inner">-->
-<!--              <div class="text-outer">-->
-<!--                <h2 class="name">Kavindu Hashintha</h2>-->
-<!--                <p class="rate">Rate: Rs.375/hour</p>-->
-<!--              </div>-->
-<!--              &lt;!&ndash;      <p class="location">{{data.city}} {{data.country}}</p>&ndash;&gt;-->
-<!--              <p class="location">Udugama</p>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
       </div>
     </div>
     <div class="map-panel">
       <google-map width="100%" height="100%" [center]="center" [zoom]="zoom" [options]="mapOptions">
-        <!--(mapClick)="onMapClick($event)"-->
         <map-marker *ngFor="let marker of markers" [position]="marker.position" [title]="marker.title"></map-marker>
       </google-map>
     </div>

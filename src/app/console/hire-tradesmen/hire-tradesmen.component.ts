@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, inject, Input} from '@angular/core';
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatSelectModule} from "@angular/material/select";
 import {FormControl, FormGroup, FormGroupDirective, ReactiveFormsModule} from '@angular/forms';
@@ -8,10 +8,12 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import {MatSliderModule} from '@angular/material/slider';
-import {MatDatepickerModule, MatDatepickerToggle} from '@angular/material/datepicker';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 import {LoadingService} from '../../share/services/loading/loading.service';
 import {Router} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
+import {MatDialog, MatDialogModule} from '@angular/material/dialog';
+import {AboutTradesmenComponent} from '../../share/components/about-tradesmen/about-tradesmen.component';
 
 @Component({
   selector: 'app-hire-tradesmen',
@@ -26,13 +28,15 @@ import {ToastrService} from 'ngx-toastr';
     MatButtonModule,
     MatSliderModule,
     MatDatepickerModule,
-    NgStyle
+    NgStyle,
+    MatDialogModule
   ],
   templateUrl: './hire-tradesmen.component.html',
   standalone: true,
   styleUrl: './hire-tradesmen.component.scss'
 })
 export class HireTradesmenComponent {
+  readonly dialog = inject(MatDialog);
 
   hireForm = new FormGroup({
     category: new FormControl(),
@@ -52,30 +56,27 @@ export class HireTradesmenComponent {
     streetViewControl: false // Disable Street View control
   };
 
-  /*onMapClick(event: google.maps.MapMouseEvent) {
-    if (event.latLng) {
-      const position = event.latLng.toJSON();
-      this.markers.push({
-        position,
-        title: 'Trades-person Location'
-      })
-    }
-  }*/
-
   submitJobRequest(f: FormGroupDirective) {
 
   }
 
-  @Input() data:any;
+  @Input() data: any;
 
-  constructor(public loadingService: LoadingService, private router:Router,private toastr:ToastrService) { }
+  constructor(public loadingService: LoadingService, private router: Router, private toastr: ToastrService) {
+  }
 
   ngOnInit(): void {
 
   }
 
-  previewProfile(id:any){
-    this.router.navigateByUrl('/user-profile/process/'+id+'/about/'+id);
+  previewProfile() {
+    console.info('called')
+    const dialogRef = this.dialog.open(AboutTradesmenComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+    // this.router.navigateByUrl('/console/playground/trades-person/profile');
     //window.open('http://localhost:4200/#/user-profile/process/'+id+'/about/'+id, '_blank');
   }
 }

@@ -1,0 +1,70 @@
+.profile-outer {
+  margin-left: 10px;
+}
+
+.profile-card {
+  min-height: 250px;
+}
+
+.cover-photo {
+  border: 1px solid gray;
+  padding-left: 10px;
+  border-radius: 5px;
+  width: 100%;
+  height: 100%;
+  background: #3E5151;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #DECBA4, #3E5151);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #DECBA4, #3E5151); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.profile-picture {
+  border: 1px solid gray;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  margin-top: 100px;
+  overflow: hidden;
+  img{
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.name {
+  margin-top: 10px;
+  font-weight: bold;
+  font-size: 22px;
+  letter-spacing: 1px;
+}
+
+.verified-state {
+  border: 1px solid green;
+  color: green;
+  width: fit-content;
+  padding: 2px 8px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.un-verified-state {
+  border: 1px solid red;
+  color: red;
+  width: fit-content;
+  padding: 2px 8px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.example-full-width {
+  width: 50% !important;
+}
+.location-width {
+  width: 100% !important;
+}
+
+.form-outer {
+  padding-top: 10px;
+}
+.map-panel{
+  margin-bottom: 15px;
+}

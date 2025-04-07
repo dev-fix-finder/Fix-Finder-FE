@@ -1,4 +1,84 @@
-<app-main-header></app-main-header>
-<app-landing-page-main-slider></app-landing-page-main-slider>
-<app-landing-page-feature-highlights></app-landing-page-feature-highlights>
-<app-landing-page-popular-services></app-landing-page-popular-services>
+<header>
+  <h1>FixFinder – Find. Book. Fix. Fast.</h1>
+  <p>Your trusted platform to connect with verified tradespeople nearby. Hassle-free, safe, and on-demand.</p>
+  <div class="cta-buttons">
+    <button onclick="document.getElementById('login-user').scrollIntoView({ behavior: 'smooth' })">Login as User</button>
+    <button onclick="document.getElementById('login-tradesperson').scrollIntoView({ behavior: 'smooth' })">Login as Tradesperson</button>
+  </div>
+</header>
+
+<section>
+  <h2 class="section-title">How It Works</h2>
+  <div class="features">
+    <div class="feature">
+      <h3>📤 Post Your Task</h3>
+      <p>Describe the job, upload images, and choose your preferred time.</p>
+    </div>
+    <div class="feature">
+      <h3>🔍 Instant Matching</h3>
+      <p>Get matched with qualified professionals nearby instantly.</p>
+    </div>
+    <div class="feature">
+      <h3>💳 Pay After Work</h3>
+      <p>Pay securely after the job is completed to your satisfaction.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2 class="section-title">Top Services Offered</h2>
+  <div class="services">
+    <div class="service">
+      <h3>🔧 Plumbing</h3>
+      <p>From leaks to installations – we've got your pipes covered.</p>
+    </div>
+    <div class="service">
+      <h3>💡 Electrical</h3>
+      <p>Fix faulty wiring, lighting, or power issues safely.</p>
+    </div>
+    <div class="service">
+      <h3>🪚 Carpentry</h3>
+      <p>Custom woodwork, doors, furniture fixes, and more.</p>
+    </div>
+    <div class="service">
+      <h3>🖌️ Painting</h3>
+      <p>Revamp your walls with expert interior & exterior painting.</p>
+    </div>
+  </div>
+</section>
+
+<section class="testimonials">
+  <h2 class="section-title">What Our Users Say</h2>
+  <div class="testimonial">
+    <p>“FixFinder made it easy to find a reliable electrician on short notice. I loved the payment security!” – Emily R.</p>
+  </div>
+  <div class="testimonial">
+    <p>“As a tradesperson, I get quality leads through FixFinder without chasing payments. Game changer!” – John D.</p>
+  </div>
+</section>
+
+<section id="login" class="login-section">
+  <h2 class="section-title">Login to Your FixFinder Account</h2>
+  <div class="login-cards">
+    <div class="login-card" id="login-user">
+      <h3>User Login</h3>
+      <p>Book services, track progress, and manage tasks easily.</p>
+      <button onclick="window.location.href='/login/user'">Login as User</button>
+    </div>
+    <div class="login-card" id="login-tradesperson">
+      <h3>Tradesperson Login</h3>
+      <p>Access job requests, manage schedules, and get paid securely.</p>
+      <button onclick="window.location.href='/login/tradesperson'">Login as Tradesperson</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2025 FixFinder. All rights reserved.</p>
+  <p>
+    <a href="#">About</a> |
+    <a href="#">Contact</a> |
+    <a href="#">Privacy</a> |
+    <a href="#">Terms</a>
+  </p>
+</footer>

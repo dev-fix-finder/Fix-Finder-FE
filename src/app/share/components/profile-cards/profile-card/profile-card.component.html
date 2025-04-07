@@ -1,39 +1,79 @@
-<!-- From Uiverse.io by JaydipPrajapati1910 -->
-<div class="card">
-  <div class="card-header">
-    <div class="card-header-bar">
-      <a class="btn-message" href="#"><svg viewBox="0 0 16 16" class="bi bi-chat-dots-fill" fill="white" height="16" width="16" xmlns="http://www.w3.org/2000/svg">
-        <path d="M16 8c0 3.866-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.584.296-1.925.864-4.181 1.234-.2.032-.352-.176-.273-.362.354-.836.674-1.95.77-2.966C.744 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7zM5 8a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"></path>
-      </svg><span class="sr-only">Message</span></a>
-      <a class="btn-menu" href="#"><svg viewBox="0 0 16 16" class="bi bi-list" fill="white" height="16" width="16" xmlns="http://www.w3.org/2000/svg">
-        <path d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" fill-rule="evenodd"></path>
-      </svg><span class="sr-only">Menu</span></a>
+<div class="profile-settings-outer">
+  <div class="profile-card">
+    <div class="profile-picture-outer">
+      <div class="avatar-inner">
+        <img alt="profile pick" src="{{profileAvatar}}">
+
+        <div class="add-image-outer">
+        </div>
+      </div>
     </div>
-    <span class="image">Image Here</span>
-    <div class="card-header-slanted-edge">
+    <div class="basic-data-outer">
+      <div class="data-outer row">
+        <div class="col-12 data">
+          <mat-label class="data-label">Name</mat-label>
+          <p class="data-value">{{student?.studentName}}</p>
+        </div>
+        <div class="col-12 data">
+          <mat-label class="data-label">Email</mat-label>
+          <p class="data-value">{{student?.email}}</p>
+        </div>
+        <div class="col-12 data">
+          <mat-label class="data-label">NIC</mat-label>
+          <p class="data-value">{{student?.nic}}</p>
+        </div>
+        <div class="col-12 data">
+          <mat-label class="data-label">Date of birth</mat-label>
+          <p class="data-value">{{student?.dob | date:'yyyy-MM-dd'}}</p>
+        </div>
+        <div class="col-12 data">
+          <mat-label class="data-label">Gender</mat-label>
+          <p class="data-value">{{student?.gender}}</p>
+        </div>
+        <div class="col-12 data">
+          <mat-label class="data-label">Mobile(Whatsapp)</mat-label>
+          <p class="data-value">{{student?.mobile}}</p>
+        </div>
+        <div class="col-12 data">
+          <mat-label class="data-label">City</mat-label>
+          <p class="data-value">{{student?.address}}</p>
+        </div>
+        <!--<div class="col-12 data button-outer">
+          <button mat-raised-button class="update-basic-data-button">
+            Edit
+          </button>
+        </div>-->
+      </div>
     </div>
   </div>
+  <div class="other-data-card">
+    <div class="qualification-outer">
+      <div class="subtitle-outer">
+        <h2 class="sub-title"></h2>
+      </div>
 
-  <div class="card-body">
-    <span class="name">John Smith</span><br>
-    <span class="job-title"><u>Product Designer</u></span>
-    <div class="bio">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dignissimos, aperiam.</div>
-  </div>
-
-  <div class="card-footer">
-    <div class="stats">
-      <div class="stat">
-        <span class="label">Following</span>
-        <span class="value">56K</span>
+      <ul class="list-outer">
+        <li *ngFor="let sq of studentQualifications">{{sq?.qualification}}</li>
+<!--        <app-empty-content-page *ngIf="studentQualifications.length == 0"-->
+<!--                                [message]="'Qualifications not found, add some qualifications.'"></app-empty-content-page>-->
+      </ul>
+    </div>
+    <div class="experience-outer">
+      <div class="subtitle-outer">
+        <!--                <h2 class="sub-title">Experience</h2>-->
+        <!-- <button mat-mini-fab class="edit-icon-button">
+             <mat-icon>edit</mat-icon>
+         </button>-->
       </div>
-      <div class="stat">
-        <span class="label">Followers</span>
-        <span class="value">940</span>
+      <div class="empty-content-outer">
+<!--        <app-empty-content-page-->
+<!--          [message]="'Stay in touch with us for more exciting updates'"></app-empty-content-page>-->
       </div>
-      <div class="stat">
-        <span class="label">Likes</span>
-        <span class="value">320</span>
-      </div>
+      <!--<ul class="list-outer">
+          <li>Passed AL in commerce stream</li>
+          <li>AAT Passed Finalists</li>
+          <li>Part qualified in CMA(SL)</li>
+      </ul>-->
     </div>
   </div>
 </div>
