@@ -1,82 +1,59 @@
-import {Component, inject, Input} from '@angular/core';
+import {Component} from '@angular/core';
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatSelectModule} from "@angular/material/select";
-import {FormControl, FormGroup, FormGroupDirective, ReactiveFormsModule} from '@angular/forms';
-import {GoogleMapsModule} from '@angular/google-maps';
-import {NgForOf, NgStyle} from '@angular/common';
-import {MatCheckboxModule} from '@angular/material/checkbox';
+import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
-import {MatSliderModule} from '@angular/material/slider';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {LoadingService} from '../../share/services/loading/loading.service';
-import {Router} from '@angular/router';
-import {ToastrService} from 'ngx-toastr';
-import {MatDialog, MatDialogModule} from '@angular/material/dialog';
-import {AboutTradesmenComponent} from '../../share/components/about-tradesmen/about-tradesmen.component';
+import {CommonModule} from '@angular/common';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-hire-tradesmen',
   imports: [
-    GoogleMapsModule,
-    MatFormFieldModule,
-    MatSelectModule,
     ReactiveFormsModule,
-    NgForOf,
-    MatCheckboxModule,
+    MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    MatSliderModule,
-    MatDatepickerModule,
-    NgStyle,
-    MatDialogModule
+    MatSelectModule,
+    CommonModule,
+    RouterLink,
   ],
   templateUrl: './hire-tradesmen.component.html',
   standalone: true,
   styleUrl: './hire-tradesmen.component.scss'
 })
 export class HireTradesmenComponent {
-  readonly dialog = inject(MatDialog);
+  titleText: string = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias cum dicta ea expedita id ipsa iusto laboriosam natus';
+  filterForm = new FormGroup({
+    category: new FormControl(''),
+    minHourRate: new FormControl(''),
+    maxHourRate: new FormControl(''),
+  });
 
-  hireForm = new FormGroup({
-    category: new FormControl(),
-    date: new FormControl(),
-    min: new FormControl(),
-    max: new FormControl(),
-  })
-
-  center: google.maps.LatLngLiteral = {lat: 6.9341, lng: 79.84997};
-  zoom = 12;
-  markers: { position: google.maps.LatLngLiteral; title: string }[] = [];
-
-  mapOptions: google.maps.MapOptions = {
-    mapTypeId: 'terrain', // or 'satellite', 'hybrid', 'terrain'
-    disableDefaultUI: false, // Show default UI controls
-    zoomControl: true, // Enable zoom control
-    streetViewControl: false // Disable Street View control
-  };
-
-  submitJobRequest(f: FormGroupDirective) {
-
-  }
-
-  @Input() data: any;
-
-  constructor(public loadingService: LoadingService, private router: Router, private toastr: ToastrService) {
-  }
-
-  ngOnInit(): void {
-
-  }
-
-  previewProfile() {
-    console.info('called')
-    const dialogRef = this.dialog.open(AboutTradesmenComponent);
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
-    });
-    // this.router.navigateByUrl('/console/playground/trades-person/profile');
-    //window.open('http://localhost:4200/#/user-profile/process/'+id+'/about/'+id, '_blank');
-  }
+  tradespeople = [
+    {
+      name: 'Alex Mason',
+      profileImage: 'https://images.ctfassets.net/h6goo9gw1hh6/2sNZtFAWOdP1lmQ33VwRN3/24e953b920a9cd0ff2e1d587742a2472/1-intro-photo-final.jpg?w=1200&h=992&fl=progressive&q=70&fm=jpg',
+      coverImage: 'https://www.sage.com/en-gb/blog/wp-content/uploads/sites/10/2021/03/jeriden-villegas-VLPUm5wP5Z0-unsplash.jpg',
+      ongoingProjects: 4,
+      title: 'Licensed Electrician available for home rewiring, lighting, safety checks and more.',
+      rating: 4.9
+    },
+    {
+      name: 'Jamie Lee',
+      profileImage: 'https://media.istockphoto.com/id/1682296067/photo/happy-studio-portrait-or-professional-man-real-estate-agent-or-asian-businessman-smile-for.jpg?s=612x612&w=0&k=20&c=9zbG2-9fl741fbTWw5fNgcEEe4ll-JegrGlQQ6m54rg=',
+      coverImage: 'https://skilled.peopleready.com/wp-content/uploads/sites/2/2021/02/683433PeopleReady-Skilled-Trades-Blog-Image-02-1-1-1-1000x460.jpg',
+      ongoingProjects: 2,
+      title: 'Experienced plumber for leak repairs, pipe installation, and water heater servicing.',
+      rating: 4.8
+    },
+    {
+      name: 'Carlos Rivera',
+      profileImage: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRQA0nWZwLx6fwhMKI_N1nzGOrRU_78S6l326esG8hCEi0M4sjI326cLvw70P659InGq4&usqp=CAU',
+      coverImage: 'https://collabconstruction.com/wp-content/uploads/2022/11/hiring-trades-in-saskatchewan-regina.jpg',
+      ongoingProjects: 5,
+      title: 'Skilled carpenter for cabinets, custom woodwork, repairs & home improvements.',
+      rating: 5.0
+    }
+  ];
 }

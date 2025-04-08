@@ -1,79 +1,45 @@
-<div class="profile-settings-outer">
-  <div class="profile-card">
-    <div class="profile-picture-outer">
-      <div class="avatar-inner">
-        <img alt="profile pick" src="{{profileAvatar}}">
-
-        <div class="add-image-outer">
-        </div>
-      </div>
+<div class="gig-wrapper">
+  <div class="gig-left">
+    <h2 class="gig-title">
+      I will fix, repair, or install your home essentials — plumbing, electrical, carpentry & more!
+    </h2>
+    <div class="seller-info">
+      <span class="seller-name">John the Handyman</span>
+      <span class="badge choice">Fix Finder’s Choice</span>
+      <span class="badge top-rated">Top Rated Pro</span>
+      <span class="rating">4.9 ★ (2445 service reviews)</span>
     </div>
-    <div class="basic-data-outer">
-      <div class="data-outer row">
-        <div class="col-12 data">
-          <mat-label class="data-label">Name</mat-label>
-          <p class="data-value">{{student?.studentName}}</p>
-        </div>
-        <div class="col-12 data">
-          <mat-label class="data-label">Email</mat-label>
-          <p class="data-value">{{student?.email}}</p>
-        </div>
-        <div class="col-12 data">
-          <mat-label class="data-label">NIC</mat-label>
-          <p class="data-value">{{student?.nic}}</p>
-        </div>
-        <div class="col-12 data">
-          <mat-label class="data-label">Date of birth</mat-label>
-          <p class="data-value">{{student?.dob | date:'yyyy-MM-dd'}}</p>
-        </div>
-        <div class="col-12 data">
-          <mat-label class="data-label">Gender</mat-label>
-          <p class="data-value">{{student?.gender}}</p>
-        </div>
-        <div class="col-12 data">
-          <mat-label class="data-label">Mobile(Whatsapp)</mat-label>
-          <p class="data-value">{{student?.mobile}}</p>
-        </div>
-        <div class="col-12 data">
-          <mat-label class="data-label">City</mat-label>
-          <p class="data-value">{{student?.address}}</p>
-        </div>
-        <!--<div class="col-12 data button-outer">
-          <button mat-raised-button class="update-basic-data-button">
-            Edit
-          </button>
-        </div>-->
-      </div>
+    <p class="repeat-note">Customers keep coming back — John has an outstanding track record of trusted home services.</p>
+    <div class="gig-preview">
+      <img
+        src="https://skilled.peopleready.com/wp-content/uploads/sites/2/2021/02/683433PeopleReady-Skilled-Trades-Blog-Image-02-1-1-1-1000x460.jpg"
+        alt="Fix Finder tradesperson preview">
+    </div>
+    <div class="review-box">
+      <strong>What customers loved about this pro</strong>
+      <p class="review">
+        "If I could give 10 stars, I would! John repaired my leaking bathroom and even fixed a few extra things without charging more. Quick, clean, and friendly!"
+      </p>
     </div>
   </div>
-  <div class="other-data-card">
-    <div class="qualification-outer">
-      <div class="subtitle-outer">
-        <h2 class="sub-title"></h2>
-      </div>
 
-      <ul class="list-outer">
-        <li *ngFor="let sq of studentQualifications">{{sq?.qualification}}</li>
-<!--        <app-empty-content-page *ngIf="studentQualifications.length == 0"-->
-<!--                                [message]="'Qualifications not found, add some qualifications.'"></app-empty-content-page>-->
-      </ul>
+  <div class="gig-right">
+    <div class="package-tabs">
+      <button [class.active]="selectedTab === 'Basic'" (click)="selectTab('Basic')">Basic Service</button>
     </div>
-    <div class="experience-outer">
-      <div class="subtitle-outer">
-        <!--                <h2 class="sub-title">Experience</h2>-->
-        <!-- <button mat-mini-fab class="edit-icon-button">
-             <mat-icon>edit</mat-icon>
-         </button>-->
+    <div class="package-box">
+      <div class="price-row">
+        <h3>${{ package.price }}</h3>
+        <span class="subscribe-save">Save up to 5% with <a href="#">FixFinder Plus</a></span>
       </div>
-      <div class="empty-content-outer">
-<!--        <app-empty-content-page-->
-<!--          [message]="'Stay in touch with us for more exciting updates'"></app-empty-content-page>-->
-      </div>
-      <!--<ul class="list-outer">
-          <li>Passed AL in commerce stream</li>
-          <li>AAT Passed Finalists</li>
-          <li>Part qualified in CMA(SL)</li>
-      </ul>-->
+      <p class="package-desc">{{ package.description }}</p>
+      <ul class="package-details">
+        <li>{{ package.delivery }} day service window</li>
+        <li> {{ package.revisions }} free touch-ups</li>
+        <li *ngFor="let feature of package.features">{{ feature }}</li>
+      </ul>
+      <button class="btn primary">Book Now</button>
+      <button class="btn secondary">Message Pro</button>
     </div>
   </div>
 </div>
