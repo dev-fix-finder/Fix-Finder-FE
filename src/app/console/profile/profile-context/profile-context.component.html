@@ -74,7 +74,7 @@
               </div>
             </div>
 
-            <div class="row">
+            <!--<div class="row">
               <div class="map-panel">
                 <google-map width="600px" height="400px" [center]="center" [zoom]="zoom" [options]="mapOptions"
                             (mapClick)="onMapClick($event)">
@@ -82,10 +82,10 @@
                   </map-marker>
                 </google-map>
               </div>
-            </div>
+            </div>-->
 
             <div class="row">
-              <div class="col-12 col-md-6 column">
+              <!--<div class="col-12 col-md-6 column">
                 <mat-form-field appearance="outline" class="location-width input-size">
                   <mat-label>Longitude</mat-label>
                   <input formControlName="longitude" matInput type="text">
@@ -96,7 +96,7 @@
                   <mat-label>Latitude</mat-label>
                   <input formControlName="latitude" matInput type="text">
                 </mat-form-field>
-              </div>
+              </div>-->
               <div class="col-12 col-md-6 column">
                 <mat-form-field appearance="outline" class="location-width input-size">
                   <mat-label>Country</mat-label>
@@ -115,6 +115,11 @@
                   <textarea formControlName="address" matInput rows="3"></textarea>
                 </mat-form-field>
               </div>
+            </div>
+            <div class="col-12 data button-outer">
+              <button mat-raised-button class="update-basic-data-button" (click)="updateUser()">
+                Update
+              </button>
             </div>
           </form>
         </div>

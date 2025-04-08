@@ -19,6 +19,9 @@ import {MyScheduleComponent} from './console/my-schedule/my-schedule.component';
 import {MessagesComponent} from './console/messages/messages.component';
 import {HireTradesmenComponent} from './console/hire-tradesmen/hire-tradesmen.component';
 import {ProfileCardComponent} from './share/components/profile-cards/profile-card/profile-card.component';
+import {
+  AdminTradesPersonVerifyComponent
+} from './console/admin-trades-person-verify/admin-trades-person-verify.component';
 
 export const routes: Routes = [
   {path: '', redirectTo: 'process/home', pathMatch: 'full'},
@@ -45,7 +48,7 @@ export const routes: Routes = [
           {path: 'hire-trades-person', component: HireTradesmenComponent},
           {path: 'my-jobs', component: MyJobsComponent},
           {path: 'messages', component: MessagesComponent},
-          // {path: 'my-profile', component: ProfileContextComponent},
+          {path: 'trades-person-verify', component: AdminTradesPersonVerifyComponent},
           {path: 'trades-person/profile', component: ProfileCardComponent},
         ]
       },

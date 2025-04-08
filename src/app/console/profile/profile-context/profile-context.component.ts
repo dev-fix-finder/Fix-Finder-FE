@@ -12,6 +12,7 @@ import {GoogleMapsModule} from '@angular/google-maps';
 import {ToastrService} from 'ngx-toastr';
 import {Router} from '@angular/router';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatButtonModule} from '@angular/material/button';
 
 @Component({
   selector: 'app-profile-context',
@@ -27,6 +28,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     MatSelectModule,
     GoogleMapsModule,
     MatCheckboxModule,
+    MatButtonModule,
   ],
   templateUrl: './profile-context.component.html',
   standalone: true,
@@ -157,4 +159,7 @@ export class ProfileContextComponent {
     }
   }
 
+  updateUser() {
+
+  }
 }

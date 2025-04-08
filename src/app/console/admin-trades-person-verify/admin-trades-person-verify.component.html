@@ -1,0 +1,46 @@
+<div class="upload-image-outer">
+  <div class="imag-upload"
+       (click)="fileInput.click()"
+       (dragenter)="onDragEnter($event)"
+       (dragover)="onDragOver($event)"
+       (drop)="onDrop($event)"
+  >
+    <mat-icon *ngIf="!image">add_a_photo</mat-icon>
+
+    <input
+      type="file"
+      (change)="onFileSelected($event)"
+      #fileInput
+      accept="image/*"
+      style="display: none"
+    />
+
+    <div class="selected-image" *ngIf="image" >
+      <img [src]="image" class="uploaded-image" />
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<div>
+  <section id="photos">
+    <div class="img-outer">
+      <div class="image-data" *ngFor="let tempData of dataArray">
+        <div class="shadow" style="cursor: pointer;"  (click)="deleteData(tempData)">
+          <mat-icon >delete</mat-icon>
+        </div>
+        <img src="{{tempData.fileResource.resourceUrl}}" alt="{{tempData.fileResource.fileName}}">
+      </div>
+    </div>
+  </section>
+
+  <mat-paginator [length]=dataCount
+                 [pageSize]=size
+                 [pageIndex]=page
+                 [pageSizeOptions]=paginateOption
+                 (page)="pageEvent=serverDataManager($event)"
+                 aria-label="Select page">
+  </mat-paginator>
+
+</div>

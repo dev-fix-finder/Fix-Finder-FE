@@ -49,68 +49,22 @@
       </div>
     </div>
     <div class="job-list-outer job-container-item">
-      <div class="job-card-outer">
-        <div class="job-card-left">
-          <div class="image-outer">
-            <img src="{{cardImage}}" alt="job-image">
-          </div>
+      <div class="job-card" *ngFor="let job of jobList">
+        <div class="job-img">
+          <img [src]="job.imageUrl || 'assets/job-placeholder.jpg'" alt="Job Image">
         </div>
-        <div class="job-card-right">
-          <h2 class="job-title">Facilities Superintendent and or
-            Foreman
-          </h2>
-          <div class="job-description">Performs skilled, semi-skilled and routine tasks as trades person
-            related to the maintenance of buildings and facilities.
+        <div class="job-content">
+          <div class="job-header">
+            <h3 class="job-title">{{ job.title }}</h3>
+            <p class="job-price">LKR. {{ job.price | number:'1.2-2' }}</p>
           </div>
-          <div class="job-amount-and-type"></div>
-          <div class="view-listing-button">
-            <button class="button" mat-raised-button>View Detailed Job</button>
-          </div>
-          <h4 class="amount">LKR. 10000.00</h4>
-          <div class="type">Supervising, Repair, Carpenter</div>
-        </div>
-      </div>
-      <div class="job-card-outer">
-        <div class="job-card-left">
-          <div class="image-outer">
-            <img src="{{cardImage}}" alt="job-image">
-          </div>
-        </div>
-        <div class="job-card-right">
-          <h2 class="job-title">Facilities Superintendent and or
-            Foreman
-          </h2>
-          <div class="type">Supervising, Repair, Carpenter</div>
-          <div class="job-description">Performs skilled, semi-skilled and routine tasks as trades person
-            related to the maintenance of buildings and facilities.
-          </div>
-          <div class="job-amount-and-type"></div>
-
-          <h4 class="amount">LKR. 10000.00</h4>
-          <div class="view-listing-button">
-            <button class="button" mat-raised-button>View Detailed Job</button>
-          </div>
-        </div>
-      </div>
-      <div class="job-card-outer">
-        <div class="job-card-left">
-          <div class="image-outer">
-            <img src="{{cardImage}}" alt="job-image">
-          </div>
-        </div>
-        <div class="job-card-right">
-          <h2 class="job-title">Facilities Superintendent and or
-            Foreman
-          </h2>
-          <div class="job-description">Performs skilled, semi-skilled and routine tasks as trades person
-            related to the maintenance of buildings and facilities.
-          </div>
-          <div class="job-amount-and-type"></div>
-          <div class="view-listing-button">
-            <button class="button" mat-raised-button>View Detailed Job</button>
-          </div>
-          <h4 class="amount">LKR. 10000.00</h4>
-          <div class="type">Supervising, Repair, Carpenter</div>
+          <p class="job-tags">{{ job.tags }}</p>
+          <p class="job-description">
+            {{ job.description }}
+          </p>
+         <!-- <div class="job-action">
+            <button class="view-btn" (click)="viewJobDetails(job.id)">View Detailed Job</button>
+          </div>-->
         </div>
       </div>
     </div>
