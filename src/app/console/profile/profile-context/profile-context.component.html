@@ -17,29 +17,28 @@
         <div class="personal-information">
           <form [formGroup]="personalInfoForm">
             <div class="row form-outer">
-
-              <div class="col-12 column">
+              <div class="col-12 col-md-4 column">
                 <mat-form-field appearance="outline" class="example-full-width input-size">
                   <mat-label>User ID</mat-label>
                   <input formControlName="userId" matInput type="text">
                 </mat-form-field>
               </div>
 
-              <div class="col-12 column">
+              <div class="col-12 col-md-4 column">
                 <mat-form-field appearance="outline" class="example-full-width input-size">
                   <mat-label>Name</mat-label>
                   <input formControlName="name" matInput type="text">
                 </mat-form-field>
               </div>
 
-              <div class="col-12 column">
+              <div class="col-12 col-md-4 column">
                 <mat-form-field appearance="outline" class="example-full-width input-size">
                   <mat-label>NIC</mat-label>
                   <input formControlName="nic" placeholder="NIC" matInput type="text">
                 </mat-form-field>
               </div>
 
-              <div class="col-12 column">
+              <div class="col-12   col-md-4 column">
                 <mat-form-field appearance="outline" class="example-full-width input-size">
                   <mat-label>Gender (Optional)</mat-label>
                   <mat-select formControlName="gender">
@@ -50,7 +49,7 @@
                 </mat-form-field>
               </div>
 
-              <div class="col-12 column">
+              <div class="col-12  col-md-4 column">
                 <mat-form-field appearance="outline" class="example-full-width input-size">
                   <mat-label>Date of Birth</mat-label>
                   <input matInput [matDatepicker]="picker" formControlName="dob">
@@ -59,67 +58,43 @@
                 </mat-form-field>
               </div>
 
-              <div class="col-12 column">
+              <div class="col-12 col-md-4 column">
                 <mat-form-field appearance="outline" class="example-full-width input-size">
                   <mat-label>Email</mat-label>
                   <input matInput formControlName="email" type="email">
                 </mat-form-field>
               </div>
 
-              <div class="col-12 column">
+              <div class="col-12  col-md-4 column">
                 <mat-form-field appearance="outline" class="example-full-width input-size">
                   <mat-label>Mobile</mat-label>
-                  <input placeholder="+94 123456789" formControlName="mobile" matInput type="tel">
+                  <input placeholder="+94 123456789" formControlName="mobile" matInput type="text">
                 </mat-form-field>
               </div>
-            </div>
-
-            <!--<div class="row">
-              <div class="map-panel">
-                <google-map width="600px" height="400px" [center]="center" [zoom]="zoom" [options]="mapOptions"
-                            (mapClick)="onMapClick($event)">
-                  <map-marker *ngFor="let marker of markers" [position]="marker.position" [label]="marker.title">
-                  </map-marker>
-                </google-map>
-              </div>
-            </div>-->
-
-            <div class="row">
-              <!--<div class="col-12 col-md-6 column">
-                <mat-form-field appearance="outline" class="location-width input-size">
-                  <mat-label>Longitude</mat-label>
-                  <input formControlName="longitude" matInput type="text">
-                </mat-form-field>
-              </div>
-              <div class="col-12 col-md-6 column">
-                <mat-form-field appearance="outline" class="location-width input-size">
-                  <mat-label>Latitude</mat-label>
-                  <input formControlName="latitude" matInput type="text">
-                </mat-form-field>
-              </div>-->
-              <div class="col-12 col-md-6 column">
-                <mat-form-field appearance="outline" class="location-width input-size">
+              <div class="col-12 col-md-4 column">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
                   <mat-label>Country</mat-label>
                   <input formControlName="country" matInput type="text">
                 </mat-form-field>
               </div>
-              <div class="col-12 col-md-6 column">
-                <mat-form-field appearance="outline" class="location-width input-size">
+              <div class="col-12  col-md-4 column">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
                   <mat-label>City</mat-label>
                   <input formControlName="city" matInput type="text">
                 </mat-form-field>
               </div>
               <div class="col-12 column">
-                <mat-form-field appearance="outline" class="location-width input-size">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
                   <mat-label>Address</mat-label>
-                  <textarea formControlName="address" matInput rows="3"></textarea>
+                  <textarea matInput formControlName="address" rows="3"></textarea> <!-- ✅ Add matInput -->
                 </mat-form-field>
               </div>
-            </div>
-            <div class="col-12 data button-outer">
-              <button mat-raised-button class="update-basic-data-button" (click)="updateUser()">
-                Update
-              </button>
+
+              <div class="col-12 button-outer">
+                <button mat-raised-button class="update-basic-data-button" (click)="updateUser()">
+                  Update
+                </button>
+              </div>
             </div>
           </form>
         </div>
@@ -128,61 +103,110 @@
       <mat-tab label="Professional Informations">
         <div class="professional-information">
           <form [formGroup]="professionalInfoForm">
-            <div class="row">
-              <div class="col-12 column">
+            <div class="row form-outer">
+              <div class="col-12 col-md-4 column">
                 <mat-form-field appearance="outline" class="example-full-width input-size">
-                  <mat-label>Trade/Profession</mat-label>
-                  <mat-select formControlName="profession">
-                    <mat-option *ngFor="let profession of professions" [value]="profession.value">
-                      {{ profession.viewValue }}
+                  <mat-label>Title</mat-label>
+                  <input formControlName="title" matInput type="text">
+                </mat-form-field>
+              </div>
+              <div class="col-12 col-md-4 column">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>Price Per Hour(LKR)</mat-label>
+                  <input formControlName="pricePerHour" matInput type="number">
+                </mat-form-field>
+              </div>
+              <div class="col-12 col-md-4 column">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>Category</mat-label>
+                  <mat-select formControlName="category">
+                    <mat-option *ngFor="let category of categories"
+                                [value]="category?.categoryId">{{ category?.categoryTitle }}
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
               </div>
               <div class="col-12 column">
                 <mat-form-field appearance="outline" class="example-full-width input-size">
-                  <mat-label>Years of Experience</mat-label>
-                  <input type="number" matInput formControlName="experience">
+                  <mat-label>Description</mat-label>
+                  <textarea formControlName="description" matInput></textarea>
                 </mat-form-field>
               </div>
-              <div class="col-12 column">
-                <mat-form-field appearance="outline" class="example-full-width input-size">
-                  <mat-label>Skills</mat-label>
-                  <input type="text" matInput formControlName="skills">
-                </mat-form-field>
-              </div>
-              <div class="col-12 column">
-                <mat-form-field appearance="outline" class="example-full-width input-size">
-                  <mat-label>Hourly Rate</mat-label>
-                  <input type="text" matInput formControlName="hourlyRate">
-                </mat-form-field>
-              </div>
-              <div class="col-12 column">
-                <mat-form-field appearance="outline" class="example-full-width input-size">
-                  <mat-label>Fixed Pricing</mat-label>
-                  <input type="text" matInput formControlName="fixedServicePricing">
-                </mat-form-field>
-              </div>
-              <div class="col-12 column">
-                <mat-form-field appearance="outline" class="example-full-width input-size">
-                  <mat-label>Available Days</mat-label>
-                  <mat-select formControlName="availableDays" multiple>
-                    <mat-option *ngFor="let day of daysOfWeek" [value]="day.value">{{ day.viewValue }}</mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-              <div class="col-12 column">
-                <mat-form-field appearance="outline" class="example-full-width input-size">
-                  <mat-label>Available Slots</mat-label>
-                  <input type="text" matInput formControlName="availabilitySlots" placeholder="e.g. 10:00:00,15:00:00">
-                </mat-form-field>
+
+              <div class="col-12 button-outer">
+                <button mat-raised-button class="update-basic-data-button" (click)="createJobListing()">
+                  Create
+                </button>
               </div>
             </div>
           </form>
         </div>
-      </mat-tab>
 
-      <!--<mat-tab label="Portfolio">
+
+      </mat-tab>
+      <mat-tab label="My job Listings">
+        <div class="playlist-outer">
+          <div class="playlist" *ngFor="let listing of myListings;">
+            <div class="left-image">
+              <img
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6c4RsbjczWWLXCSIE4DcQRNb10PVGJxrLMw&usqp=CAU"
+                alt="playlist-image">
+            </div>
+            <div class="right-content">
+              <div class="title-with-icon">
+                <p class="playlist-title">{{ listing?.title }}</p>
+                <div class="actions">
+                  <button mat-icon-button color="primary" (click)="editListing(listing)">
+                    <mat-icon style="color: #0a66c2">edit</mat-icon>
+                  </button>
+                  <button mat-icon-button color="warn" (click)="deleteListing(listing.jobListingsId)">
+                    <mat-icon style="color:red;">delete</mat-icon>
+                  </button>
+                </div>
+              </div>
+
+              <p class="last-update">Category:{{ listing?.category }}</p>
+              <p class="last-update">Price Per Hour:Rs. {{ listing?.pricePerHour }}</p>
+              <p class="last-update">Completed Jobs:{{ listing?.completedJobs }}</p>
+              <p class="last-update">Ongoing Jobs:{{ listing?.onGoingJobs }}</p>
+              <p class="last-update">Rating:{{ listing?.rating }}</p>
+              <p class="last-update">Description:{{ listing?.description }}</p>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>
+
+
+<!--            </div>-->
+
+<!--<div class="row">
+  <div class="map-panel">
+    <google-map width="600px" height="400px" [center]="center" [zoom]="zoom" [options]="mapOptions"
+                (mapClick)="onMapClick($event)">
+      <map-marker *ngFor="let marker of markers" [position]="marker.position" [label]="marker.title">
+      </map-marker>
+    </google-map>
+  </div>
+</div>-->
+
+<!--            <div class="row">-->
+<!--<div class="col-12  col-md-4 column">
+  <mat-form-field appearance="outline" class="example-full-width input-size">
+    <mat-label>Longitude</mat-label>
+    <input formControlName="longitude" matInput type="text">
+  </mat-form-field>
+</div>
+<div class="col-12  col-md-4 column">
+  <mat-form-field appearance="outline" class="example-full-width input-size">
+    <mat-label>Latitude</mat-label>
+    <input formControlName="latitude" matInput type="text">
+  </mat-form-field>
+</div>-->
+
+<!--<mat-tab label="Portfolio">
         <div class="portfolio">
           <form [formGroup]="portfolioForm">
             <div class="row">
@@ -305,6 +329,3 @@
           </form>
         </div>
       </mat-tab>-->
-    </mat-tab-group>
-  </div>
-</div>

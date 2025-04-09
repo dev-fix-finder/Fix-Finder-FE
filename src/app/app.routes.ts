@@ -47,6 +47,7 @@ export const routes: Routes = [
           {path: 'my-schedule', component: MyScheduleComponent},
           {path: 'hire-trades-person', component: HireTradesmenComponent},
           {path: 'my-jobs', component: MyJobsComponent},
+          {path: 'my-profile', component: ProfileContextComponent},
           {path: 'messages', component: MessagesComponent},
           {path: 'trades-person-verify', component: AdminTradesPersonVerifyComponent},
           {path: 'trades-person/profile', component: ProfileCardComponent},

@@ -1,18 +1,15 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component} from '@angular/core';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {FormControl, FormGroup, FormGroupDirective, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
 import {ToastrService} from 'ngx-toastr';
-import {CookieManagerService} from '../../share/services/cookie-manager/cookie-manager.service';
 import {Router} from '@angular/router';
-import {MatButton, MatButtonModule} from '@angular/material/button';
-import {MatOption, MatSelect, MatSelectModule} from '@angular/material/select';
-import {NgForOf} from '@angular/common';
-import {GoogleMap, GoogleMapsModule, MapInfoWindow, MapMarker} from '@angular/google-maps';
+import {MatButtonModule} from '@angular/material/button';
+import {MatSelectModule} from '@angular/material/select';
+import {GoogleMapsModule} from '@angular/google-maps';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {TradespersonService} from '../../share/services/tradesperson/tradesperson.service';
-import {parseJson} from '@angular/cli/src/utilities/json-file';
 
 @Component({
   selector: 'app-user-register',
@@ -22,9 +19,6 @@ import {parseJson} from '@angular/cli/src/utilities/json-file';
     MatInputModule,
     MatButtonModule,
     MatSelectModule,
-    NgForOf,
-    GoogleMap,
-    MapMarker,
     GoogleMapsModule,
     MatCheckboxModule,
     MatDatepickerModule,
@@ -125,7 +119,7 @@ export class UserRegisterComponent {
   constructor(
     private toastr: ToastrService,
     private router: Router,
-    private tradesPersonService:TradespersonService
+    private tradesPersonService: TradespersonService
   ) {
     this.markers = [
       {
@@ -176,13 +170,15 @@ export class UserRegisterComponent {
     let userData = JSON.parse(sessionStorage.getItem('personalData'));
     // console.log(userData)
 
-    this.tradesPersonService.saveTradePerson(formData,userData?.userId).subscribe(response => {
-      if (response.status === 201) {
-        this.toastr.success('Successfully created account','Success!');
-        this.router.navigateByUrl('/console/verification').then();
+    this.tradesPersonService.saveTradePerson(formData, userData?.userId).subscribe(response => {
+      if (response.code === 201) {
+        this.toastr.success('Successfully created account', 'Success!');
+        sessionStorage.clear();
+        this.router.navigateByUrl('/security/login').then();
+      } else {
+        this.toastr.error(response.message, 'Error!');
       }
     })
-
 
   }
 

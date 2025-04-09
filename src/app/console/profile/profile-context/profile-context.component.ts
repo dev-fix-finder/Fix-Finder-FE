@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MatIconModule} from '@angular/material/icon';
 import {CommonModule} from '@angular/common';
 import {MatMenuModule} from '@angular/material/menu';
@@ -8,11 +8,13 @@ import {MatInputModule} from '@angular/material/input';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatSelectModule} from '@angular/material/select';
-import {GoogleMapsModule} from '@angular/google-maps';
 import {ToastrService} from 'ngx-toastr';
 import {Router} from '@angular/router';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatButtonModule} from '@angular/material/button';
+import {TradespersonService} from '../../../share/services/tradesperson/tradesperson.service';
+import {CategoryService} from '../../../share/services/category/category.service';
+import {JobListingService} from '../../../share/services/job-listing/job-listing.service';
 
 @Component({
   selector: 'app-profile-context',
@@ -26,15 +28,15 @@ import {MatButtonModule} from '@angular/material/button';
     ReactiveFormsModule,
     MatDatepickerModule,
     MatSelectModule,
-    GoogleMapsModule,
     MatCheckboxModule,
     MatButtonModule,
+
   ],
   templateUrl: './profile-context.component.html',
   standalone: true,
   styleUrl: './profile-context.component.scss'
 })
-export class ProfileContextComponent {
+export class ProfileContextComponent implements OnInit {
 
   center: google.maps.LatLngLiteral = {lat: 6.9341, lng: 79.84997}; // Default center
   zoom = 12;
@@ -52,15 +54,10 @@ export class ProfileContextComponent {
     streetViewControl: false,
   };
 
-  professions = [
-    {value: 'carpenter', viewValue: 'Carpenter'},
-    {value: 'plumber', viewValue: 'Plumber'},
-    {value: 'gardener', viewValue: 'Gardener'},
-    {value: 'electrician', viewValue: 'Electrician'},
-    {value: 'painter', viewValue: 'Painter'},
-    {value: 'mason', viewValue: 'Mason'},
-    {value: 'mechanic', viewValue: 'Mechanic'}
-  ];
+  userData: any;
+  tradesPersonData: any;
+
+  categories: any[] = [];
 
   daysOfWeek = [
     {value: 'monday', viewValue: 'Monday'},
@@ -73,31 +70,26 @@ export class ProfileContextComponent {
   ];
 
   personalInfoForm = new FormGroup({
-    nic: new FormControl('', [Validators.required]),
+    userId: new FormControl({value: '', disabled: true}),
     name: new FormControl(''),
+    nic: new FormControl(null, [Validators.required]),
     gender: new FormControl(null),
     dob: new FormControl(null),
     email: new FormControl({value: '', disabled: true}, [Validators.email]),
-    userId: new FormControl({value: '', disabled: true}),
-    longitude: new FormControl({value: this.center?.lng, disabled: true}, [Validators.required]),
-    latitude: new FormControl({value: this.center?.lat, disabled: true}, [Validators.required]),
+    mobile: new FormControl('', [Validators.required]),
     country: new FormControl('', [Validators.required]),
     city: new FormControl('', [Validators.required]),
-    address: new FormControl('', [Validators.required]),
-    mobile: new FormControl('', [Validators.required])
+    address: new FormControl('', [Validators.required])
   });
 
   professionalInfoForm = new FormGroup({
-    profession: new FormControl('', [Validators.required]),
-    experience: new FormControl(null, [Validators.required]),
-    skills: new FormControl(''),
-    hourlyRate: new FormControl('', [Validators.required]),
-    fixedServicePricing: new FormControl(''),
-    availableDays: new FormControl([], [Validators.required]),
-    availabilitySlots: new FormControl('')
+    title: new FormControl('', [Validators.required]),
+    pricePerHour: new FormControl('', [Validators.required]),
+    category: new FormControl('', [Validators.required]),
+    description: new FormControl('', [Validators.required])
   });
 
-  portfolioForm = new FormGroup({
+  /*portfolioForm = new FormGroup({
     workSamples: new FormControl(''),
     testimonials: new FormControl(''),
     websiteLink: new FormControl(''),
@@ -122,22 +114,12 @@ export class ProfileContextComponent {
     backgroundCheckConsent: new FormControl(false),
     governmentIdProof: new FormControl(''),
     professionalCertification: new FormControl('')
-  });
+  });*/
 
-  constructor(
-    private toastr: ToastrService,
-    private router: Router
-  ) {
-    this.markers = [
-      {
-        position: {lat: this.center.lat, lng: this.center.lng},
-        title: 'Selected Location',
-      },
-    ];
-  }
+  myListings: any[] = [];
 
 
-  onMapClick(event: google.maps.MapMouseEvent) {
+  /*onMapClick(event: google.maps.MapMouseEvent) {
     if (event.latLng) {
       this.latitude = event.latLng.lat();
       this.longitude = event.latLng.lng();
@@ -157,9 +139,106 @@ export class ProfileContextComponent {
         longitude: this.longitude
       })
     }
+  }*/
+
+  constructor(
+    private toastr: ToastrService,
+    private router: Router,
+    private tradespersonService: TradespersonService,
+    private categoryService: CategoryService,
+    private jobListingService: JobListingService,
+  ) {
+    /*  this.markers = [
+        {
+          position: {lat: this.center.lat, lng: this.center.lng},
+          title: 'Selected Location',
+        },
+      ];*/
   }
 
   updateUser() {
 
+  }
+
+  ngOnInit(): void {
+    // @ts-ignore
+    this.userData = JSON.parse(sessionStorage.getItem('personalData'));
+    this.loadTradesPersonByUserId();
+    this.loadAllCategories();
+  }
+
+  loadAllCategories() {
+    this.categoryService.getAllCategories().subscribe(response => {
+      if (response.code === 200) {
+        this.categories = response.data;
+        console.log(this.categories)
+      } else {
+        this.toastr.error(response.message, 'Error!');
+      }
+    })
+  }
+
+  loadTradesPersonByUserId() {
+    this.tradespersonService.getTradesPersonByUserId(this.userData?.userId).subscribe(response => {
+      if (response.code === 200) {
+        this.tradesPersonData = response.data;
+        this.personalInfoForm.patchValue({
+          userId: this.userData?.userId,
+          name: this.userData.firstName + ' ' + this.userData.lastName,
+          nic: response.nic,
+          gender: response.gender,
+          dob: response.dob,
+          email: response.email,
+          mobile: response.mobile,
+          country: response.country,
+          city: response.city,
+          address: response.address,
+        });
+        this.loadListingsByTradesPersonId();
+      } else {
+        this.toastr.error(response.message, 'Error!');
+      }
+    })
+  }
+
+  loadListingsByTradesPersonId() {
+    console.log(this.tradesPersonData?.tradePersonId)
+    this.jobListingService.getJobListingsByTradePersonId(this.tradesPersonData?.tradePersonId).subscribe(response => {
+      if (response.code === 200) {
+        this.myListings = response.data;
+        console.log(this.myListings)
+      } else {
+        this.toastr.error(response.message, 'Error!');
+      }
+    })
+  }
+
+
+  createJobListing() {
+    let data = {
+      "categoryId": this.professionalInfoForm.get("category")?.value,
+      "description": this.professionalInfoForm.get("description")?.value,
+      "pricePerHour": this.professionalInfoForm.get("pricePerHour")?.value,
+      "title": this.professionalInfoForm.get("title")?.value
+    }
+
+    this.jobListingService.createJobListing(data, this.userData.userId).subscribe(response => {
+      if (response.code === 200) {
+        this.toastr.success(response.message, 'Success!');
+        this.professionalInfoForm.reset();
+      } else {
+        this.toastr.error(response.message, 'Error!');
+      }
+    })
+  }
+
+  editListing(listing: any): void {
+    // Add your logic to open edit dialog or navigate
+    console.log('Edit listing:', listing);
+  }
+
+  deleteListing(id: number): void {
+    // Add your delete logic here
+    console.log('Delete listing with ID:', id);
   }
 }

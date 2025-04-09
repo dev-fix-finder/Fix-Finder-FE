@@ -18,11 +18,11 @@ export class TradespersonService {
     return this.http.post(this.baseUrl + 'tradePerson/save?userId=' + userId, tradesPerson)
   }
 
-  getTradesPersonData(userId: any) {
-    return this.http.get<any>(this.baseUrl + 'tradePerson/get-by-user-id?userId=' + userId);
-  }
-
   verifyTradesPersonState() {
 
+  }
+
+  getTradesPersonByUserId(userId: any) {
+    return this.http.get<any>(this.baseUrl + 'tradePerson/get-by-user-id?userId=' + userId);
   }
 }
