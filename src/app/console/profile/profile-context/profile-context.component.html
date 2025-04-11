@@ -7,7 +7,7 @@
           alt="profile pic">
       </div>
       <div class="name">Kavindu Hashintha</div>
-      <div class="verified-state">verified</div>
+      <!--      <div class="verified-state">verified</div>-->
       <div class="un-verified-state">unverified</div>
     </div>
   </div>
@@ -28,6 +28,13 @@
                 <mat-form-field appearance="outline" class="example-full-width input-size">
                   <mat-label>Name</mat-label>
                   <input formControlName="name" matInput type="text">
+                </mat-form-field>
+              </div>
+
+              <div class="col-12 col-md-4 column">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>Email</mat-label>
+                  <input matInput formControlName="email" type="text">
                 </mat-form-field>
               </div>
 
@@ -58,12 +65,6 @@
                 </mat-form-field>
               </div>
 
-              <div class="col-12 col-md-4 column">
-                <mat-form-field appearance="outline" class="example-full-width input-size">
-                  <mat-label>Email</mat-label>
-                  <input matInput formControlName="email" type="email">
-                </mat-form-field>
-              </div>
 
               <div class="col-12  col-md-4 column">
                 <mat-form-field appearance="outline" class="example-full-width input-size">
@@ -144,33 +145,61 @@
 
 
       </mat-tab>
-      <mat-tab label="My job Listings">
+      <mat-tab label="My job Listings" (selectionchange)="loadListingsByTradesPersonId()">
         <div class="playlist-outer">
-          <div class="playlist" *ngFor="let listing of myListings;">
-            <div class="left-image">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6c4RsbjczWWLXCSIE4DcQRNb10PVGJxrLMw&usqp=CAU"
-                alt="playlist-image">
+          <div class="playlist" *ngFor="let listing of myListings">
+            <div class="image-and-actions">
+              <div class="left-image">
+                <img
+                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6c4RsbjczWWLXCSIE4DcQRNb10PVGJxrLMw&usqp=CAU"
+                  alt="playlist-image">
+              </div>
+              <div class="actions">
+                <button mat-icon-button (click)="editListing(listing)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="warn" (click)="deleteListing(listing.jobListingsId)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
             </div>
+
             <div class="right-content">
-              <div class="title-with-icon">
-                <p class="playlist-title">{{ listing?.title }}</p>
-                <div class="actions">
-                  <button mat-icon-button color="primary" (click)="editListing(listing)">
-                    <mat-icon style="color: #0a66c2">edit</mat-icon>
-                  </button>
-                  <button mat-icon-button color="warn" (click)="deleteListing(listing.jobListingsId)">
-                    <mat-icon style="color:red;">delete</mat-icon>
-                  </button>
-                </div>
+              <p class="playlist-title">{{ listing?.title }}</p>
+
+              <div class="info-row">
+                <span class="label">Category:</span>
+                <span>{{ listing?.category }}</span>
               </div>
 
-              <p class="last-update">Category:{{ listing?.category }}</p>
-              <p class="last-update">Price Per Hour:Rs. {{ listing?.pricePerHour }}</p>
-              <p class="last-update">Completed Jobs:{{ listing?.completedJobs }}</p>
-              <p class="last-update">Ongoing Jobs:{{ listing?.onGoingJobs }}</p>
-              <p class="last-update">Rating:{{ listing?.rating }}</p>
-              <p class="last-update">Description:{{ listing?.description }}</p>
+              <div class="info-row">
+                <span class="label">Price Per Hour:</span>
+                <span>Rs. {{ listing?.pricePerHour }}</span>
+              </div>
+
+              <div class="info-row">
+                <span class="label">Completed Jobs:</span>
+                <span>{{ listing?.completedJobs }}</span>
+              </div>
+
+              <div class="info-row">
+                <span class="label">Ongoing Jobs:</span>
+                <span>{{ listing?.onGoingJobs }}</span>
+              </div>
+
+              <div class="info-row">
+                <span class="label">Rating:</span>
+                <span class="stars">
+          <ng-container *ngFor="let star of [1,2,3,4,5]">
+            <mat-icon [ngClass]="star <= listing.rating ? 'filled' : 'empty'">star</mat-icon>
+          </ng-container>
+        </span>
+              </div>
+
+              <div class="info-row">
+                <span class="label">Description:</span>
+                <span>{{ listing?.description }}</span>
+              </div>
             </div>
           </div>
         </div>

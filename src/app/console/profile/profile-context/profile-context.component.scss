@@ -22,7 +22,7 @@
   width: 120px;
   height: 120px;
   border-radius: 50%;
-  margin-top: 100px;
+  margin-top: 50px;
   overflow: hidden;
 
   img {
@@ -142,65 +142,86 @@
 .playlist-outer {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-column-gap: 10px;
-  grid-row-gap: 10px;
+  grid-gap: 15px;
 }
 
 .playlist {
-  min-width: 420px;
-  min-height: 110px;
-  padding: 10px;
-  border-radius: 8px;
   background: rgba(217, 217, 217, 0.5);
+  border-radius: 8px;
+  padding: 10px;
   display: flex;
-  gap: 10px;
+  flex-direction: column;
+  position: relative;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.image-and-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
 }
 
 .left-image {
-  max-width: 140px;
-  height: 110px;
-  border-radius: 3px;
+  max-width: 120px;
+  height: 100px;
+  border-radius: 5px;
+  overflow: hidden;
 
   img {
     width: 100%;
     height: 100%;
-    border-radius: 3px;
     object-fit: cover;
   }
 }
 
-.right-content {
-  flex: 1;
-  padding-left: 5px;
+.actions {
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  gap: 5px;
 }
 
-.title-with-icon {
+.actions button mat-icon {
+  color: #0a66c2;
+}
+
+.actions button[color="warn"] mat-icon {
+  color: red;
+}
+
+.right-content {
+  margin-top: 10px;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  .actions {
-    display: flex;
-    gap: 4px;
-
-    mat-icon {
-      font-size: 20px;
-    }
-  }
+  flex-direction: column;
+  gap: 5px;
 }
 
 .playlist-title {
-  margin: 0;
-  color: #000;
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 600;
+  color: #000;
+  margin: 0 0 8px;
 }
 
-.last-update {
-  margin: 2px 0;
-  color: rgba(0, 0, 0, 0.8);
-  font-size: 13px;
+.info-row {
+  display: flex;
+  gap: 6px;
+  font-size: 14px;
+
+  .label {
+    font-weight: 500;
+    color: #333;
+  }
+
+  .stars {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+
+    .filled {
+      color: #f5c518;
+    }
+
+    .empty {
+      color: #d3d3d3;
+    }
+  }
 }

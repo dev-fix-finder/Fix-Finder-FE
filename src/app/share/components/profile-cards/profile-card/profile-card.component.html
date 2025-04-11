@@ -1,15 +1,16 @@
 <div class="gig-wrapper">
   <div class="gig-left">
     <h2 class="gig-title">
-      I will fix, repair, or install your home essentials — plumbing, electrical, carpentry & more!
+      {{ listingDetails?.title }}
     </h2>
     <div class="seller-info">
-      <span class="seller-name">John the Handyman</span>
+      <span class="seller-name">{{ listingDetails?.tradePersonDTO.tradePersonName }}</span>
       <span class="badge choice">Fix Finder’s Choice</span>
-      <span class="badge top-rated">Top Rated Pro</span>
-      <span class="rating">4.9 ★ (2445 service reviews)</span>
+      <span class="badge top-rated">Verified</span>
+      <span class="rating">{{ listingDetails?.rating }} ★ ({{ listingDetails?.completedJobs }} service reviews)</span>
     </div>
-    <p class="repeat-note">Customers keep coming back — John has an outstanding track record of trusted home services.</p>
+    <p class="repeat-note">Customers keep coming back — {{listingDetails?.tradePersonDTO?.user?.firstName}} has an outstanding track record of trusted home
+      services.</p>
     <div class="gig-preview">
       <img
         src="https://skilled.peopleready.com/wp-content/uploads/sites/2/2021/02/683433PeopleReady-Skilled-Trades-Blog-Image-02-1-1-1-1000x460.jpg"
@@ -18,7 +19,8 @@
     <div class="review-box">
       <strong>What customers loved about this pro</strong>
       <p class="review">
-        "If I could give 10 stars, I would! John repaired my leaking bathroom and even fixed a few extra things without charging more. Quick, clean, and friendly!"
+        "If I could give 10 stars, I would! John repaired my leaking bathroom and even fixed a few extra things without
+        charging more. Quick, clean, and friendly!"
       </p>
     </div>
   </div>
@@ -38,7 +40,7 @@
         <li> {{ package.revisions }} free touch-ups</li>
         <li *ngFor="let feature of package.features">{{ feature }}</li>
       </ul>
-      <button class="btn primary">Book Now</button>
+      <button mat-raised-button class="btn primary" (click)="bookTradesPerson()">Book Now</button>
       <button class="btn secondary">Message Pro</button>
     </div>
   </div>

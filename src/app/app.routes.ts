@@ -22,6 +22,7 @@ import {ProfileCardComponent} from './share/components/profile-cards/profile-car
 import {
   AdminTradesPersonVerifyComponent
 } from './console/admin-trades-person-verify/admin-trades-person-verify.component';
+import {JobDescriptionComponent} from './console/my-jobs/job-description/job-description.component';
 
 export const routes: Routes = [
   {path: '', redirectTo: 'process/home', pathMatch: 'full'},
@@ -50,7 +51,8 @@ export const routes: Routes = [
           {path: 'my-profile', component: ProfileContextComponent},
           {path: 'messages', component: MessagesComponent},
           {path: 'trades-person-verify', component: AdminTradesPersonVerifyComponent},
-          {path: 'trades-person/profile', component: ProfileCardComponent},
+          {path: 'trades-person/profile/:jobListingId', component: ProfileCardComponent},
+          {path: 'JobDescriptionComponent', component: JobDescriptionComponent},
         ]
       },
     ]

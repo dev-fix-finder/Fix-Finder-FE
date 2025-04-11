@@ -1,0 +1,46 @@
+<div class="job-details-card">
+  <h2>Job Details</h2>
+  <div class="job-info-grid">
+    <div><strong>Title:</strong> Fix kitchen plumbing</div>
+    <div><strong>Client:</strong> John Doe</div>
+    <div><strong>Price:</strong> Rs. 8,000</div>
+    <div><strong>Requested Date:</strong> Apr 12, 2025</div>
+    <div><strong>Address:</strong> 123, Main Street, Colombo</div>
+  </div>
+</div>
+
+<div class="status-tracker">
+  <div class="step" *ngFor="let step of steps; let i = index" [class.active]="i <= currentStep">
+    <div class="circle">{{ i + 1 }}</div>
+    <div class="label">{{ step }}</div>
+  </div>
+</div>
+
+<div class="status-controls">
+  <button mat-raised-button color="primary" (click)="nextStep()" [disabled]="currentStep >= steps.length - 1">
+    Next Status
+  </button>
+</div>
+
+
+<div class="status-log-card">
+  <h3>Status Log</h3>
+  <table>
+    <thead>
+    <tr>
+      <th>Date & Time</th>
+      <th>Updated By</th>
+      <th>Status</th>
+      <th>Remarks</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let log of statusLogs">
+      <td>{{ log.date | date: 'short' }}</td>
+      <td>{{ log.updatedBy }}</td>
+      <td>{{ log.status }}</td>
+      <td>{{ log.note }}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>

@@ -22,4 +22,12 @@ export class JobListingService {
   getJobListingsByTradePersonId(tradePersonId: any): Observable<any> {
     return this.http.get(this.baseUrl + 'job-listing/get-by-trade-person-id?tradePersonId=' + tradePersonId);
   }
+
+  getAllJobsByFilter(category: any): Observable<any> {
+    return this.http.get(this.baseUrl + 'job-listing/get-all/' + category + '/A');
+  }
+
+  getJobListingsByJobListingId(jobListingId: any): Observable<any> {
+    return this.http.get(this.baseUrl + 'job-listing/get-by-id?listingId=' + jobListingId );
+  }
 }

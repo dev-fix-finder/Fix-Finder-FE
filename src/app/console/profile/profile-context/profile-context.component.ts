@@ -71,15 +71,15 @@ export class ProfileContextComponent implements OnInit {
 
   personalInfoForm = new FormGroup({
     userId: new FormControl({value: '', disabled: true}),
-    name: new FormControl(''),
+    name: new FormControl('', [Validators.required]),
     nic: new FormControl(null, [Validators.required]),
     gender: new FormControl(null),
-    dob: new FormControl(null),
+    dob: new FormControl(null, [Validators.required]),
     email: new FormControl({value: '', disabled: true}, [Validators.email]),
     mobile: new FormControl('', [Validators.required]),
     country: new FormControl('', [Validators.required]),
     city: new FormControl('', [Validators.required]),
-    address: new FormControl('', [Validators.required])
+    address: new FormControl('')
   });
 
   professionalInfoForm = new FormGroup({
@@ -185,14 +185,14 @@ export class ProfileContextComponent implements OnInit {
         this.personalInfoForm.patchValue({
           userId: this.userData?.userId,
           name: this.userData.firstName + ' ' + this.userData.lastName,
-          nic: response.nic,
-          gender: response.gender,
-          dob: response.dob,
-          email: response.email,
-          mobile: response.mobile,
-          country: response.country,
-          city: response.city,
-          address: response.address,
+          nic: this.tradesPersonData.nic,
+          gender: this.tradesPersonData.gender,
+          dob: this.tradesPersonData.dob,
+          email: this.tradesPersonData.email,
+          mobile: this.tradesPersonData.mobile,
+          country: this.tradesPersonData.country,
+          city: this.tradesPersonData.city,
+          address: this.tradesPersonData.address,
         });
         this.loadListingsByTradesPersonId();
       } else {
@@ -202,11 +202,9 @@ export class ProfileContextComponent implements OnInit {
   }
 
   loadListingsByTradesPersonId() {
-    console.log(this.tradesPersonData?.tradePersonId)
     this.jobListingService.getJobListingsByTradePersonId(this.tradesPersonData?.tradePersonId).subscribe(response => {
       if (response.code === 200) {
         this.myListings = response.data;
-        console.log(this.myListings)
       } else {
         this.toastr.error(response.message, 'Error!');
       }
@@ -240,5 +238,9 @@ export class ProfileContextComponent implements OnInit {
   deleteListing(id: number): void {
     // Add your delete logic here
     console.log('Delete listing with ID:', id);
+  }
+
+  getStars(rating: number): number[] {
+    return Array(Math.floor(rating)).fill(0).map((_, i) => i + 1);
   }
 }

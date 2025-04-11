@@ -5,10 +5,10 @@
         <div class="col-6 col-md-2 column">
           <mat-form-field appearance="outline" class="example-full-width input-size">
             <mat-label>Trade Category</mat-label>
-            <mat-select formControlName="category">
-              <mat-option value="electrician">Electrician</mat-option>
-              <mat-option value="plumber">Plumber</mat-option>
-              <mat-option value="carpenter">Carpenter</mat-option>
+            <mat-select formControlName="category" (selectionChange)="loadAllListings()">
+              <mat-option *ngFor="let category of categories"
+                          [value]="category?.categoryTitle">{{ category?.categoryTitle }}
+              </mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -29,24 +29,27 @@
   </div>
 
   <div class="noticeboard">
-    <div class="notice-card" *ngFor="let tradesperson of tradespeople">
+    <div class="notice-card" *ngFor="let tradePerson of tradespeople">
       <div class="img">
-        <img [src]="tradesperson.coverImage" alt="service-image">
+        <img [src]="tradePerson.coverImage" alt="service-image">
       </div>
       <div class="profile-outer">
         <div class="profile-picture">
-          <img [src]="tradesperson.profileImage" alt="profile">
+          <img [src]="tradePerson.profileImage" alt="profile">
         </div>
         <div class="name-project-outer">
-          <p class="name">{{ tradesperson.name }}</p>
-          <p class="projects">({{ tradesperson.ongoingProjects }} ongoing projects)</p>
+          <p class="name">{{ tradePerson.tradePersonName }}</p>
+          <p class="projects">({{ tradePerson.onGoingJobs }} ongoing projects)<br>({{ tradePerson.completedJobs }}
+            Completed projects)</p>
         </div>
       </div>
       <div class="text">
-        <p class="title">{{ tradesperson.title | slice:0:80 }}...</p>
-        <p class="rating">★ <span>{{ tradesperson.rating }}</span></p>
+        <p class="title">{{ tradePerson?.title | slice:0:80 }}...</p>
+        <p class="rating">★ <span>{{ tradePerson.rating }}</span></p>
         <div class="card-button-outer">
-          <button mat-raised-button class="read-more" routerLink="console/playground/trades-person/profile">View Profile</button>
+          <button mat-raised-button class="read-more" (click)="routeToTradesPersonDetails(tradePerson)">View
+            Profile
+          </button>
         </div>
       </div>
     </div>
