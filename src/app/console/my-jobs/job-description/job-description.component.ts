@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {MatButtonModule} from '@angular/material/button';
 
@@ -12,18 +12,35 @@ import {MatButtonModule} from '@angular/material/button';
   standalone: true,
   styleUrl: './job-description.component.scss'
 })
-export class JobDescriptionComponent {
-  steps = ['Requested', 'Accepted', 'Ongoing', 'Completed'];
+export class JobDescriptionComponent implements OnInit {
+  allSteps = ['Requested', 'Accepted', 'Ongoing', 'Completed']; // Normal flow
+  steps = [...this.allSteps]; // Copy of normal steps
   currentStep = 0;
+  statusLogs = [
+    {date: new Date(), updatedBy: 'Admin', status: 'Requested', note: 'Initial request submitted'},
+  ];
+
+  ngOnInit(): void {
+    //load job details by jobId
+  }
 
   nextStep() {
     if (this.currentStep < this.steps.length - 1) {
       this.currentStep++;
     }
   }
-  statusLogs = [
-    { date: new Date(), updatedBy: 'Admin', status: 'Requested', note: 'Initial request submitted' },
-    { date: new Date(), updatedBy: 'Manager', status: 'Assigned', note: 'Assigned to technician' },
-    { date: new Date(), updatedBy: 'Technician', status: 'In Progress', note: 'Started the job' },
-  ];
+
+  rejectJob() {
+    if (this.currentStep === 0) { // Only allow rejection at Requested
+      this.steps = ['Requested', 'Rejected']; // Now only two steps
+      this.currentStep = 1; // Move directly to Rejected
+
+      this.statusLogs.push({
+        date: new Date(),
+        updatedBy: 'Tradesperson',
+        status: 'Rejected',
+        note: 'Job rejected by tradesperson'
+      });
+    }
+  }
 }

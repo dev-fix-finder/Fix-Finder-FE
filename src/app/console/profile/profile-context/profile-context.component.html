@@ -7,8 +7,8 @@
           alt="profile pic">
       </div>
       <div class="name">Kavindu Hashintha</div>
-      <!--      <div class="verified-state">verified</div>-->
-      <div class="un-verified-state">unverified</div>
+      <div *ngIf="tradesPersonData.isVerified" class="verified-state">verified</div>
+      <div *ngIf="!tradesPersonData.isVerified" class="un-verified-state">unverified</div>
     </div>
   </div>
   <div class="profile-details">
@@ -87,12 +87,12 @@
               <div class="col-12 column">
                 <mat-form-field appearance="outline" class="example-full-width input-size">
                   <mat-label>Address</mat-label>
-                  <textarea matInput formControlName="address" rows="3"></textarea> <!-- ✅ Add matInput -->
+                  <textarea matInput formControlName="address" rows="3"></textarea>
                 </mat-form-field>
               </div>
 
               <div class="col-12 button-outer">
-                <button mat-raised-button class="update-basic-data-button" (click)="updateUser()">
+                <button mat-raised-button class="update-basic-data-button" (click)="updateUserData()">
                   Update
                 </button>
               </div>

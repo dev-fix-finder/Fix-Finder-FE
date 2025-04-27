@@ -145,6 +145,7 @@ export class ProfileContextComponent implements OnInit {
     private toastr: ToastrService,
     private router: Router,
     private tradespersonService: TradespersonService,
+    private userService: UserService,
     private categoryService: CategoryService,
     private jobListingService: JobListingService,
   ) {
@@ -156,13 +157,47 @@ export class ProfileContextComponent implements OnInit {
       ];*/
   }
 
-  updateUser() {
+  updateUserData() {
+    if (this.personalInfoForm.valid) {
+      const formValues = this.personalInfoForm.value;
+
+      const userData = {
+        tradePersonName: formValues.name || '',
+        nic: formValues.nic || '',
+        mobile: formValues.mobile || '',
+        address: formValues.address || '',
+        gender: formValues.gender || '',
+        email: formValues.email || '',
+        dob: formValues.dob ? this.formatDate(formValues.dob) : '',
+        country: formValues.country || '',
+        city: formValues.city || '',
+        isVerified: true,
+        longitude: 0,
+        latitude: 0,
+        distance: 0,
+      };
+
+      console.log(userData);
+      this.tradespersonService.updateTradePerson(userData, this.tradesPersonData?.tradePersonId).subscribe(response => {
+        if (response.code === 203) {
+          this.toastr.success(response.message, 'Success!');
+          this.tradesPersonData= response.data;
+          this.setValuesToForm();
+          this.toastr.success(response.message, 'Success!');
+        } else {
+          this.toastr.error(response.message, 'Error!');
+        }
+      })
+    } else {
+      this.toastr.error('Please fill all required fields', 'Error!');
+    }
 
   }
 
   ngOnInit(): void {
     // @ts-ignore
     this.userData = JSON.parse(sessionStorage.getItem('personalData'));
+    this.loadUserProfilePictureByUserId();
     this.loadTradesPersonByUserId();
     this.loadAllCategories();
   }
@@ -178,27 +213,41 @@ export class ProfileContextComponent implements OnInit {
     })
   }
 
-  loadTradesPersonByUserId() {
-    this.tradespersonService.getTradesPersonByUserId(this.userData?.userId).subscribe(response => {
+  loadUserProfilePictureByUserId() {
+    this.userService.(this.userData?.userId).subscribe(response => {
       if (response.code === 200) {
         this.tradesPersonData = response.data;
-        this.personalInfoForm.patchValue({
-          userId: this.userData?.userId,
-          name: this.userData.firstName + ' ' + this.userData.lastName,
-          nic: this.tradesPersonData.nic,
-          gender: this.tradesPersonData.gender,
-          dob: this.tradesPersonData.dob,
-          email: this.tradesPersonData.email,
-          mobile: this.tradesPersonData.mobile,
-          country: this.tradesPersonData.country,
-          city: this.tradesPersonData.city,
-          address: this.tradesPersonData.address,
-        });
+        this.setValuesToForm();
         this.loadListingsByTradesPersonId();
       } else {
         this.toastr.error(response.message, 'Error!');
       }
     })
+  }
+  loadTradesPersonByUserId() {
+    this.tradespersonService.getTradesPersonByUserId(this.userData?.userId).subscribe(response => {
+      if (response.code === 200) {
+        this.tradesPersonData = response.data;
+        this.setValuesToForm();
+        this.loadListingsByTradesPersonId();
+      } else {
+        this.toastr.error(response.message, 'Error!');
+      }
+    })
+  }
+  setValuesToForm() {
+    this.personalInfoForm.patchValue({
+      userId: this.tradesPersonData?.userId,
+      name: this.tradesPersonData?.tradePersonName,
+      nic: this.tradesPersonData?.nic,
+      gender: this.tradesPersonData?.gender,
+      dob: this.tradesPersonData?.dob,
+      email: this.tradesPersonData?.email,
+      mobile: this.tradesPersonData?.mobile,
+      country: this.tradesPersonData?.country,
+      city: this.tradesPersonData?.city,
+      address: this.tradesPersonData.address,
+    });
   }
 
   loadListingsByTradesPersonId() {
@@ -242,5 +291,15 @@ export class ProfileContextComponent implements OnInit {
 
   getStars(rating: number): number[] {
     return Array(Math.floor(rating)).fill(0).map((_, i) => i + 1);
+  }
+
+  // helper function
+  formatDate(date: Date): string {
+    const d = new Date(date);
+    const month = '' + (d.getMonth() + 1);
+    const day = '' + d.getDate();
+    const year = d.getFullYear();
+
+    return [year, month.padStart(2, '0'), day.padStart(2, '0')].join('-'); // e.g., "2025-04-26"
   }
 }

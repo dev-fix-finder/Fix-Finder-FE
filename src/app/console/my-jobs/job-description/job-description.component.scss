@@ -45,7 +45,7 @@ $background: #E1EEBC;
       height: 36px;
       line-height: 36px;
       border-radius: 50%;
-      background-color: $accent;
+      background-color: $accent; // normal
       color: white;
       margin: 0 auto;
       font-weight: bold;
@@ -68,7 +68,7 @@ $background: #E1EEBC;
       transform: translateX(0%);
       height: 4px;
       width: 100%;
-      background-color: $accent;
+      background-color: $accent; // normal
       z-index: 1;
       transition: background-color 0.4s ease;
     }
@@ -84,10 +84,20 @@ $background: #E1EEBC;
     &.active::after {
       background-color: $primary;
     }
+
+    &.rejected .circle {
+      background-color: #e74c3c;
+    }
+
+    &.rejected::after {
+      background-color: #e74c3c;
+    }
   }
 
-  .step:not(:last-child) {
-    margin-right: -10%;
+  &.rejected-flow {
+    .step .label {
+      color: #e74c3c;
+    }
   }
 }
 

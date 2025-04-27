@@ -18,6 +18,10 @@ export class TradespersonService {
     return this.http.post(this.baseUrl + 'tradePerson/save?userId=' + userId, tradesPerson)
   }
 
+  updateTradePerson(userData: any, tradePersonId: any): Observable<any> {
+    return this.http.put(this.baseUrl + 'tradePerson/update-tradePerson?tradePersonId=' + tradePersonId, userData)
+  }
+
   verifyTradesPersonState() {
 
   }

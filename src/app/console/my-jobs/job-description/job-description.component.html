@@ -10,7 +10,11 @@
 </div>
 
 <div class="status-tracker">
-  <div class="step" *ngFor="let step of steps; let i = index" [class.active]="i <= currentStep">
+  <div
+    class="step"
+    *ngFor="let step of steps; let i = index"
+    [class.active]="i <= currentStep && step !== 'Rejected'"
+    [class.rejected]="step === 'Rejected' && i === currentStep">
     <div class="circle">{{ i + 1 }}</div>
     <div class="label">{{ step }}</div>
   </div>
@@ -19,6 +23,9 @@
 <div class="status-controls">
   <button mat-raised-button color="primary" (click)="nextStep()" [disabled]="currentStep >= steps.length - 1">
     Next Status
+  </button>
+  <button mat-raised-button color="warn" (click)="rejectJob()" [disabled]="currentStep !== 0">
+    Reject Job
   </button>
 </div>
 
