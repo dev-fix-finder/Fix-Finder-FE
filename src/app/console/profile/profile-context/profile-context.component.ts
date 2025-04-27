@@ -15,6 +15,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {TradespersonService} from '../../../share/services/tradesperson/tradesperson.service';
 import {CategoryService} from '../../../share/services/category/category.service';
 import {JobListingService} from '../../../share/services/job-listing/job-listing.service';
+import {UserService} from '../../../share/services/user/user.service';
 
 @Component({
   selector: 'app-profile-context',
@@ -55,6 +56,7 @@ export class ProfileContextComponent implements OnInit {
   };
 
   userData: any;
+  profileAvatar: any = 'assets/profile-default/avatar-default.jpg';
   tradesPersonData: any;
 
   categories: any[] = [];
@@ -145,9 +147,9 @@ export class ProfileContextComponent implements OnInit {
     private toastr: ToastrService,
     private router: Router,
     private tradespersonService: TradespersonService,
-    private userService: UserService,
     private categoryService: CategoryService,
     private jobListingService: JobListingService,
+    private userService: UserService,
   ) {
     /*  this.markers = [
         {
@@ -181,7 +183,7 @@ export class ProfileContextComponent implements OnInit {
       this.tradespersonService.updateTradePerson(userData, this.tradesPersonData?.tradePersonId).subscribe(response => {
         if (response.code === 203) {
           this.toastr.success(response.message, 'Success!');
-          this.tradesPersonData= response.data;
+          this.tradesPersonData = response.data;
           this.setValuesToForm();
           this.toastr.success(response.message, 'Success!');
         } else {
@@ -214,16 +216,15 @@ export class ProfileContextComponent implements OnInit {
   }
 
   loadUserProfilePictureByUserId() {
-    this.userService.(this.userData?.userId).subscribe(response => {
+    this.userService.getProfilePicture(this.userData?.userId).subscribe(response => {
       if (response.code === 200) {
-        this.tradesPersonData = response.data;
-        this.setValuesToForm();
-        this.loadListingsByTradesPersonId();
+        this.profileAvatar = response.data;
       } else {
         this.toastr.error(response.message, 'Error!');
       }
     })
   }
+
   loadTradesPersonByUserId() {
     this.tradespersonService.getTradesPersonByUserId(this.userData?.userId).subscribe(response => {
       if (response.code === 200) {
@@ -235,6 +236,7 @@ export class ProfileContextComponent implements OnInit {
       }
     })
   }
+
   setValuesToForm() {
     this.personalInfoForm.patchValue({
       userId: this.tradesPersonData?.userId,

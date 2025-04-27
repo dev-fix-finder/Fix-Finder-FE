@@ -53,7 +53,17 @@ export class PlaygroundComponent implements OnInit {
   ngOnInit(): void {
     // @ts-ignore
     this.userData = JSON.parse(sessionStorage.getItem('personalData'));
-    this.profileAvatar = this.userData.profilePicUrl;
+    this.loadUserProfilePictureByUserId();
+  }
+
+  loadUserProfilePictureByUserId() {
+    this.userService.getProfilePicture(this.userData?.userId).subscribe(response => {
+      if (response.code === 200) {
+        this.profileAvatar = response.data;
+      } else {
+        this.toastr.error(response.message, 'Error!');
+      }
+    })
   }
 
   onMouseEnter() {

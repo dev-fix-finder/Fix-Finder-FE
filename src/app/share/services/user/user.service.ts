@@ -21,7 +21,6 @@ export class UserService {
   }
 
   getProfilePicture(userId: string): Observable<any> {
-    formData.append('userId', userId);
-    return this.http.get(this.baseUrl + 'user/update-user-profile-picture?userId=' + userId);
+    return this.http.get(this.baseUrl + 'user/get-user-profile-picture?userId=' + userId);
   }
 }

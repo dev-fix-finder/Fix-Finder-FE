@@ -47,11 +47,14 @@ body {
 }
 
 :root {
+  @include mat.dialog-overrides((
+    container-max-width : "1000px"
+  ));
   @include mat.datepicker-overrides((
-    calendar-date-outline-color:var(--dark-gray-color),
-    calendar-date-text-color:green,
-    calendar-date-disabled-state-text-color:red,
-    calendar-body-label-text-color:transparent,
-    calendar-date-selected-state-background-color:var(--mat-sys-primary),
+    //calendar-date-outline-color:var(--dark-gray-color),
+    //calendar-date-text-color:green,
+    //calendar-date-disabled-state-text-color:red,
+    //calendar-body-label-text-color:transparent,
+    //calendar-date-selected-state-background-color:var(--mat-sys-primary),
   ));
 }

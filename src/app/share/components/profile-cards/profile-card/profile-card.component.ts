@@ -77,10 +77,18 @@ export class ProfileCardComponent implements OnInit {
 
   bookTradesPerson() {
     console.log('book now');
-    const dialogRef = this.dialog.open(HireRequestFormComponent,{
-      width: '800px',
-        data: this.jobListingId
+
+    // blur active element before opening dialog
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
+    const dialogRef = this.dialog.open(HireRequestFormComponent, {
+      width: '1000px',
+      // height: '400px',
+      panelClass: 'custom-dialog-container',
+      data: this.jobListingId
     });
+
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         console.log('Dialog result:', result);
