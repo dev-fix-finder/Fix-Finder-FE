@@ -56,7 +56,7 @@
   margin-bottom: 10px;
 }
 
-.personal-information {
+.personal-information, .professional-information {
   width: 100%;
   overflow-y: hidden;
   padding: 10px;
@@ -72,6 +72,13 @@
 
 .form-outer {
   padding-top: 10px;
+}
+
+.toggle-container {
+  display: flex;
+  justify-content: flex-end;
+  margin: 10px 0;
+  padding: 0 15px;
 }
 
 .map-panel {
@@ -224,4 +231,224 @@
       color: #d3d3d3;
     }
   }
+}
+
+// Custom Dropzone styles
+.custom-dropzone {
+  margin-bottom: 20px;
+  width: 100%;
+  height: auto;
+  min-height: 150px;
+  background-color: #f5f5f5;
+  border: 2px dashed #1976d2;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+
+  &:hover, &.dragover {
+    background-color: #e8f0fe;
+    border-color: #1565c0;
+  }
+
+  .file-input {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 10; /* Add z-index to ensure it's on top */
+  }
+}
+
+.dropzone-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 20px;
+  text-align: center;
+  color: #333;
+
+  mat-icon {
+    font-size: 36px;
+    width: 36px;
+    height: 36px;
+    color: #1976d2;
+    margin-bottom: 10px;
+  }
+
+  span {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 5px;
+  }
+
+  .dropzone-hint {
+    font-size: 14px;
+    color: #666;
+    margin-top: 5px;
+  }
+}
+
+// File preview styles
+.file-preview-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.file-preview {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  border-radius: 4px;
+  overflow: hidden;
+  background-color: #e8f0fe;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .remove-file {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: rgba(255, 255, 255, 0.7);
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+
+    mat-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+      color: #f44336;
+    }
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.9);
+    }
+  }
+}
+
+/* Verification Tab Styles */
+.verification-container {
+  padding: 20px;
+}
+
+.verification-container h3 {
+  margin-top: 20px;
+  margin-bottom: 15px;
+  font-size: 18px;
+  font-weight: 500;
+  color: #333;
+}
+
+/* References Styles */
+.references-container {
+  margin-bottom: 30px;
+}
+
+.reference-list {
+  margin-bottom: 20px;
+}
+
+.reference-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(217, 217, 217, 0.3);
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.reference-details {
+  flex: 1;
+}
+
+.reference-actions {
+  display: flex;
+  gap: 5px;
+}
+
+.add-reference-form {
+  background-color: rgba(217, 217, 217, 0.2);
+  border-radius: 8px;
+  padding: 15px;
+  margin-top: 15px;
+}
+
+.reference-button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+/* Uploaded Images Styles */
+.uploaded-images-container {
+  margin-bottom: 30px;
+}
+
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 15px;
+}
+
+.image-item {
+  position: relative;
+  height: 150px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.image-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.remove-image {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.remove-image mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+/* Submit Button Styles */
+.update-basic-data-button {
+  background-color: #1976d2;
+  color: white;
+  padding: 8px 20px;
+  font-size: 16px;
+  margin-top: 20px;
 }

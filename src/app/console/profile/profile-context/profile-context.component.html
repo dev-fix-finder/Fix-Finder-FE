@@ -6,15 +6,20 @@
           src="{{profileAvatar}}"
           alt="profile pic">
       </div>
-      <div class="name">Kavindu Hashintha</div>
-      <div *ngIf="tradesPersonData.isVerified" class="verified-state">verified</div>
-      <div *ngIf="!tradesPersonData.isVerified" class="un-verified-state">unverified</div>
+      <div class="name">{{ tradesPersonData?.tradePersonName }}</div>
+      <div *ngIf="tradesPersonData?.isVerified" class="verified-state">verified</div>
+      <div *ngIf="!tradesPersonData?.isVerified" class="un-verified-state">unverified</div>
     </div>
   </div>
   <div class="profile-details">
     <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
       <mat-tab label="Personal Information">
         <div class="personal-information">
+          <div class="toggle-container">
+            <mat-slide-toggle [checked]="isEditMode" (change)="toggleEditMode($event)" color="primary">
+              Edit Personal Information
+            </mat-slide-toggle>
+          </div>
           <form [formGroup]="personalInfoForm">
             <div class="row form-outer">
               <div class="col-12 col-md-4 column">
@@ -91,7 +96,7 @@
                 </mat-form-field>
               </div>
 
-              <div class="col-12 button-outer">
+              <div class="col-12 button-outer" *ngIf="isEditMode">
                 <button mat-raised-button class="update-basic-data-button" (click)="updateUserData()">
                   Update
                 </button>
@@ -101,32 +106,39 @@
         </div>
       </mat-tab>
 
-      <mat-tab label="Professional Informations">
+      <mat-tab *ngIf="userType === 'TRADES-PERSON'" label="Professional Informations">
         <div class="professional-information">
           <form [formGroup]="professionalInfoForm">
             <div class="row form-outer">
+              <!-- Title -->
               <div class="col-12 col-md-4 column">
                 <mat-form-field appearance="outline" class="example-full-width input-size">
                   <mat-label>Title</mat-label>
                   <input formControlName="title" matInput type="text">
                 </mat-form-field>
               </div>
+
+              <!-- Price Per Hour -->
               <div class="col-12 col-md-4 column">
                 <mat-form-field appearance="outline" class="example-full-width input-size">
-                  <mat-label>Price Per Hour(LKR)</mat-label>
+                  <mat-label>Price Per Hour (LKR)</mat-label>
                   <input formControlName="pricePerHour" matInput type="number">
                 </mat-form-field>
               </div>
+
+              <!-- Category -->
               <div class="col-12 col-md-4 column">
                 <mat-form-field appearance="outline" class="example-full-width input-size">
                   <mat-label>Category</mat-label>
-                  <mat-select formControlName="category">
-                    <mat-option *ngFor="let category of categories"
-                                [value]="category?.categoryId">{{ category?.categoryTitle }}
+                  <mat-select formControlName="categoryId">
+                    <mat-option *ngFor="let category of categories" [value]="category?.categoryId">
+                      {{ category?.categoryTitle }}
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
               </div>
+
+              <!-- Description -->
               <div class="col-12 column">
                 <mat-form-field appearance="outline" class="example-full-width input-size">
                   <mat-label>Description</mat-label>
@@ -134,6 +146,56 @@
                 </mat-form-field>
               </div>
 
+              <div class="col-12 column">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>Your Skills</mat-label>
+                  <mat-chip-grid #chipGrid aria-label="Enter skills" [formControl]="pricingFeaturesFormControl">
+                    @for (feature of pricingFeatureList(); track feature) {
+                      <mat-chip-row (removed)="removeFeature(feature)">
+                        {{ feature }}
+                        <button matChipRemove [attr.aria-label]="'remove ' + feature">
+                          <mat-icon>cancel</mat-icon>
+                        </button>
+                      </mat-chip-row>
+                    }
+                  </mat-chip-grid>
+                  <input
+                    placeholder="Press ENTER or COMMA to add skills"
+                    [matChipInputFor]="chipGrid"
+                    (matChipInputTokenEnd)="addFeature($event)"
+                  />
+                </mat-form-field>
+              </div>
+
+
+              <!-- Image Upload -->
+              <div class="col-12 column">
+                <div class="custom-dropzone"
+                     (dragover)="handleDragOver($event)"
+                     (dragleave)="handleDragLeave($event)"
+                     (drop)="handleDrop($event, false)">
+                  <div class="dropzone-label">
+                    <mat-icon>cloud_upload</mat-icon>
+                    <span>Drop your image here or click to browse</span>
+                    <input type="file"
+                           class="file-input"
+                           accept="image/*"
+                           (change)="handleFileInput($event, false)">
+                  </div>
+                </div>
+
+                <!-- Preview of selected file -->
+                <div class="file-preview-container" *ngIf="selectedFile">
+                  <div class="file-preview">
+                    <img [src]="selectedFile" alt="Selected image">
+                    <button type="button" class="remove-file" (click)="removeSelectedFile()">
+                      <mat-icon>close</mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Submit Button -->
               <div class="col-12 button-outer">
                 <button mat-raised-button class="update-basic-data-button" (click)="createJobListing()">
                   Create
@@ -141,11 +203,106 @@
               </div>
             </div>
           </form>
+
         </div>
-
-
       </mat-tab>
-      <mat-tab label="My job Listings" (selectionchange)="loadListingsByTradesPersonId()">
+
+
+
+      <mat-tab *ngIf="userType === 'TRADES-PERSON'" label="Verification">
+        <div class="verification-container">
+          <form [formGroup]="verificationForm">
+            <div class="row form-outer">
+              <!-- References Section -->
+              <div class="col-12 column">
+                <h3>References</h3>
+                <div class="references-container">
+                  <div class="reference-list">
+                    <div class="reference-item" *ngFor="let reference of references; let i = index">
+                      <div class="reference-details">
+                        <div class="info-row">
+                          <span class="label">Name:</span>
+                          <span>{{ reference.name }}</span>
+                        </div>
+                        <div class="info-row">
+                          <span class="label">Mobile:</span>
+                          <span>{{ reference.mobile }}</span>
+                        </div>
+                      </div>
+                      <div class="reference-actions">
+                        <button mat-icon-button (click)="editReference(i)">
+                          <mat-icon>edit</mat-icon>
+                        </button>
+                        <button mat-icon-button color="warn" (click)="removeReference(i)">
+                          <mat-icon>delete</mat-icon>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="add-reference-form">
+                    <div class="col-12 col-md-6 column">
+                      <mat-form-field appearance="outline" class="example-full-width input-size">
+                        <mat-label>Reference Name</mat-label>
+                        <input formControlName="referenceName" matInput type="text">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-12 col-md-6 column">
+                      <mat-form-field appearance="outline" class="example-full-width input-size">
+                        <mat-label>Reference Mobile</mat-label>
+                        <input formControlName="referenceMobile" matInput type="text">
+                      </mat-form-field>
+                    </div>
+                    <div class="reference-button-container">
+                      <button mat-raised-button color="primary" (click)="addReference()">
+                        Add Reference
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Image Upload -->
+              <div class="col-12 column">
+                <div class="custom-dropzone"
+                     (dragover)="handleDragOver($event)"
+                     (dragleave)="handleDragLeave($event)"
+                     (drop)="handleDrop($event, true)">
+                  <div class="dropzone-label">
+                    <mat-icon>cloud_upload</mat-icon>
+                    <span>Drop verification images here or click to browse</span>
+                    <p class="dropzone-hint">You can select multiple images</p>
+                    <input type="file"
+                           class="file-input"
+                           accept="image/*"
+                           multiple
+                           (change)="handleFileInput($event, true)">
+                  </div>
+                </div>
+
+                <!-- Preview of uploaded images -->
+                <div class="file-preview-container" *ngIf="uploadedImages.length > 0">
+                  <div class="file-preview" *ngFor="let image of uploadedImages; let i = index">
+                    <img [src]="image" alt="Uploaded image">
+                    <button type="button" class="remove-file" (click)="removeImage(i)">
+                      <mat-icon>close</mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Submit Button -->
+              <div class="col-12 button-outer">
+                <button mat-raised-button class="update-basic-data-button" (click)="submitVerification()">
+                  Submit Verification
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </mat-tab>
+
+      <mat-tab *ngIf="userType === 'TRADES-PERSON'" label="My job Listings" (selectionchange)="loadListingsByTradesPersonId()">
         <div class="playlist-outer">
           <div class="playlist" *ngFor="let listing of myListings">
             <div class="image-and-actions">

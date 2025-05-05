@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit, signal} from '@angular/core';
 import {MatIconModule} from '@angular/material/icon';
 import {CommonModule} from '@angular/common';
 import {MatMenuModule} from '@angular/material/menu';
@@ -16,6 +16,17 @@ import {TradespersonService} from '../../../share/services/tradesperson/tradespe
 import {CategoryService} from '../../../share/services/category/category.service';
 import {JobListingService} from '../../../share/services/job-listing/job-listing.service';
 import {UserService} from '../../../share/services/user/user.service';
+import {MatChipInputEvent, MatChipsModule} from '@angular/material/chips';
+import {FormValidation} from '../../../share/form-validations/form-validation';
+import {LiveAnnouncer} from '@angular/cdk/a11y';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {UserStateService} from '../../../share/states/user-state/user-state.service';
+
+// Custom interface to replace NgxDropzoneChangeEvent
+interface FileChangeEvent {
+  addedFiles: File[];
+  rejectedFiles?: File[];
+}
 
 @Component({
   selector: 'app-profile-context',
@@ -31,7 +42,8 @@ import {UserService} from '../../../share/services/user/user.service';
     MatSelectModule,
     MatCheckboxModule,
     MatButtonModule,
-
+    MatChipsModule,
+    MatSlideToggleModule,
   ],
   templateUrl: './profile-context.component.html',
   standalone: true,
@@ -39,46 +51,31 @@ import {UserService} from '../../../share/services/user/user.service';
 })
 export class ProfileContextComponent implements OnInit {
 
-  center: google.maps.LatLngLiteral = {lat: 6.9341, lng: 79.84997}; // Default center
-  zoom = 12;
+  readonly pricingFeatureList = signal(['angular', 'how-to', 'tutorial', 'accessibility']);
+  readonly pricingFeaturesFormControl = new FormControl(['angular']);
 
-  markers: { position: google.maps.LatLngLiteral; title: string }[] = [];
-  latitude: number | null = null;
-  longitude: number | null = null;
-
-  selectedMarkerTitle: string = '';
-
-  mapOptions: google.maps.MapOptions = {
-    mapTypeId: 'terrain',
-    disableDefaultUI: false,
-    zoomControl: true,
-    streetViewControl: false,
-  };
-
+  userType: any;
   userData: any;
   profileAvatar: any = 'assets/profile-default/avatar-default.jpg';
   tradesPersonData: any;
 
   categories: any[] = [];
+  references: any[] = [];
+  uploadedImages: string[] = [];
+  selectedFile: string | null = null;
+  editingReferenceIndex: number = -1;
 
-  daysOfWeek = [
-    {value: 'monday', viewValue: 'Monday'},
-    {value: 'tuesday', viewValue: 'Tuesday'},
-    {value: 'wednesday', viewValue: 'Wednesday'},
-    {value: 'thursday', viewValue: 'Thursday'},
-    {value: 'friday', viewValue: 'Friday'},
-    {value: 'saturday', viewValue: 'Saturday'},
-    {value: 'sunday', viewValue: 'Sunday'}
-  ];
+  // Toggle state for personal information form
+  isEditMode: boolean = false;
 
   personalInfoForm = new FormGroup({
     userId: new FormControl({value: '', disabled: true}),
     name: new FormControl('', [Validators.required]),
-    nic: new FormControl(null, [Validators.required]),
+    nic: new FormControl(null, [Validators.required, FormValidation.nic]),
     gender: new FormControl(null),
-    dob: new FormControl(null, [Validators.required]),
-    email: new FormControl({value: '', disabled: true}, [Validators.email]),
-    mobile: new FormControl('', [Validators.required]),
+    dob: new FormControl(null, [Validators.required, FormValidation.date]),
+    email: new FormControl({value: '', disabled: true}, [Validators.email, FormValidation.email]),
+    mobile: new FormControl('', [Validators.required, FormValidation.mobileNumber]),
     country: new FormControl('', [Validators.required]),
     city: new FormControl('', [Validators.required]),
     address: new FormControl('')
@@ -87,8 +84,15 @@ export class ProfileContextComponent implements OnInit {
   professionalInfoForm = new FormGroup({
     title: new FormControl('', [Validators.required]),
     pricePerHour: new FormControl('', [Validators.required]),
-    category: new FormControl('', [Validators.required]),
-    description: new FormControl('', [Validators.required])
+    categoryId: new FormControl('', [Validators.required]),
+    description: new FormControl('', [Validators.required]),
+    pricingDescription: new FormControl(''),
+    pricingFeatures: new FormControl<string[]>([])
+  });
+
+  verificationForm = new FormGroup({
+    referenceName: new FormControl('', [Validators.required]),
+    referenceMobile: new FormControl('', [Validators.required, FormValidation.mobileNumber])
   });
 
   /*portfolioForm = new FormGroup({
@@ -110,53 +114,22 @@ export class ProfileContextComponent implements OnInit {
     emergencyContact: new FormControl(''),
     languageIds: new FormControl(''),
     workRadius: new FormControl(null)
-  });
-
-  verificationForm = new FormGroup({
-    backgroundCheckConsent: new FormControl(false),
-    governmentIdProof: new FormControl(''),
-    professionalCertification: new FormControl('')
   });*/
 
   myListings: any[] = [];
 
-
-  /*onMapClick(event: google.maps.MapMouseEvent) {
-    if (event.latLng) {
-      this.latitude = event.latLng.lat();
-      this.longitude = event.latLng.lng();
-
-      // Update markers array to contain only one marker
-      this.markers = [
-        {
-          position: {lat: this.latitude, lng: this.longitude},
-          title: 'Selected Location',
-        },
-      ];
-
-      console.log(`Marker placed at Lat: ${this.latitude}, Lng: ${this.longitude}`);
-
-      this.personalInfoForm.patchValue({
-        latitude: this.latitude,
-        longitude: this.longitude
-      })
-    }
-  }*/
+  //pricing features
+  announcer = inject(LiveAnnouncer);
 
   constructor(
     private toastr: ToastrService,
     private router: Router,
     private tradespersonService: TradespersonService,
     private categoryService: CategoryService,
+    private userStateService: UserStateService,
     private jobListingService: JobListingService,
     private userService: UserService,
   ) {
-    /*  this.markers = [
-        {
-          position: {lat: this.center.lat, lng: this.center.lng},
-          title: 'Selected Location',
-        },
-      ];*/
   }
 
   updateUserData() {
@@ -199,9 +172,48 @@ export class ProfileContextComponent implements OnInit {
   ngOnInit(): void {
     // @ts-ignore
     this.userData = JSON.parse(sessionStorage.getItem('personalData'));
+
+    this.userStateService.userType$.subscribe(userType => {
+      this.userType = userType;
+    })
     this.loadUserProfilePictureByUserId();
     this.loadTradesPersonByUserId();
     this.loadAllCategories();
+
+    // Disable form fields initially
+    this.disableFormFields();
+  }
+
+  // Toggle edit mode for personal information form
+  toggleEditMode(event: any): void {
+    this.isEditMode = event.checked;
+
+    if (this.isEditMode) {
+      this.enableFormFields();
+    } else {
+      this.disableFormFields();
+    }
+  }
+
+  // Enable form fields except userId and email
+  enableFormFields(): void {
+    this.personalInfoForm.get('name')?.enable();
+    this.personalInfoForm.get('nic')?.enable();
+    this.personalInfoForm.get('gender')?.enable();
+    this.personalInfoForm.get('dob')?.enable();
+    this.personalInfoForm.get('mobile')?.enable();
+    this.personalInfoForm.get('country')?.enable();
+    this.personalInfoForm.get('city')?.enable();
+    this.personalInfoForm.get('address')?.enable();
+  }
+
+  // Disable all form fields
+  disableFormFields(): void {
+    Object.keys(this.personalInfoForm.controls).forEach(key => {
+      if (key !== 'userId' && key !== 'email') {
+        this.personalInfoForm.get(key)?.disable();
+      }
+    });
   }
 
   loadAllCategories() {
@@ -239,12 +251,12 @@ export class ProfileContextComponent implements OnInit {
 
   setValuesToForm() {
     this.personalInfoForm.patchValue({
-      userId: this.tradesPersonData?.userId,
+      userId: this.userData?.userId,
       name: this.tradesPersonData?.tradePersonName,
       nic: this.tradesPersonData?.nic,
       gender: this.tradesPersonData?.gender,
       dob: this.tradesPersonData?.dob,
-      email: this.tradesPersonData?.email,
+      email: this.userData?.email,
       mobile: this.tradesPersonData?.mobile,
       country: this.tradesPersonData?.country,
       city: this.tradesPersonData?.city,
@@ -262,13 +274,12 @@ export class ProfileContextComponent implements OnInit {
     })
   }
 
-
   createJobListing() {
     let data = {
-      "categoryId": this.professionalInfoForm.get("category")?.value,
-      "description": this.professionalInfoForm.get("description")?.value,
-      "pricePerHour": this.professionalInfoForm.get("pricePerHour")?.value,
-      "title": this.professionalInfoForm.get("title")?.value
+      categoryId: this.professionalInfoForm.get("categoryId")?.value,
+      description: this.professionalInfoForm.get("description")?.value,
+      pricePerHour: this.professionalInfoForm.get("pricePerHour")?.value,
+      title: this.professionalInfoForm.get("title")?.value
     }
 
     this.jobListingService.createJobListing(data, this.userData.userId).subscribe(response => {
@@ -303,5 +314,220 @@ export class ProfileContextComponent implements OnInit {
     const year = d.getFullYear();
 
     return [year, month.padStart(2, '0'), day.padStart(2, '0')].join('-'); // e.g., "2025-04-26"
+  }
+
+  onFileChange(event: FileChangeEvent) {
+    if (event.addedFiles && event.addedFiles.length > 0) {
+      const file = event.addedFiles[0]; // Only use the first file for profile image
+      const reader = new FileReader();
+
+      reader.onload = (e: any) => {
+        // Store the file data URL in the selectedFile property
+        this.selectedFile = e.target.result;
+        console.log('File uploaded:', file.name);
+      };
+
+      reader.readAsDataURL(file);
+    }
+  }
+
+  removeSelectedFile() {
+    this.selectedFile = null;
+  }
+
+  addFeature(event: MatChipInputEvent): void {
+    const value = (event.value || '').trim();
+
+    // Add our keyword
+    if (value) {
+      this.pricingFeatureList.update(feature => [...feature, value]);
+    }
+
+    // Clear the input value
+    event.chipInput!.clear();
+  }
+
+  removeFeature(keyword: string) {
+    this.pricingFeatureList.update(feature => {
+      const index = feature.indexOf(keyword);
+      if (index < 0) {
+        return feature;
+      }
+
+      feature.splice(index, 1);
+      this.announcer.announce(`removed ${keyword}`);
+      return [...feature];
+    });
+  }
+
+  // Reference methods
+  addReference() {
+    if (this.verificationForm.valid) {
+      const name = this.verificationForm.get('referenceName')?.value;
+      const mobile = this.verificationForm.get('referenceMobile')?.value;
+
+      if (this.editingReferenceIndex >= 0) {
+        // Update existing reference
+        this.references[this.editingReferenceIndex] = {name, mobile};
+        this.editingReferenceIndex = -1;
+      } else {
+        // Add new reference
+        this.references.push({name, mobile});
+      }
+
+      // Reset form
+      this.verificationForm.reset();
+      this.toastr.success('Reference added successfully', 'Success!');
+    } else {
+      this.toastr.error('Please fill all required fields correctly', 'Error!');
+    }
+  }
+
+  editReference(index: number) {
+    const reference = this.references[index];
+    this.verificationForm.patchValue({
+      referenceName: reference.name,
+      referenceMobile: reference.mobile
+    });
+    this.editingReferenceIndex = index;
+  }
+
+  removeReference(index: number) {
+    this.references.splice(index, 1);
+    this.toastr.success('Reference removed successfully', 'Success!');
+  }
+
+  // Custom file upload methods
+  handleDragOver(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    const target = event.target as HTMLElement;
+    if (target.classList.contains('custom-dropzone')) {
+      target.classList.add('dragover');
+    }
+  }
+
+  handleDragLeave(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    const target = event.target as HTMLElement;
+    if (target.classList.contains('custom-dropzone')) {
+      target.classList.remove('dragover');
+    }
+  }
+
+  handleDrop(event: DragEvent, multiple: boolean = false): void {
+    event.preventDefault();
+    event.stopPropagation();
+    const target = event.target as HTMLElement;
+    if (target.classList.contains('custom-dropzone')) {
+      target.classList.remove('dragover');
+    }
+
+    if (event.dataTransfer?.files) {
+      const files = Array.from(event.dataTransfer.files);
+      const validFiles = this.validateFiles(files, multiple);
+
+      if (multiple) {
+        this.onVerificationImageChange({ addedFiles: validFiles });
+      } else {
+        this.onFileChange({ addedFiles: validFiles });
+      }
+    }
+  }
+
+  handleFileInput(event: Event, multiple: boolean = false): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files) {
+      const files = Array.from(input.files);
+      const validFiles = this.validateFiles(files, multiple);
+
+      if (multiple) {
+        this.onVerificationImageChange({ addedFiles: validFiles });
+      } else {
+        this.onFileChange({ addedFiles: validFiles });
+      }
+    }
+  }
+
+  validateFiles(files: File[], multiple: boolean): File[] {
+    // Filter files by type and size
+    const maxFileSize = 2000000; // 2MB
+    const acceptedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+
+    const validFiles = files.filter(file => {
+      const validType = acceptedTypes.includes(file.type);
+      const validSize = file.size <= maxFileSize;
+
+      if (!validType) {
+        this.toastr.error(`File type not supported: ${file.name}`, 'Error!');
+      }
+
+      if (!validSize) {
+        this.toastr.error(`File too large: ${file.name}`, 'Error!');
+      }
+
+      return validType && validSize;
+    });
+
+    // If not multiple, only return the first file
+    return multiple ? validFiles : validFiles.slice(0, 1);
+  }
+
+  // Image methods
+  onVerificationImageChange(event: FileChangeEvent) {
+    if (event.addedFiles && event.addedFiles.length > 0) {
+      for (const file of event.addedFiles) {
+        const reader = new FileReader();
+
+        reader.onload = (e: any) => {
+          this.uploadedImages.push(e.target.result);
+        };
+
+        reader.readAsDataURL(file);
+      }
+    }
+  }
+
+  removeImage(index: number) {
+    this.uploadedImages.splice(index, 1);
+    this.toastr.success('Image removed successfully', 'Success!');
+  }
+
+  // Verification submission
+  submitVerification() {
+    if (this.references.length === 0) {
+      this.toastr.error('Please add at least one reference', 'Error!');
+      return;
+    }
+
+    if (this.uploadedImages.length === 0) {
+      this.toastr.error('Please upload at least one verification image', 'Error!');
+      return;
+    }
+
+    const verificationData = {
+      tradePersonId: this.tradesPersonData?.tradePersonId,
+      references: this.references,
+      verificationImages: this.uploadedImages
+    };
+
+    this.tradespersonService.submitVerification(verificationData).subscribe(
+      response => {
+        if (response.code === 200 || response.code === 201) {
+          this.toastr.success(response.message, 'Success!');
+          // Reset form and data
+          this.references = [];
+          this.uploadedImages = [];
+          this.verificationForm.reset();
+        } else {
+          this.toastr.error(response.message, 'Error!');
+        }
+      },
+      error => {
+        this.toastr.error('Failed to submit verification. Please try again later.', 'Error!');
+        console.error('Verification submission error:', error);
+      }
+    );
   }
 }

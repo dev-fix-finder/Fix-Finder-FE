@@ -150,13 +150,18 @@
   color: #111827;
 }
 
+.button-group {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
 .btn {
-  width: 100%;
+  flex: 1;
   padding: 10px;
   font-weight: 600;
   border-radius: 6px;
   cursor: pointer;
-  margin-bottom: 10px;
 }
 
 .btn.primary {

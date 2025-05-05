@@ -1,70 +1,93 @@
 <div class="my-jobs-outer">
-  <div class="jobs-overview">
-    <h2 class="title">Overview</h2>
-    <div class="row counter-context">
-      <div class="col-12 col-sm-4 counter-wrapper">
-        <div class="counter-inner" style="border-left: 5px solid #95a5a6">
-          <div class="top-data">
-            <h3 class="header-text-users">Job Vacancies</h3>
-          </div>
-          <div class="middle-data">
-            <h1 class="title-text-users">10</h1>
-          </div>
-          <div class="bottom-data">
-            <div class="bottom-data-outer">
-              <span>Verified : 15</span>
+  <h2 class="schedule-title">My Jobs</h2>
+  <div class="container-fluid">
+    <div class="row">
+   <!--   &lt;!&ndash; Overview Section &ndash;&gt;
+      <div class="col-12">
+        <div class="jobs-overview">
+          <h2 class="title">Overview</h2>
+          <div class="row">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
+              <div class="counter-card" style="border-left: 5px solid #95a5a6">
+                <div class="counter-header">
+                  <h3>Job Vacancies</h3>
+                </div>
+                <div class="counter-value">
+                  <h1>10</h1>
+                </div>
+                <div class="counter-details">
+                  <div class="counter-item">
+                    <span>Verified: 15</span>
+                  </div>
+                  <div class="counter-item">
+                    <span>Pending: 5</span>
+                  </div>
+                  <div class="counter-item">
+                    <span>Completed: 10</span>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="bottom-data-outer">
-              <span>Pending : 5</span>
+            &lt;!&ndash; Additional counter cards can be added here &ndash;&gt;
+          </div>
+        </div>
+      </div>-->
+
+     <!-- &lt;!&ndash; Search and Filter Section &ndash;&gt;
+      <div class="col-12 mt-4">
+        <div class="search-filter-container">
+          <div class="row align-items-center">
+            <div class="col-12 col-md-8 mb-3 mb-md-0">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Search Jobs</mat-label>
+                <input matInput placeholder="Enter keywords, job title, or tags">
+              </mat-form-field>
             </div>
-            <div class="bottom-data-outer">
-              <span>Completed :10</span>
+            <div class="col-12 col-md-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Filter By</mat-label>
+                <mat-select>
+                  <mat-option value="all">All Jobs</mat-option>
+                  <mat-option value="pending">Pending</mat-option>
+                  <mat-option value="completed">Completed</mat-option>
+                  <mat-option value="verified">Verified</mat-option>
+                </mat-select>
+              </mat-form-field>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-  <div class="job-container">
-    <div class="job-list-filter job-container-item">
-      <div class="search-container row">
-        <div class="search-text col-10 col-sm-6 col-lg-7">
-          <mat-form-field appearance="outline" class="example-full-width input-size">
-            <mat-label>Search</mat-label>
-            <input matInput placeholder="Search">
-          </mat-form-field>
-        </div>
-        <div class="filler col-auto col-sm-2 col-lg-3">
-        </div>
-        <div class="filter-dropdown col-2 col-sm-4 col-lg-2">
-          <mat-form-field appearance="outline" class="example-dropdown input-size">
-            <mat-label>Filter</mat-label>
-            <mat-select>
-              <mat-option value="option1">Option 1</mat-option>
-              <mat-option value="option2">Option 2</mat-option>
-              <mat-option value="option3">Option 3</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-      </div>
-    </div>
-    <div class="job-list-outer job-container-item">
-      <div class="job-card" *ngFor="let job of jobList">
-        <div class="job-img">
-          <img [src]="job.imageUrl || 'assets/job-placeholder.jpg'" alt="Job Image">
-        </div>
-        <div class="job-content">
-          <div class="job-header">
-            <h3 class="job-title">{{ job.title }}</h3>
-            <p class="job-price">LKR. {{ job.price | number:'1.2-2' }}</p>
+      </div>-->
+
+      <!-- Job Listings Section -->
+      <div class="col-12 mt-3">
+        <div class="job-listings">
+          <div class="row">
+            <div class="col-12 col-md-6 col-lg-4 mb-4" *ngFor="let job of jobList">
+              <div class="job-card">
+                <div class="job-card-header">
+                  <div class="job-price-tag">
+                    <span>LKR {{ job.price | number:'1.2-2' }}</span>
+                  </div>
+                </div>
+                <div class="job-card-body">
+                  <h3 class="job-title">{{ job.title }}</h3>
+                  <div class="job-tags">
+                    <span>{{ job.tags }}</span>
+                  </div>
+                  <p class="job-description">{{ job.description }}</p>
+                  <div class="job-actions">
+                    <button class="view-details-btn" (click)="viewJobDetails(job.id)">View Details</button>
+                    <button *ngIf="userType === 'CLIENT'" class="edit-job-btn" (click)="editJob(job.id)">Edit Job</button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <p class="job-tags">{{ job.tags }}</p>
-          <p class="job-description">
-            {{ job.description }}
-          </p>
-         <!-- <div class="job-action">
-            <button class="view-btn" (click)="viewJobDetails(job.id)">View Detailed Job</button>
-          </div>-->
+
+          <!-- Empty state message when no jobs are available -->
+          <div class="empty-state" *ngIf="jobList.length === 0">
+            <p>No jobs found. Try adjusting your search criteria.</p>
+          </div>
         </div>
       </div>
     </div>

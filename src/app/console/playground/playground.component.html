@@ -67,7 +67,7 @@
             My Schedule
           </div>
         </li>
-        <li class="list-inner" routerLink="/console/playground/hire-trades-person"
+        <li *ngIf="userType === 'CLIENT'" class="list-inner" routerLink="/console/playground/hire-trades-person"
             routerLinkActive="active">
           <div class="icon-outer">
             <mat-icon class="nav-icon">handshake</mat-icon>
@@ -79,7 +79,7 @@
         <li class="list-inner" routerLink="/console/playground/messages"
             routerLinkActive="active">
           <div class="icon-outer">
-            <mat-icon class="nav-icon">chat</mat-icon>
+            <mat-icon class="nav-icon">message</mat-icon>
           </div>
           <div *ngIf="expanded" class="nav-context">
             Messages
@@ -100,4 +100,3 @@
     <router-outlet></router-outlet>
   </div>
 </div>
-

@@ -76,63 +76,77 @@
 
   <mat-dialog-content class="mat-typography">
     <form [formGroup]="jobForm" (ngSubmit)="onSubmit()" class="form-container">
-      <mat-form-field appearance="outline">
-        <mat-label>Address</mat-label>
-        <input matInput formControlName="address">
-      </mat-form-field>
 
-      <mat-form-field appearance="outline">
-        <mat-label>Contact Number</mat-label>
-        <input matInput formControlName="contactNumber">
-      </mat-form-field>
-
-      <mat-form-field appearance="outline">
+      <mat-form-field appearance="outline" class="example-full-width input-size">
         <mat-label>Contact Person Name</mat-label>
         <input matInput formControlName="contactPersonName">
+        <mat-error *ngIf="jobForm.get('contactPersonName')?.hasError('required')">
+          Contact person name is required
+        </mat-error>
+        <mat-error *ngIf="jobForm.get('contactPersonName')?.hasError('requireName')">
+          Please enter a valid name
+        </mat-error>
       </mat-form-field>
 
-      <mat-form-field appearance="outline">
-        <mat-label>Requested Date</mat-label>
-        <input matInput [matDatepicker]="reqDatePicker" formControlName="requestedDate">
-        <mat-datepicker-toggle matSuffix [for]="reqDatePicker"></mat-datepicker-toggle>
-        <mat-datepicker #reqDatePicker></mat-datepicker>
+      <mat-form-field appearance="outline" class="example-full-width input-size">
+        <mat-label>Contact Number</mat-label>
+        <input matInput formControlName="contactNumber">
+        <mat-error *ngIf="jobForm.get('contactNumber')?.hasError('required')">
+          Contact number is required
+        </mat-error>
+        <mat-error *ngIf="jobForm.get('contactNumber')?.hasError('invalidMobilePattern')">
+          Please enter a valid mobile number (format: 7XXXXXXXX)
+        </mat-error>
       </mat-form-field>
 
-      <mat-form-field appearance="outline">
-        <mat-label>Requested Time</mat-label>
-        <input matInput formControlName="requestedTime" placeholder="HH:mm">
-      </mat-form-field>
-
-      <mat-form-field appearance="outline">
-        <mat-label>End Date</mat-label>
-        <input matInput [matDatepicker]="endDatePicker" formControlName="endDate">
-        <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
-        <mat-datepicker #endDatePicker></mat-datepicker>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline">
-        <mat-label>End Time</mat-label>
-        <input matInput formControlName="endTime" placeholder="HH:mm">
-      </mat-form-field>
-
-      <mat-form-field appearance="outline">
-        <mat-label>Offered Price</mat-label>
+      <mat-form-field appearance="outline" class="example-full-width input-size">
+        <mat-label>Job Payment</mat-label>
         <input matInput type="number" formControlName="offeredPrice">
+        <mat-error *ngIf="jobForm.get('offeredPrice')?.hasError('required')">
+          Offered price is required
+        </mat-error>
+        <mat-error *ngIf="jobForm.get('offeredPrice')?.hasError('min')">
+          Offered price must be greater than or equal to 0
+        </mat-error>
       </mat-form-field>
 
-      <mat-form-field appearance="outline">
-        <mat-label>Required Hours</mat-label>
-        <input matInput type="number" formControlName="requiredHours">
+      <mat-form-field appearance="outline" class="example-full-width input-size">
+        <mat-label>Address</mat-label>
+        <input matInput formControlName="address">
+        <mat-error *ngIf="jobForm.get('address')?.hasError('required')">
+          Address is required
+        </mat-error>
+        <mat-error *ngIf="jobForm.get('address')?.hasError('requireText')">
+          Please enter a valid address
+        </mat-error>
       </mat-form-field>
 
-      <mat-form-field appearance="outline" class="description-field" style="grid-column: span 2;">
+      <mat-form-field appearance="outline" class="description-field example-full-width input-size"
+                      style="grid-column: span 2;">
         <mat-label>Description</mat-label>
         <textarea matInput formControlName="description" rows="4"></textarea>
+        <mat-error *ngIf="jobForm.get('description')?.hasError('required')">
+          Description is required
+        </mat-error>
+        <mat-error *ngIf="jobForm.get('description')?.hasError('requireText')">
+          Please enter a valid description
+        </mat-error>
       </mat-form-field>
 
-      <!-- Full Calendar added here -->
-      <div class="calendar-inner" style="margin-top: 20px;grid-column: span 2;">
-        <full-calendar #fullcalendar [options]="calendarOptions"></full-calendar>
+      <!-- FullCalendar component -->
+      <div class="scheduler-inner" style="grid-column: span 2;">
+        <div *ngIf="startDateTime && endDateTime" class="selected-time-indicator">
+          <mat-icon>event_available</mat-icon>
+          <span>Selected Time: {{formatSelectedTime()}}</span>
+          <button mat-icon-button color="warn" (click)="clearSelectedTime()" matTooltip="Clear selection">
+            <mat-icon>clear</mat-icon>
+          </button>
+        </div>
+        <div *ngIf="!startDateTime || !endDateTime" class="time-selection-guide">
+          <mat-icon>info</mat-icon>
+          <span>Please select a time slot by clicking and dragging on the calendar. Time slots must be at least 30 minutes.</span>
+        </div>
+        <full-calendar #calendar [options]="calendarOptions"></full-calendar>
       </div>
 
       <button mat-raised-button color="primary" type="submit">Submit</button>

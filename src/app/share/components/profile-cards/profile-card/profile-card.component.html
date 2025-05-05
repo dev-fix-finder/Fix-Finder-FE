@@ -40,8 +40,10 @@
         <li> {{ package.revisions }} free touch-ups</li>
         <li *ngFor="let feature of package.features">{{ feature }}</li>
       </ul>
-      <button mat-raised-button class="btn primary" (click)="bookTradesPerson()">Book Now</button>
-      <button class="btn secondary">Message Pro</button>
+      <div class="button-group">
+        <button mat-raised-button class="btn primary" (click)="bookTradesPerson()">Book Now</button>
+        <button class="btn secondary">Message Pro</button>
+      </div>
     </div>
   </div>
 </div>

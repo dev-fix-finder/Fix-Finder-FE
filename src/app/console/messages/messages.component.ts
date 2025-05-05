@@ -46,10 +46,7 @@ export class MessagesComponent {
       online: false
     }
   ];
-constructor() {
-  console.info('Component constructor');
-  console.table(this.conversations)
-}
+
   currentUser: User = {
     id: 0,
     name: 'You',
@@ -65,7 +62,7 @@ constructor() {
         sentByCurrentUser: false,
         user: this.users.find(u => u.id === 1)
       },
-      { text: "Good Morning! What can I do for you?", sentByCurrentUser: true }
+      {text: "Good Morning! What can I do for you?", sentByCurrentUser: true}
     ],
     2: [
       {
@@ -73,11 +70,11 @@ constructor() {
         sentByCurrentUser: false,
         user: this.users.find(u => u.id === 2)
       },
-      { text: "greetings", sentByCurrentUser: true },
-      { text: "how goes u fergus?", sentByCurrentUser: true }
+      {text: "greetings", sentByCurrentUser: true},
+      {text: "how goes u fergus?", sentByCurrentUser: true}
     ],
     3: [
-      { text: "Hi Lady Ann!", sentByCurrentUser: true },
+      {text: "Hi Lady Ann!", sentByCurrentUser: true},
       {
         text: "Hello!",
         sentByCurrentUser: false,
@@ -90,6 +87,11 @@ constructor() {
   selectedUser: User | null = null;
   messages: Message[] = [];
   newMessage = '';
+
+  constructor() {
+    console.info('Component constructor');
+    console.table(this.conversations)
+  }
 
   // Change the active chat when a user is selected
   selectUser(user: User) {

@@ -1,12 +1,15 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {MatButtonModule} from '@angular/material/button';
+import {JobPoolService} from '../../../share/services/job-pool/job-pool.service';
+import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-job-description',
   imports: [
     CommonModule,
-    MatButtonModule
+    MatButtonModule,
+    MatDialogModule
   ],
   templateUrl: './job-description.component.html',
   standalone: true,
@@ -19,9 +22,32 @@ export class JobDescriptionComponent implements OnInit {
   statusLogs = [
     {date: new Date(), updatedBy: 'Admin', status: 'Requested', note: 'Initial request submitted'},
   ];
+  jobDetails: any = {};
+
+  constructor(
+    private jobPoolService: JobPoolService,
+    public dialogRef: MatDialogRef<JobDescriptionComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: { jobId: string }
+  ) {}
 
   ngOnInit(): void {
-    //load job details by jobId
+    // Load job details by jobId
+    if (this.data && this.data.jobId) {
+      this.loadJobDetailsById(this.data.jobId);
+    }
+  }
+
+  loadJobDetailsById(jobId: string): void {
+    this.jobPoolService.getJobDetailsById(jobId).subscribe(
+      (response) => {
+        if (response && response.data) {
+          this.jobDetails = response.data;
+        }
+      },
+      (error) => {
+        console.error('Error loading job details:', error);
+      }
+    );
   }
 
   nextStep() {

@@ -16,10 +16,11 @@ export const environment = {
     apiKey: "AIzaSyBUEZC37QIyokQlxDyewEIeIsTMftX78Hk",
     authDomain: "finder-8b826.firebaseapp.com",
     projectId: "finder-8b826",
-    storageBucket: "finder-8b826.firebasestorage.app",
+    storageBucket: "finder-8b826.appspot.com",
     messagingSenderId: "510612128492",
     appId: "1:510612128492:web:02dd8039c9318b442ddbc9",
-    measurementId: "G-9GPB07CMKF"
+    measurementId: "G-9GPB07CMKF",
+    vapidKey: "BIN2Jc5Yezz9i9OJ9FV4hK3lkhI3MujuXz6-OxkgLXAWgDmL1LtLPYov8Y8oyqFpKyVYRKW5EbhwB6YA_3Dzduc"
   }
 };
 

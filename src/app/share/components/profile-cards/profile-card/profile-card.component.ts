@@ -4,11 +4,12 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {ReactiveFormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {JobListingService} from '../../../services/job-listing/job-listing.service';
 import {ToastrService} from 'ngx-toastr';
-import {MatDialog} from '@angular/material/dialog';
+import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {HireRequestFormComponent} from '../hire-request-form/hire-request-form.component';
+import {MessagesService} from '../../../services/messages/messages.service';
 
 @Component({
   selector: 'app-profile-card',
@@ -43,6 +44,7 @@ export class ProfileCardComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private jobListingService: JobListingService,
     private toastr: ToastrService,
+    private router: Router,
   ) {
   }
 
@@ -57,13 +59,15 @@ export class ProfileCardComponent implements OnInit {
 
   ngOnInit(): void {
     console.log('works')
+
+
     this.activatedRoute.paramMap.subscribe(data => {
       this.jobListingId = data.get('jobListingId')!;
     })
-    this.loadListingsByTradesPersonId()
+    this.loadListingsByJobListingId()
   }
 
-  loadListingsByTradesPersonId() {
+  loadListingsByJobListingId() {
     console.log(this.jobListingId);
     this.jobListingService.getJobListingsByJobListingId(this.jobListingId).subscribe(response => {
       if (response.code === 200) {
@@ -82,12 +86,15 @@ export class ProfileCardComponent implements OnInit {
     if (document.activeElement instanceof HTMLElement) {
       document.activeElement.blur();
     }
-    const dialogRef = this.dialog.open(HireRequestFormComponent, {
-      width: '1000px',
-      // height: '400px',
-      panelClass: 'custom-dialog-container',
-      data: this.jobListingId
-    });
+
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.width = '1000px';
+    dialogConfig.panelClass = 'custom-dialog-container';
+    dialogConfig.data = {
+      jobListingId: this.jobListingId,
+      tradePersonId: this.listingDetails?.tradePersonDTO?.tradePersonId,
+    };
+    const dialogRef = this.dialog.open(HireRequestFormComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
@@ -95,4 +102,5 @@ export class ProfileCardComponent implements OnInit {
       }
     });
   }
+
 }

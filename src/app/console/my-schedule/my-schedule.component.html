@@ -1,7 +1,13 @@
 <div class="my-schedule-outer">
   <div class="calender-outer">
     <div class="calender-inner">
-      <full-calendar [options]="calendarOptions"></full-calendar>
+      <!--<div *ngIf="loading" class="loading-indicator">
+        <p>Loading your schedule...</p>
+      </div>-->
+      <full-calendar [options]="calendarOptions" *ngIf="!loading"></full-calendar>
+     <!-- <div class="no-events-message">
+        <p>No scheduled appointments found.</p>
+      </div>-->
     </div>
   </div>
 </div>

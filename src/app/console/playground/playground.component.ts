@@ -12,6 +12,7 @@ import {
 } from '../../share/components/image-manager/profile-pic-manager/profile-pic-manager.component';
 import {LoadingService} from '../../share/services/loading/loading.service';
 import {UserService} from '../../share/services/user/user.service';
+import {UserStateService} from '../../share/states/user-state/user-state.service';
 
 @Component({
   selector: 'app-playground',
@@ -30,6 +31,7 @@ import {UserService} from '../../share/services/user/user.service';
 })
 export class PlaygroundComponent implements OnInit {
 
+  userType: any;
   selectedData: any;
   userData: any;
   expanded = false;
@@ -45,6 +47,7 @@ export class PlaygroundComponent implements OnInit {
     private toastr: ToastrService,
     private cookieManager: CookieManagerService,
     private userService: UserService,
+    private userStateService: UserStateService,
     private loadingService: LoadingService,
     private sanitizer: DomSanitizer,
   ) {
@@ -53,6 +56,11 @@ export class PlaygroundComponent implements OnInit {
   ngOnInit(): void {
     // @ts-ignore
     this.userData = JSON.parse(sessionStorage.getItem('personalData'));
+
+    this.userStateService.userType$.subscribe(userType => {
+      this.userType = userType;
+    })
+
     this.loadUserProfilePictureByUserId();
   }
 

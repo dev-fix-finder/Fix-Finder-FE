@@ -1,11 +1,18 @@
 <div class="job-details-card">
-  <h2>Job Details</h2>
+  <div class="header-row">
+    <h2>Job Details</h2>
+    <button mat-icon-button class="close-button" (click)="dialogRef.close()">
+      <span>&times;</span>
+    </button>
+  </div>
   <div class="job-info-grid">
-    <div><strong>Title:</strong> Fix kitchen plumbing</div>
-    <div><strong>Client:</strong> John Doe</div>
-    <div><strong>Price:</strong> Rs. 8,000</div>
-    <div><strong>Requested Date:</strong> Apr 12, 2025</div>
-    <div><strong>Address:</strong> 123, Main Street, Colombo</div>
+    <div><strong>Title:</strong> {{ jobDetails.title || 'Loading...' }}</div>
+    <div><strong>Client:</strong> {{ jobDetails.clientName || 'Loading...' }}</div>
+    <div><strong>Price:</strong> Rs. {{ jobDetails.price ? (jobDetails.price | number:'1.2-2') : 'Loading...' }}</div>
+    <div><strong>Requested Date:</strong> {{ jobDetails.requestedDate ? (jobDetails.requestedDate | date:'mediumDate') : 'Loading...' }}</div>
+    <div><strong>Address:</strong> {{ jobDetails.address || 'Loading...' }}</div>
+    <div><strong>Description:</strong> {{ jobDetails.description || 'Loading...' }}</div>
+    <div><strong>Tags:</strong> {{ jobDetails.tags || 'Loading...' }}</div>
   </div>
 </div>
 
