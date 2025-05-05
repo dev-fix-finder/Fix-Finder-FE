@@ -1,4 +1,4 @@
-import {Component, inject, OnInit, signal} from '@angular/core';
+import {Component, inject, OnInit, signal, WritableSignal} from '@angular/core';
 import {MatIconModule} from '@angular/material/icon';
 import {CommonModule} from '@angular/common';
 import {MatMenuModule} from '@angular/material/menu';
@@ -51,7 +51,8 @@ interface FileChangeEvent {
 })
 export class ProfileContextComponent implements OnInit {
 
-  readonly pricingFeatureList = signal(['angular', 'how-to', 'tutorial', 'accessibility']);
+  readonly pricingFeatureList: WritableSignal<any> = signal([]);
+
   readonly pricingFeaturesFormControl = new FormControl(['angular']);
 
   userType: any;
@@ -87,34 +88,12 @@ export class ProfileContextComponent implements OnInit {
     categoryId: new FormControl('', [Validators.required]),
     description: new FormControl('', [Validators.required]),
     pricingDescription: new FormControl(''),
-    pricingFeatures: new FormControl<string[]>([])
   });
 
   verificationForm = new FormGroup({
     referenceName: new FormControl('', [Validators.required]),
     referenceMobile: new FormControl('', [Validators.required, FormValidation.mobileNumber])
   });
-
-  /*portfolioForm = new FormGroup({
-    workSamples: new FormControl(''),
-    testimonials: new FormControl(''),
-    websiteLink: new FormControl(''),
-    socialMediaLink: new FormControl('')
-  });
-
-  bankingDetailsForm = new FormGroup({
-    accountNumber: new FormControl(''),
-    bankBranch: new FormControl(''),
-    bankName: new FormControl(''),
-    paymentPreference: new FormControl(''),
-    taxComplianceDocuments: new FormControl('')
-  });
-
-  additionalInfoForm = new FormGroup({
-    emergencyContact: new FormControl(''),
-    languageIds: new FormControl(''),
-    workRadius: new FormControl(null)
-  });*/
 
   myListings: any[] = [];
 
@@ -276,13 +255,13 @@ export class ProfileContextComponent implements OnInit {
 
   createJobListing() {
     let data = {
+      title: this.professionalInfoForm.get("title")?.value,
+      pricePerHour: this.professionalInfoForm.get("pricePerHour")?.value,
       categoryId: this.professionalInfoForm.get("categoryId")?.value,
       description: this.professionalInfoForm.get("description")?.value,
-      pricePerHour: this.professionalInfoForm.get("pricePerHour")?.value,
-      title: this.professionalInfoForm.get("title")?.value
+      skills: this.pricingFeatureList(),
     }
-
-    this.jobListingService.createJobListing(data, this.userData.userId).subscribe(response => {
+    this.jobListingService.createJobListing(data, this.userData.userId,this.selectedFile).subscribe(response => {
       if (response.code === 200) {
         this.toastr.success(response.message, 'Success!');
         this.professionalInfoForm.reset();
@@ -318,7 +297,7 @@ export class ProfileContextComponent implements OnInit {
 
   onFileChange(event: FileChangeEvent) {
     if (event.addedFiles && event.addedFiles.length > 0) {
-      const file = event.addedFiles[0]; // Only use the first file for profile image
+      const file = event.addedFiles[0];
       const reader = new FileReader();
 
       reader.onload = (e: any) => {
@@ -429,9 +408,9 @@ export class ProfileContextComponent implements OnInit {
       const validFiles = this.validateFiles(files, multiple);
 
       if (multiple) {
-        this.onVerificationImageChange({ addedFiles: validFiles });
+        this.onVerificationImageChange({addedFiles: validFiles});
       } else {
-        this.onFileChange({ addedFiles: validFiles });
+        this.onFileChange({addedFiles: validFiles});
       }
     }
   }
@@ -443,9 +422,9 @@ export class ProfileContextComponent implements OnInit {
       const validFiles = this.validateFiles(files, multiple);
 
       if (multiple) {
-        this.onVerificationImageChange({ addedFiles: validFiles });
+        this.onVerificationImageChange({addedFiles: validFiles});
       } else {
-        this.onFileChange({ addedFiles: validFiles });
+        this.onFileChange({addedFiles: validFiles});
       }
     }
   }

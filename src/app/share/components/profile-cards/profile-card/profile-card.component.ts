@@ -9,7 +9,8 @@ import {JobListingService} from '../../../services/job-listing/job-listing.servi
 import {ToastrService} from 'ngx-toastr';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {HireRequestFormComponent} from '../hire-request-form/hire-request-form.component';
-import {MessagesService} from '../../../services/messages/messages.service';
+import {ChatServiceService} from '../../../services/chat/chat-service.service';
+import {ChatUser} from '../../../models/ChatUser';
 
 @Component({
   selector: 'app-profile-card',
@@ -45,6 +46,7 @@ export class ProfileCardComponent implements OnInit {
     private jobListingService: JobListingService,
     private toastr: ToastrService,
     private router: Router,
+    private chatService: ChatServiceService,
   ) {
   }
 
@@ -58,8 +60,6 @@ export class ProfileCardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('works')
-
 
     this.activatedRoute.paramMap.subscribe(data => {
       this.jobListingId = data.get('jobListingId')!;
@@ -80,8 +80,6 @@ export class ProfileCardComponent implements OnInit {
   }
 
   bookTradesPerson() {
-    console.log('book now');
-
     // blur active element before opening dialog
     if (document.activeElement instanceof HTMLElement) {
       document.activeElement.blur();
@@ -103,4 +101,48 @@ export class ProfileCardComponent implements OnInit {
     });
   }
 
+  createChatroom() {
+    debugger;
+    const userData = JSON.parse(sessionStorage.getItem('personalData') || '{}');
+    console.log(userData)
+    const tradesPersonUser = this.listingDetails?.tradePersonDTO?.user;
+    const loggedUserId = userData?.userId;
+
+    if (!loggedUserId || !tradesPersonUser?.userId) {
+      console.error('Cannot create chatroom. Missing user data!');
+      return;
+    }
+
+    const convoId = this.getConversationId(loggedUserId, tradesPersonUser?.userId);
+
+    const currentUser: ChatUser = {
+      userId: loggedUserId,
+      name: userData?.firstName + ' ' + userData?.lastName || 'User',
+      profilePicture: userData?.profilePicUrl || '',
+      online: true
+    };
+
+    const receiverUser: ChatUser = {
+      userId: tradesPersonUser?.userId,
+      name: tradesPersonUser?.firstName + ' ' + tradesPersonUser?.lastName || 'User',
+      profilePicture: tradesPersonUser.profilePicUrl || '',
+      online: false
+    };
+
+    this.chatService
+      .createConversationIfNotExists(convoId, [loggedUserId, tradesPersonUser.userId], currentUser, receiverUser)
+      .then(() => {
+        console.log('Chatroom created or already exists:', convoId);
+        this.router.navigateByUrl('/console/playground/messages');
+      })
+      .catch(err => {
+        console.error('Error creating chatroom:', err);
+      });
+  }
+
+// Simple conversation ID generation with string IDs
+  getConversationId(id1: string, id2: string): string {
+    const sorted = [id1, id2].sort(); // Sorts alphabetically
+    return `${sorted[0]}_${sorted[1]}`;
+  }
 }

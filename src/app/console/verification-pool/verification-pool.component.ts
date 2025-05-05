@@ -48,8 +48,10 @@ export class VerificationPoolComponent implements OnInit {
             let superAdminRole = tempArr.find(e => e == 'SUPER_ADMIN');
             if (tradesPersonRole || superAdminRole) {
               this.router.navigateByUrl('/console/playground/dashboard');
-            } else {
+            } else if (tradesPersonRole){
               this.router.navigateByUrl('/process/register');
+            }else{
+              this.router.navigateByUrl('/console/playground/dashboard');
             }
           }
         }

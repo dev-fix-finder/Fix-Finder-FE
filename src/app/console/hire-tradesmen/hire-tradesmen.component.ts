@@ -26,7 +26,7 @@ import {CategoryService} from '../../share/services/category/category.service';
 })
 export class HireTradesmenComponent implements OnInit {
   filterForm = new FormGroup({
-    category: new FormControl(null),
+    category: new FormControl('MASON'),
     minHourRate: new FormControl(''),
     maxHourRate: new FormControl(''),
   });
@@ -44,6 +44,7 @@ export class HireTradesmenComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadAllCategories();
+    this.loadAllListings()
   }
 
   loadAllCategories() {

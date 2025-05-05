@@ -1,5 +1,10 @@
 <div class="hire-trades-person-outer">
+
+  <h2 class="schedule-title">Hire TradesPerson</h2>
+
   <div class="filter-bar">
+    <p>* Try finding job listings by selecting trades category</p>
+
     <form [formGroup]="filterForm">
       <div class="row form-outer">
         <div class="col-6 col-md-2 column">
@@ -12,7 +17,7 @@
             </mat-select>
           </mat-form-field>
         </div>
-        <div class="col-6 col-md-2 column">
+        <!--<div class="col-6 col-md-2 column">
           <mat-form-field appearance="outline" class="example-full-width input-size">
             <mat-label>Min Hourly Rate</mat-label>
             <input formControlName="minHourRate" matInput type="number">
@@ -23,7 +28,7 @@
             <mat-label>Max Hourly Rate</mat-label>
             <input formControlName="maxHourRate" matInput type="number">
           </mat-form-field>
-        </div>
+        </div>-->
       </div>
     </form>
   </div>

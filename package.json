@@ -16,6 +16,7 @@
     "@angular/common": "^19.1.0",
     "@angular/compiler": "^19.1.0",
     "@angular/core": "^19.1.0",
+    "@angular/fire": "^19.1.0",
     "@angular/forms": "^19.1.0",
     "@angular/google-maps": "^19.1.5",
     "@angular/material": "^19.1.2",
@@ -30,10 +31,11 @@
     "@fullcalendar/interaction": "^6.1.15",
     "@fullcalendar/timegrid": "^6.1.15",
     "@syncfusion/ej2-angular-schedule": "^29.1.38",
+    "@syncfusion/ej2-material-theme": "~29.1.38",
     "angular-calendar": "^0.31.1",
     "bootstrap": "^5.3.3",
     "express": "^4.18.2",
-    "firebase": "^11.3.1",
+    "firebase": "^11.6.1",
     "ngx-cookie-service": "^19.1.0",
     "ngx-dropzone": "^3.1.0",
     "ngx-image-cropper": "^9.1.1",
@@ -43,8 +45,7 @@
     "sweetalert2": "^11.17.2",
     "tslib": "^2.3.0",
     "uuid": "^9.0.1",
-    "zone.js": "~0.15.0",
-    "@syncfusion/ej2-material-theme": "~29.1.38"
+    "zone.js": "~0.15.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^19.1.3",
