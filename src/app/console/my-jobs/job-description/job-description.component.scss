@@ -51,11 +51,11 @@ $accent: #90C67C;
 $background: #E1EEBC;
 
 .status-tracker {
+  margin-bottom: 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
   position: relative;
-  margin-bottom: 2rem;
   padding: 0 1rem;
 
   .step {
@@ -109,25 +109,27 @@ $background: #E1EEBC;
     }
 
     &.rejected .circle {
-      background-color: #e74c3c;
+      background-color: $primary;
     }
 
     &.rejected::after {
-      background-color: #e74c3c;
+      background-color: $primary;
     }
   }
 
   &.rejected-flow {
     .step .label {
-      color: #e74c3c;
+      color:$primary;
     }
   }
 }
 
 .status-controls {
+  margin-bottom: 20px;
   display: flex;
   justify-content: flex-end;
   margin-right: 1rem;
+  gap: 10px;
 }
 
 .status-log-card {

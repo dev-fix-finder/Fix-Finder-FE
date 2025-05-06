@@ -119,13 +119,13 @@ export class MyScheduleComponent implements OnInit {
             this.calendarEvents = response.data.map((event: any) => {
               console.log('Processing event:', event);
               return {
-                id: event.jobId || event.id || String(Math.random()),
+                id: event.jobPoolId || event.id || String(Math.random()),
                 title: event.title || 'Job Appointment',
                 start: new Date(event.startDateTime || event.start),
                 end: new Date(event.endDateTime || event.end),
                 allDay: event.allDay || false,
                 extendedProps: {
-                  jobId: event.jobId || event.id
+                  jobId: event.jobPoolId || event.id
                 }
               };
             });

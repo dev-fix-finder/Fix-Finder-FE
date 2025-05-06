@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../../share/services/auth/auth.service';
 import {Router} from '@angular/router';
 import {LoadingService} from '../../share/services/loading/loading.service';
-import {UserStateService, User} from '../../share/states/user-state/user-state.service';
+import {User, UserStateService} from '../../share/states/user-state/user-state.service';
 
 @Component({
   selector: 'app-verification-pool',
@@ -12,6 +12,9 @@ import {UserStateService, User} from '../../share/states/user-state/user-state.s
   styleUrl: './verification-pool.component.scss'
 })
 export class VerificationPoolComponent implements OnInit {
+
+  userType: any;
+
   constructor(
     private authService: AuthService,
     private router: Router,
@@ -21,8 +24,11 @@ export class VerificationPoolComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('request recieved')
     this.check();
+
+    this.userStateService.userType$.subscribe(userType => {
+      this.userType = userType;
+    })
   }
 
   private check() {
@@ -32,7 +38,6 @@ export class VerificationPoolComponent implements OnInit {
       this.authService.getUserData(sessionStorage.getItem('token')).subscribe(response => {
         if (response.code === 200) {
           sessionStorage.setItem('personalData', JSON.stringify(response.data));
-
           // Set current user in UserStateService
           const userData: User = {
             id: response.data.id,
@@ -43,14 +48,18 @@ export class VerificationPoolComponent implements OnInit {
 
           let tempArr: [] = response.data.role;
           let selectedUserRole = tempArr.find(e => e == 'USER');
-          if (selectedUserRole) {
-            let tradesPersonRole = tempArr.find(e => e == 'TRADEPERSON');
-            let superAdminRole = tempArr.find(e => e == 'SUPER_ADMIN');
-            if (tradesPersonRole || superAdminRole) {
+          let tradesPersonRole = tempArr.find(e => e == 'TRADEPERSON');
+          let superAdminRole = tempArr.find(e => e == 'SUPER_ADMIN');
+
+          if (superAdminRole) {
+            this.userStateService.setUserType('SUPER_ADMIN');
+            this.router.navigateByUrl('/console/playground/dashboard');
+          } else if (selectedUserRole) {
+            if (tradesPersonRole && this.userType === 'TRADES-PERSON') {
               this.router.navigateByUrl('/console/playground/dashboard');
-            } else if (tradesPersonRole){
+            } else if (this.userType === 'TRADES-PERSON') {
               this.router.navigateByUrl('/process/register');
-            }else{
+            } else {
               this.router.navigateByUrl('/console/playground/dashboard');
             }
           }

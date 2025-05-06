@@ -72,7 +72,6 @@ export class ProfileCardComponent implements OnInit {
     this.jobListingService.getJobListingsByJobListingId(this.jobListingId).subscribe(response => {
       if (response.code === 200) {
         this.listingDetails = response.data;
-        console.log(this.listingDetails)
       } else {
         this.toastr.error(response.message, 'Error!');
       }

@@ -64,6 +64,7 @@ export class ProfileContextComponent implements OnInit {
   references: any[] = [];
   uploadedImages: string[] = [];
   selectedFile: string | null = null;
+  listingFile: any;
   editingReferenceIndex: number = -1;
 
   // Toggle state for personal information form
@@ -162,7 +163,9 @@ export class ProfileContextComponent implements OnInit {
           }
         })
       }
-
+      this.disableFormFields();
+      this.isEditMode = false;
+      this.toastr.success('Profile updated successfully', 'Success!');
     } else {
       this.toastr.error('Please fill all required fields', 'Error!');
     }
@@ -187,12 +190,17 @@ export class ProfileContextComponent implements OnInit {
 
     // Disable form fields initially
     this.disableFormFields();
+
+    this.personalInfoForm.get('mobile')?.valueChanges.subscribe(value => {
+      if (value && value.startsWith('0')) {
+        this.personalInfoForm.get('mobile')?.setValue(value.substring(1), {emitEvent: false});
+      }
+    });
   }
 
   // Toggle edit mode for personal information form
   toggleEditMode(event: any): void {
     this.isEditMode = event.checked;
-
     if (this.isEditMode) {
       this.enableFormFields();
     } else {
@@ -303,7 +311,7 @@ export class ProfileContextComponent implements OnInit {
       description: this.professionalInfoForm.get("description")?.value,
       skills: this.pricingFeatureList(),
     }
-    this.jobListingService.createJobListing(data, this.userData.userId, this.selectedFile).subscribe(response => {
+    this.jobListingService.createJobListing(data, this.userData.userId, this.listingFile).subscribe(response => {
       if (response.code === 200) {
         this.toastr.success(response.message, 'Success!');
         this.professionalInfoForm.reset();
@@ -348,12 +356,10 @@ export class ProfileContextComponent implements OnInit {
         console.log('File uploaded:', file.name);
       };
 
+      this.listingFile = file;
+
       reader.readAsDataURL(file);
     }
-  }
-
-  removeSelectedFile() {
-    this.selectedFile = null;
   }
 
   addFeature(event: MatChipInputEvent): void {
@@ -463,12 +469,29 @@ export class ProfileContextComponent implements OnInit {
       const files = Array.from(input.files);
       const validFiles = this.validateFiles(files, multiple);
 
-      if (multiple) {
-        this.onVerificationImageChange({addedFiles: validFiles});
-      } else {
-        this.onFileChange({addedFiles: validFiles});
+      // Store the file for uploading
+      if (validFiles.length > 0) {
+        const file = validFiles[0];
+        this.listingFile = file; // The actual File object for upload
+        this.previewFile(file);  // Set up preview
       }
     }
+  }
+
+  previewFile(file: File): void {
+    const reader = new FileReader();
+
+    reader.onload = (e: any) => {
+      // Store the file data URL for the preview
+      this.selectedFile = e.target.result; // Base64 string for preview
+    };
+
+    reader.readAsDataURL(file);
+  }
+
+  removeSelectedFile(): void {
+    this.selectedFile = null;
+    this.listingFile = null;
   }
 
   validateFiles(files: File[], multiple: boolean): File[] {

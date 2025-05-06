@@ -299,6 +299,12 @@ export class HireRequestFormComponent implements OnInit {
 
     // Disabled fetching existing times as per requirements
     this.fetchEvents()
+
+    this.jobForm.get('contactNumber')?.valueChanges.subscribe(value => {
+      if (value && value.startsWith('0')) {
+        this.jobForm.get('contactNumber')?.setValue(value.substring(1), {emitEvent: false});
+      }
+    });
   }
 
   fetchEvents(): void {

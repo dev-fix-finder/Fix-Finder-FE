@@ -31,41 +31,8 @@ import {EditJobComponent} from './edit-job/edit-job.component';
 export class MyJobsComponent implements OnInit, OnDestroy {
   userType: any;
   userData: any;
+  jobList: any;
   private userTypeSubscription: Subscription | undefined;
-  jobList = [
-    {
-      id: 'job001',
-      title: 'Facilities Superintendent and or Foreman',
-      tags: 'Supervising, Repair, Carpenter',
-      description:
-        'Performs skilled, semi-skilled and routine tasks as trades person related to the maintenance of buildings and facilities.',
-      price: 10000.0
-    },
-    {
-      id: 'job002',
-      title: 'Electrician and Lighting Technician',
-      tags: 'Wiring, Fixture Repair, Power Checks',
-      description:
-        'Responsible for installing, repairing, and maintaining electrical systems and lighting in residential and commercial buildings.',
-      price: 7500.0
-    },
-    {
-      id: 'job003',
-      title: 'AC Repair and Maintenance',
-      tags: 'HVAC, Ventilation, Refrigeration',
-      description:
-        'Diagnose and repair air conditioning units, replace components, and ensure optimal cooling performance.',
-      price: 8500.0
-    },
-    {
-      id: 'job004',
-      title: 'Tile and Grout Specialist',
-      tags: 'Flooring, Waterproofing, Bathroom Setup',
-      description:
-        'Apply and maintain ceramic or porcelain tile, clean and seal grout, and ensure surface waterproofing.',
-      price: 9200.0
-    }
-  ];
 
   constructor(
     private userStateService: UserStateService,
@@ -98,10 +65,10 @@ export class MyJobsComponent implements OnInit, OnDestroy {
 
   loadJobs(userType: string): void {
     if (userType === 'CLIENT') {
-      // For CLIENT users, load jobs by userId
       if (this.userData?.userId) {
         this.jobPoolService.getJobsByUserId(this.userData?.userId).subscribe(
           (response) => {
+            console.log(response)
             if (response && response.data) {
               this.jobList = response.data;
             }
@@ -147,7 +114,7 @@ export class MyJobsComponent implements OnInit, OnDestroy {
       // Open job description dialog with the job ID
       this.dialog.open(JobDescriptionComponent, {
         width: '800px',
-        data: { jobId: jobId }
+        data: {jobId: jobId}
       });
     } else {
       console.error('Job ID is missing');
@@ -163,7 +130,7 @@ export class MyJobsComponent implements OnInit, OnDestroy {
       // Open edit job dialog with the job ID
       const dialogRef = this.dialog.open(EditJobComponent, {
         width: '900px',
-        data: { jobId: jobId }
+        data: {jobId: jobId}
       });
 
       // Refresh job list when dialog is closed with a successful update
@@ -177,4 +144,6 @@ export class MyJobsComponent implements OnInit, OnDestroy {
       console.error('Job ID is missing');
     }
   }
+
+  protected readonly Date = Date;
 }

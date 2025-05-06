@@ -10,6 +10,7 @@ import {GoogleMapsModule} from '@angular/google-maps';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {TradespersonService} from '../../share/services/tradesperson/tradesperson.service';
+import {FormValidation} from '../../share/form-validations/form-validation';
 
 @Component({
   selector: 'app-user-register',
@@ -66,17 +67,17 @@ export class UserRegisterComponent {
   ];
 
   personalInfoForm = new FormGroup({
-    nic: new FormControl('', [Validators.required]),
+    nic: new FormControl('', [Validators.required, FormValidation.nic]),
     gender: new FormControl(null),
-    dob: new FormControl(null),
-    email: new FormControl('', [Validators.email]),
+    dob: new FormControl(null, [FormValidation.date]),
+    email: new FormControl('', [Validators.email, FormValidation.email]),
     userId: new FormControl(''),
     longitude: new FormControl({value: this.center?.lng, disabled: true}, [Validators.required]),
     latitude: new FormControl({value: this.center?.lat, disabled: true}, [Validators.required]),
     country: new FormControl('', [Validators.required]),
     city: new FormControl('', [Validators.required]),
     address: new FormControl('', [Validators.required]),
-    mobile: new FormControl('', [Validators.required])
+    mobile: new FormControl('', [Validators.required, FormValidation.mobileNumber])
   });
 
   professionalInfoForm = new FormGroup({
@@ -153,6 +154,12 @@ export class UserRegisterComponent {
   }
 
   ngOnInit(): void {
+
+    this.personalInfoForm.get('mobile')?.valueChanges.subscribe(value => {
+      if (value && value.startsWith('0')) {
+        this.personalInfoForm.get('mobile')?.setValue(value.substring(1), {emitEvent: false});
+      }
+    });
   }
 
   tradesPersonRegistrationSubmit() {

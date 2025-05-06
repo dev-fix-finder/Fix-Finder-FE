@@ -34,25 +34,27 @@
   </div>
 
   <div class="noticeboard">
-    <div class="notice-card" *ngFor="let tradePerson of tradespeople">
+    <div class="notice-card" *ngFor="let jobListing of jobListings">
       <div class="img">
-        <img [src]="tradePerson.coverImage" alt="service-image">
+        <img [src]="jobListing.profilePic" alt="service-image">
       </div>
       <div class="profile-outer">
         <div class="profile-picture">
-          <img [src]="tradePerson.profileImage" alt="profile">
+          <img [src]="jobListing?.tradePersonDTO?.user?.profilePic" alt="profile">
         </div>
         <div class="name-project-outer">
-          <p class="name">{{ tradePerson.tradePersonName }}</p>
-          <p class="projects">({{ tradePerson.onGoingJobs }} ongoing projects)<br>({{ tradePerson.completedJobs }}
+          <p class="name">{{ jobListing?.tradePersonDTO?.tradePersonName }}</p>
+          <p class="projects">({{ jobListing.onGoingJobs }} ongoing projects)<br>({{ jobListing.completedJobs }}
             Completed projects)</p>
         </div>
       </div>
       <div class="text">
-        <p class="title">{{ tradePerson?.title | slice:0:80 }}...</p>
-        <p class="rating">★ <span>{{ tradePerson.rating }}</span></p>
+        <p class="title">{{ jobListing?.title}}</p>
+        <p class="description">{{ jobListing?.description | slice:0:80}}</p>
+        <p *ngIf="jobListing.rating > 0" class="rating">★ <span>{{ jobListing.rating }}</span></p>
+        <p *ngIf="jobListing.rating < 1" class="rating"><span>No ratings yet</span></p>
         <div class="card-button-outer">
-          <button mat-raised-button class="read-more" (click)="routeToTradesPersonDetails(tradePerson)">View
+          <button mat-raised-button class="read-more" (click)="routeToTradesPersonDetails(jobListing)">View
             Profile
           </button>
         </div>

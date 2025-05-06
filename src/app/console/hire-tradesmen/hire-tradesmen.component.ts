@@ -31,7 +31,7 @@ export class HireTradesmenComponent implements OnInit {
     maxHourRate: new FormControl(''),
   });
 
-  tradespeople: any[] = [];
+  jobListings: any[] = [];
   categories: any[] = [];
 
   constructor(
@@ -60,18 +60,17 @@ export class HireTradesmenComponent implements OnInit {
 
   loadAllListings() {
     let category: any = this.filterForm.get('category')?.value!;
-    this.jobListingService.getAllJobsByFilter(category).subscribe(response => {
+    this.jobListingService.getAllJobListingsByFilter(category).subscribe(response => {
       if (response.code === 200) {
-        this.tradespeople = response.data;
-        console.log(this.tradespeople);
+        this.jobListings = response.data;
       } else {
         this.toastr.error(response.message, 'Error!');
       }
     })
   }
 
-  routeToTradesPersonDetails(tradesPerson: any) {
-    const id = tradesPerson?.jobListingsId;
+  routeToTradesPersonDetails(jobListing: any) {
+    const id = jobListing?.jobListingsId;
     if (id) {
       this.router.navigate(['/console/playground/trades-person/profile', id]);
     } else {

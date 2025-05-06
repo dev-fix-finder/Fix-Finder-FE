@@ -112,14 +112,21 @@ export class FormValidation {
   }
 
   static mobileNumber(control: AbstractControl): ValidationErrors | null {
-    const value = control.value;
+    let value: string = control.value;
     if (!value) {
       return null;
     }
-    const pattern = /^7[0-9]{8}$/;
+
+    // Remove leading 0 if present
+    if (value.startsWith('0')) {
+      value = value.substring(1);
+    }
+
+    const pattern = /^7[0-9]{8}$/; // Mobile number must start with 7 and have 9 digits total
     if (!pattern.test(value)) {
       return { invalidMobilePattern: true };
     }
+
     return null;
   }
 

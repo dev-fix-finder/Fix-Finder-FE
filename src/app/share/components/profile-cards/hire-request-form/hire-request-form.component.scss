@@ -2,6 +2,12 @@
   width: 100%;
 }
 
+.schedule-title {
+  margin: 20px 10px 0 10px;
+  font-size: 22px;
+  color: var(--green-color);
+}
+
 .form-header {
   display: flex;
   justify-content: space-between;
@@ -111,7 +117,7 @@ $background: #E1EEBC;
   margin-top: 20px;
 
   full-calendar {
-    width: 100%!important;
+    width: 100% !important;
     height: auto;
     min-height: 600px;
   }
@@ -124,7 +130,7 @@ $background: #E1EEBC;
     padding: 10px;
     margin-bottom: 10px;
     border-radius: 4px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
     mat-icon {
       color: #4caf50;
@@ -150,7 +156,7 @@ $background: #E1EEBC;
     padding: 10px;
     margin-bottom: 10px;
     border-radius: 4px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
     mat-icon {
       color: #2196f3;

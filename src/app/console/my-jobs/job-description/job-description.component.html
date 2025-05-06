@@ -6,13 +6,19 @@
     </button>
   </div>
   <div class="job-info-grid">
-    <div><strong>Title:</strong> {{ jobDetails.title || 'Loading...' }}</div>
-    <div><strong>Client:</strong> {{ jobDetails.clientName || 'Loading...' }}</div>
-    <div><strong>Price:</strong> Rs. {{ jobDetails.price ? (jobDetails.price | number:'1.2-2') : 'Loading...' }}</div>
-    <div><strong>Requested Date:</strong> {{ jobDetails.requestedDate ? (jobDetails.requestedDate | date:'mediumDate') : 'Loading...' }}</div>
-    <div><strong>Address:</strong> {{ jobDetails.address || 'Loading...' }}</div>
-    <div><strong>Description:</strong> {{ jobDetails.description || 'Loading...' }}</div>
-    <div><strong>Tags:</strong> {{ jobDetails.tags || 'Loading...' }}</div>
+    <div><strong>Client:</strong> {{ jobDetails?.contactPersonName || 'Loading...' }}</div>
+    <div><strong>Client mobile No:</strong> {{ jobDetails?.contactNumber || 'Loading...' }}</div>
+    <div><strong>Job amount:</strong>
+      Rs. {{ jobDetails?.calculatedAmount ? (jobDetails?.calculatedAmount | number:'1.2-2') : 'Loading...' }}
+    </div>
+    <div><strong>Start Date &
+      Time:</strong> {{ jobDetails?.startDateTime ? (jobDetails?.startDateTime | date:'yyyy-MM-dd (HH:mm)') : 'Loading...' }}
+    </div>
+    <div><strong>End Date &
+      Time:</strong> {{ jobDetails?.endDateTime ? (jobDetails?.endDateTime | date:'yyyy-MM-dd (HH:mm)') : 'Loading...' }}
+    </div>
+    <div><strong>Address:</strong> {{ jobDetails?.address || 'Loading...' }}</div>
+    <div><strong>Description:</strong> {{ jobDetails?.description || 'Loading...' }}</div>
   </div>
 </div>
 
@@ -20,22 +26,25 @@
   <div
     class="step"
     *ngFor="let step of steps; let i = index"
-    [class.active]="i <= currentStep && step !== 'Rejected'"
-    [class.rejected]="step === 'Rejected' && i === currentStep">
+    [class.active]="i <= currentStep && step !== 'REJECTED'"
+    [class.rejected]="step === 'REJECTED' && i === currentStep">
     <div class="circle">{{ i + 1 }}</div>
     <div class="label">{{ step }}</div>
   </div>
 </div>
 
-<div class="status-controls">
-  <button mat-raised-button color="primary" (click)="nextStep()" [disabled]="currentStep >= steps.length - 1">
+<div class="status-controls" *ngIf="userType === 'TRADES-PERSON'">
+  <button mat-raised-button color="primary" (click)="nextStep()"
+          [disabled]="currentStep >= steps.length - 1 || steps[this.currentStep] === 'REJECTED'">
     Next Status
   </button>
-  <button mat-raised-button color="warn" (click)="rejectJob()" [disabled]="currentStep !== 0">
+  <button mat-raised-button  (click)="rejectJob()"
+          [disabled]="currentStep !== 0|| steps[this.currentStep] === 'REJECTED'">
     Reject Job
   </button>
 </div>
 
+<!--
 
 <div class="status-log-card">
   <h3>Status Log</h3>
@@ -58,3 +67,4 @@
     </tbody>
   </table>
 </div>
+-->

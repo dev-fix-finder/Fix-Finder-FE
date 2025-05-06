@@ -2,61 +2,61 @@
   <h2 class="schedule-title">My Jobs</h2>
   <div class="container-fluid">
     <div class="row">
-   <!--   &lt;!&ndash; Overview Section &ndash;&gt;
-      <div class="col-12">
-        <div class="jobs-overview">
-          <h2 class="title">Overview</h2>
-          <div class="row">
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
-              <div class="counter-card" style="border-left: 5px solid #95a5a6">
-                <div class="counter-header">
-                  <h3>Job Vacancies</h3>
-                </div>
-                <div class="counter-value">
-                  <h1>10</h1>
-                </div>
-                <div class="counter-details">
-                  <div class="counter-item">
-                    <span>Verified: 15</span>
-                  </div>
-                  <div class="counter-item">
-                    <span>Pending: 5</span>
-                  </div>
-                  <div class="counter-item">
-                    <span>Completed: 10</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            &lt;!&ndash; Additional counter cards can be added here &ndash;&gt;
-          </div>
-        </div>
-      </div>-->
+      <!--   &lt;!&ndash; Overview Section &ndash;&gt;
+         <div class="col-12">
+           <div class="jobs-overview">
+             <h2 class="title">Overview</h2>
+             <div class="row">
+               <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
+                 <div class="counter-card" style="border-left: 5px solid #95a5a6">
+                   <div class="counter-header">
+                     <h3>Job Vacancies</h3>
+                   </div>
+                   <div class="counter-value">
+                     <h1>10</h1>
+                   </div>
+                   <div class="counter-details">
+                     <div class="counter-item">
+                       <span>Verified: 15</span>
+                     </div>
+                     <div class="counter-item">
+                       <span>Pending: 5</span>
+                     </div>
+                     <div class="counter-item">
+                       <span>Completed: 10</span>
+                     </div>
+                   </div>
+                 </div>
+               </div>
+               &lt;!&ndash; Additional counter cards can be added here &ndash;&gt;
+             </div>
+           </div>
+         </div>-->
 
-     <!-- &lt;!&ndash; Search and Filter Section &ndash;&gt;
-      <div class="col-12 mt-4">
-        <div class="search-filter-container">
-          <div class="row align-items-center">
-            <div class="col-12 col-md-8 mb-3 mb-md-0">
-              <mat-form-field appearance="outline" class="w-100">
-                <mat-label>Search Jobs</mat-label>
-                <input matInput placeholder="Enter keywords, job title, or tags">
-              </mat-form-field>
-            </div>
-            <div class="col-12 col-md-4">
-              <mat-form-field appearance="outline" class="w-100">
-                <mat-label>Filter By</mat-label>
-                <mat-select>
-                  <mat-option value="all">All Jobs</mat-option>
-                  <mat-option value="pending">Pending</mat-option>
-                  <mat-option value="completed">Completed</mat-option>
-                  <mat-option value="verified">Verified</mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-          </div>
-        </div>
-      </div>-->
+      <!-- &lt;!&ndash; Search and Filter Section &ndash;&gt;
+       <div class="col-12 mt-4">
+         <div class="search-filter-container">
+           <div class="row align-items-center">
+             <div class="col-12 col-md-8 mb-3 mb-md-0">
+               <mat-form-field appearance="outline" class="w-100">
+                 <mat-label>Search Jobs</mat-label>
+                 <input matInput placeholder="Enter keywords, job title, or tags">
+               </mat-form-field>
+             </div>
+             <div class="col-12 col-md-4">
+               <mat-form-field appearance="outline" class="w-100">
+                 <mat-label>Filter By</mat-label>
+                 <mat-select>
+                   <mat-option value="all">All Jobs</mat-option>
+                   <mat-option value="pending">Pending</mat-option>
+                   <mat-option value="completed">Completed</mat-option>
+                   <mat-option value="verified">Verified</mat-option>
+                 </mat-select>
+               </mat-form-field>
+             </div>
+           </div>
+         </div>
+       </div>-->
 
       <!-- Job Listings Section -->
       <div class="col-12 mt-3">
@@ -66,18 +66,22 @@
               <div class="job-card">
                 <div class="job-card-header">
                   <div class="job-price-tag">
-                    <span>LKR {{ job.price | number:'1.2-2' }}</span>
+                    <span>LKR {{ job?.calculatedAmount | number:'1.2-2' }}</span>
                   </div>
                 </div>
                 <div class="job-card-body">
-                  <h3 class="job-title">{{ job.title }}</h3>
+                  <h3 class="job-title">{{ job?.description }}</h3>
                   <div class="job-tags">
-                    <span>{{ job.tags }}</span>
+                    <span>{{ job?.contactPersonName }}</span>
                   </div>
-                  <p class="job-description">{{ job.description }}</p>
+                  <p class="job-description">{{ job.address }}</p>
+                  <p class="job-description">{{ job.startDateTime | date:'yyyy-MM-dd (HH:mm)' }}
+                    - {{ job.endDateTime | date:'yyyy-MM-dd (HH:mm)' }}</p>
                   <div class="job-actions">
-                    <button class="view-details-btn" (click)="viewJobDetails(job.id)">View Details</button>
-                    <button *ngIf="userType === 'CLIENT'" class="edit-job-btn" (click)="editJob(job.id)">Edit Job</button>
+                    <button class="view-details-btn" (click)="viewJobDetails(job?.jobPoolId)">View Details</button>
+                    <button *ngIf="userType === 'CLIENT'" class="edit-job-btn" (click)="editJob(job?.jobPoolId)">Edit
+                      Job
+                    </button>
                   </div>
                 </div>
               </div>
@@ -85,7 +89,7 @@
           </div>
 
           <!-- Empty state message when no jobs are available -->
-          <div class="empty-state" *ngIf="jobList.length === 0">
+          <div class="empty-state" *ngIf="jobList?.length === 0">
             <p>No jobs found. Try adjusting your search criteria.</p>
           </div>
         </div>

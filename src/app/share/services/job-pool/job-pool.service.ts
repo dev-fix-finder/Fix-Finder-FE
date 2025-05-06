@@ -20,7 +20,7 @@ export class JobPoolService {
   }
 
   getJobsByUserId(userId: any): Observable<any> {
-    return this.http.get(this.baseUrl + 'job-pool/get-by-user-id?userId=' + userId);
+    return this.http.get(this.baseUrl + 'job-pool/get-by-userId?userId=' + userId);
   }
 
   getJobsByTradePersonId(tradePersonId: any): Observable<any> {
@@ -28,10 +28,14 @@ export class JobPoolService {
   }
 
   getJobDetailsById(jobId: string): Observable<any> {
-    return this.http.get(this.baseUrl + 'job-pool/get-by-id?jobId=' + jobId);
+    return this.http.get(this.baseUrl + 'job-pool/get-by-id/' + jobId);
   }
 
   updateJob(jobId: string, jobData: any): Observable<any> {
     return this.http.put(this.baseUrl + 'job-pool/update?jobId=' + jobId, jobData);
+  }
+
+  updateJobStatus(jobId: any, status: string): Observable<any> {
+    return this.http.put(this.baseUrl + 'job-pool/update-status/' + jobId + '?status=' + status, {});
   }
 }

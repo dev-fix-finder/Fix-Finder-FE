@@ -1,4 +1,6 @@
+<h2 class="schedule-title">Listing Details</h2>
 <div class="gig-wrapper">
+
   <div class="gig-left">
     <h2 class="gig-title">
       {{ listingDetails?.title }}
@@ -6,14 +8,17 @@
     <div class="seller-info">
       <span class="seller-name">{{ listingDetails?.tradePersonDTO.tradePersonName }}</span>
       <span class="badge choice">Fix Finder’s Choice</span>
-      <span class="badge top-rated">Verified</span>
-      <span class="rating">{{ listingDetails?.rating }} ★ ({{ listingDetails?.completedJobs }} service reviews)</span>
+      <span *ngIf="listingDetails?.tradePersonDTO?.isVerified"
+            class="badge top-rated">{{ listingDetails?.tradePersonDTO?.isVerified ? 'Verified' : '' }}</span>
+      <span *ngIf="listingDetails?.rating > 0" class="rating">{{ listingDetails?.rating }}
+        ★ ({{ listingDetails?.completedJobs }} service reviews)</span>
     </div>
-    <p class="repeat-note">Customers keep coming back — {{listingDetails?.tradePersonDTO?.user?.firstName}} has an outstanding track record of trusted home
+    <p class="repeat-note">Customers keep coming back — {{ listingDetails?.tradePersonDTO?.user?.firstName }} has an
+      outstanding track record of trusted home
       services.</p>
     <div class="gig-preview">
       <img
-        src="https://skilled.peopleready.com/wp-content/uploads/sites/2/2021/02/683433PeopleReady-Skilled-Trades-Blog-Image-02-1-1-1-1000x460.jpg"
+        [src]="listingDetails?.profilePic"
         alt="Fix Finder tradesperson preview">
     </div>
     <div class="review-box">
@@ -27,18 +32,16 @@
 
   <div class="gig-right">
     <div class="package-tabs">
-      <button [class.active]="selectedTab === 'Basic'" (click)="selectTab('Basic')">Basic Service</button>
+      <button [class.active]="selectedTab === 'Basic'" (click)="selectTab('Basic')">Service Details</button>
     </div>
     <div class="package-box">
       <div class="price-row">
-        <h3>${{ package.price }}</h3>
-        <span class="subscribe-save">Save up to 5% with <a href="#">FixFinder Plus</a></span>
+        <h3>LKR {{ listingDetails?.pricePerHour }}/ Per hour</h3>
+        <!--        <span class="subscribe-save">Save up to 5% with <a href="#">FixFinder Plus</a></span>-->
       </div>
-      <p class="package-desc">{{ package.description }}</p>
+      <p class="package-desc">{{ listingDetails?.description }}</p>
       <ul class="package-details">
-        <li>{{ package.delivery }} day service window</li>
-        <li> {{ package.revisions }} free touch-ups</li>
-        <li *ngFor="let feature of package.features">{{ feature }}</li>
+        <li *ngFor="let skill of listingDetails?.skills">{{ skill }}</li>
       </ul>
       <div class="button-group">
         <button mat-raised-button class="btn primary" (click)="bookTradesPerson()">Book Now</button>

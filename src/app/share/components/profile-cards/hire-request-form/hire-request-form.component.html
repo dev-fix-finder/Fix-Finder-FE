@@ -68,7 +68,7 @@
 <div class="outer">
 
   <div class="form-header">
-    <h2 class="form-title">Job Request Form</h2>
+    <h2 class="schedule-title">Make a job request</h2>
     <button mat-icon-button class="close-btn" (click)="closeDialog()">
       <mat-icon>close</mat-icon>
     </button>
@@ -78,10 +78,10 @@
     <form [formGroup]="jobForm" (ngSubmit)="onSubmit()" class="form-container">
 
       <mat-form-field appearance="outline" class="example-full-width input-size">
-        <mat-label>Contact Person Name</mat-label>
+        <mat-label>Your Name</mat-label>
         <input matInput formControlName="contactPersonName">
         <mat-error *ngIf="jobForm.get('contactPersonName')?.hasError('required')">
-          Contact person name is required
+          Your Name is required
         </mat-error>
         <mat-error *ngIf="jobForm.get('contactPersonName')?.hasError('requireName')">
           Please enter a valid name
@@ -89,17 +89,17 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="example-full-width input-size">
-        <mat-label>Contact Number</mat-label>
-        <input matInput formControlName="contactNumber">
+        <mat-label>Your Contact Number</mat-label>
+        <input matInput formControlName="contactNumber" type="text">
         <mat-error *ngIf="jobForm.get('contactNumber')?.hasError('required')">
-          Contact number is required
+          Your Contact number is required
         </mat-error>
         <mat-error *ngIf="jobForm.get('contactNumber')?.hasError('invalidMobilePattern')">
           Please enter a valid mobile number (format: 7XXXXXXXX)
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field appearance="outline" class="example-full-width input-size">
+      <!--<mat-form-field appearance="outline" class="example-full-width input-size">
         <mat-label>Job Payment</mat-label>
         <input matInput type="number" formControlName="offeredPrice">
         <mat-error *ngIf="jobForm.get('offeredPrice')?.hasError('required')">
@@ -108,9 +108,9 @@
         <mat-error *ngIf="jobForm.get('offeredPrice')?.hasError('min')">
           Offered price must be greater than or equal to 0
         </mat-error>
-      </mat-form-field>
+      </mat-form-field>-->
 
-      <mat-form-field appearance="outline" class="example-full-width input-size">
+      <mat-form-field appearance="outline" class="example-full-width input-size" style="grid-column: span 2;">
         <mat-label>Address</mat-label>
         <input matInput formControlName="address">
         <mat-error *ngIf="jobForm.get('address')?.hasError('required')">
