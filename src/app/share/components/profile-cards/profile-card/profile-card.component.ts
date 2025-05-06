@@ -102,9 +102,7 @@ export class ProfileCardComponent implements OnInit {
   }
 
   createChatroom() {
-    debugger;
     const userData = JSON.parse(sessionStorage.getItem('personalData') || '{}');
-    console.log(userData)
     const tradesPersonUser = this.listingDetails?.tradePersonDTO?.user;
     const loggedUserId = userData?.userId;
 
@@ -125,7 +123,7 @@ export class ProfileCardComponent implements OnInit {
     const receiverUser: ChatUser = {
       userId: tradesPersonUser?.userId,
       name: tradesPersonUser?.firstName + ' ' + tradesPersonUser?.lastName || 'User',
-      profilePicture: tradesPersonUser.profilePicUrl || '',
+      profilePicture: tradesPersonUser.profilePic || '',
       online: false
     };
 

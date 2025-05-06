@@ -71,6 +71,8 @@ export class ProfileContextComponent implements OnInit {
 
   personalInfoForm = new FormGroup({
     userId: new FormControl({value: '', disabled: true}),
+    firstName: new FormControl('', [Validators.required]),
+    lastName: new FormControl('', [Validators.required]),
     name: new FormControl('', [Validators.required]),
     nic: new FormControl(null, [Validators.required, FormValidation.nic]),
     gender: new FormControl(null),
@@ -107,41 +109,60 @@ export class ProfileContextComponent implements OnInit {
     private categoryService: CategoryService,
     private userStateService: UserStateService,
     private jobListingService: JobListingService,
-    private userService: UserService,
+    private userService: UserService
   ) {
   }
 
   updateUserData() {
     if (this.personalInfoForm.valid) {
       const formValues = this.personalInfoForm.value;
+      if (this.userType === 'TRADES-PERSON') {
+        const userData = {
+          tradePersonName: formValues.name || '',
+          nic: formValues.nic || '',
+          mobile: formValues.mobile || '',
+          address: formValues.address || '',
+          gender: formValues.gender || '',
+          email: formValues.email || '',
+          dob: formValues.dob ? this.formatDate(formValues.dob) : '',
+          country: formValues.country || '',
+          city: formValues.city || '',
+          isVerified: true,
+          longitude: 0,
+          latitude: 0,
+          distance: 0,
+        };
+        this.tradespersonService.updateTradePerson(userData, this.tradesPersonData?.tradePersonId).subscribe(response => {
+          if (response.code === 203) {
+            this.toastr.success(response.message, 'Success!');
+            this.tradesPersonData = response.data;
+            this.setValuesToForm();
+            this.toastr.success(response.message, 'Success!');
+          } else {
+            this.toastr.error(response.message, 'Error!');
+          }
+        })
+      } else {
+        const userData = {
+          userId: this.userData?.userId,
+          firstName: formValues.firstName || '',
+          lastName: formValues.lastName || '',
+        };
 
-      const userData = {
-        tradePersonName: formValues.name || '',
-        nic: formValues.nic || '',
-        mobile: formValues.mobile || '',
-        address: formValues.address || '',
-        gender: formValues.gender || '',
-        email: formValues.email || '',
-        dob: formValues.dob ? this.formatDate(formValues.dob) : '',
-        country: formValues.country || '',
-        city: formValues.city || '',
-        isVerified: true,
-        longitude: 0,
-        latitude: 0,
-        distance: 0,
-      };
+        this.userService.updateUser(userData).subscribe(response => {
+          if (response.code === 200) {
+            this.toastr.success(response.message, 'Success!');
+            sessionStorage.clear();
+            this.toastr.success(response.message, 'Success!');
+            this.toastr.success('Please login again!', 'Alert!');
+            this.router.navigateByUrl('/security').then()
+            this.setValuesToForm();
+          } else {
+            this.toastr.error(response.message, 'Error!');
+          }
+        })
+      }
 
-      console.log(userData);
-      this.tradespersonService.updateTradePerson(userData, this.tradesPersonData?.tradePersonId).subscribe(response => {
-        if (response.code === 203) {
-          this.toastr.success(response.message, 'Success!');
-          this.tradesPersonData = response.data;
-          this.setValuesToForm();
-          this.toastr.success(response.message, 'Success!');
-        } else {
-          this.toastr.error(response.message, 'Error!');
-        }
-      })
     } else {
       this.toastr.error('Please fill all required fields', 'Error!');
     }
@@ -155,8 +176,13 @@ export class ProfileContextComponent implements OnInit {
     this.userStateService.userType$.subscribe(userType => {
       this.userType = userType;
     })
+    if (this.userType === 'TRADES-PERSON') {
+      this.loadTradesPersonByUserId();
+    } else {
+      this.setValuesToForm()
+    }
     this.loadUserProfilePictureByUserId();
-    this.loadTradesPersonByUserId();
+
     this.loadAllCategories();
 
     // Disable form fields initially
@@ -176,14 +202,19 @@ export class ProfileContextComponent implements OnInit {
 
   // Enable form fields except userId and email
   enableFormFields(): void {
-    this.personalInfoForm.get('name')?.enable();
-    this.personalInfoForm.get('nic')?.enable();
-    this.personalInfoForm.get('gender')?.enable();
-    this.personalInfoForm.get('dob')?.enable();
-    this.personalInfoForm.get('mobile')?.enable();
-    this.personalInfoForm.get('country')?.enable();
-    this.personalInfoForm.get('city')?.enable();
-    this.personalInfoForm.get('address')?.enable();
+    if (this.userType === 'TRADES-PERSON') {
+      this.personalInfoForm.get('name')?.enable();
+      this.personalInfoForm.get('nic')?.enable();
+      this.personalInfoForm.get('gender')?.enable();
+      this.personalInfoForm.get('dob')?.enable();
+      this.personalInfoForm.get('mobile')?.enable();
+      this.personalInfoForm.get('country')?.enable();
+      this.personalInfoForm.get('city')?.enable();
+      this.personalInfoForm.get('address')?.enable();
+    } else {
+      this.personalInfoForm.get('firstName')?.enable();
+      this.personalInfoForm.get('lastName')?.enable();
+    }
   }
 
   // Disable all form fields
@@ -229,18 +260,29 @@ export class ProfileContextComponent implements OnInit {
   }
 
   setValuesToForm() {
-    this.personalInfoForm.patchValue({
-      userId: this.userData?.userId,
-      name: this.tradesPersonData?.tradePersonName,
-      nic: this.tradesPersonData?.nic,
-      gender: this.tradesPersonData?.gender,
-      dob: this.tradesPersonData?.dob,
-      email: this.userData?.email,
-      mobile: this.tradesPersonData?.mobile,
-      country: this.tradesPersonData?.country,
-      city: this.tradesPersonData?.city,
-      address: this.tradesPersonData.address,
-    });
+    if (this.userType === 'TRADES-PERSON') {
+      this.personalInfoForm.patchValue({
+        userId: this.userData?.userId,
+        name: this.tradesPersonData?.tradePersonName,
+        nic: this.tradesPersonData?.nic,
+        gender: this.tradesPersonData?.gender,
+        dob: this.tradesPersonData?.dob,
+        email: this.userData?.email,
+        mobile: this.tradesPersonData?.mobile,
+        country: this.tradesPersonData?.country,
+        city: this.tradesPersonData?.city,
+        address: this.tradesPersonData.address,
+      });
+    } else {
+      this.personalInfoForm.patchValue({
+        userId: this.userData?.userId,
+        firstName: this.userData?.firstName,
+        lastName: this.userData?.lastName,
+        email: this.userData?.email,
+      });
+    }
+
+
   }
 
   loadListingsByTradesPersonId() {
@@ -261,7 +303,7 @@ export class ProfileContextComponent implements OnInit {
       description: this.professionalInfoForm.get("description")?.value,
       skills: this.pricingFeatureList(),
     }
-    this.jobListingService.createJobListing(data, this.userData.userId,this.selectedFile).subscribe(response => {
+    this.jobListingService.createJobListing(data, this.userData.userId, this.selectedFile).subscribe(response => {
       if (response.code === 200) {
         this.toastr.success(response.message, 'Success!');
         this.professionalInfoForm.reset();
