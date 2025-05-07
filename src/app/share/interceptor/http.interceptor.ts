@@ -1,12 +1,14 @@
 import {HttpEvent, HttpHandlerFn, HttpInterceptorFn, HttpRequest} from '@angular/common/http';
 import {catchError, finalize, Observable, throwError} from 'rxjs';
 import {inject} from '@angular/core';
-import {CookieManagerService} from '../services/cookie-manager/cookie-manager.service';
 import {ToastrService} from 'ngx-toastr';
 import {LoadingService} from '../services/loading/loading.service';
 
 export const httpInterceptor: HttpInterceptorFn = (request: HttpRequest<any>, next: HttpHandlerFn): Observable<HttpEvent<any>> => {
-  const token = sessionStorage.getItem('token')
+  let token: string | null = null;
+  if (typeof window !== 'undefined') {
+    token = sessionStorage.getItem('token');
+  }
   const toastr = inject(ToastrService); // Inject ToastrService
   const loadingService = inject(LoadingService); // Inject ToastrService
 

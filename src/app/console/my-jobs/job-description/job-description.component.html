@@ -1,0 +1,70 @@
+<div class="job-details-card">
+  <div class="header-row">
+    <h2>Job Details</h2>
+    <button mat-icon-button class="close-button" (click)="dialogRef.close()">
+      <span>&times;</span>
+    </button>
+  </div>
+  <div class="job-info-grid">
+    <div><strong>Client:</strong> {{ jobDetails?.contactPersonName || 'Loading...' }}</div>
+    <div><strong>Client mobile No:</strong> {{ jobDetails?.contactNumber || 'Loading...' }}</div>
+    <div><strong>Job amount:</strong>
+      Rs. {{ jobDetails?.calculatedAmount ? (jobDetails?.calculatedAmount | number:'1.2-2') : 'Loading...' }}
+    </div>
+    <div><strong>Start Date &
+      Time:</strong> {{ jobDetails?.startDateTime ? (jobDetails?.startDateTime | date:'yyyy-MM-dd (HH:mm)') : 'Loading...' }}
+    </div>
+    <div><strong>End Date &
+      Time:</strong> {{ jobDetails?.endDateTime ? (jobDetails?.endDateTime | date:'yyyy-MM-dd (HH:mm)') : 'Loading...' }}
+    </div>
+    <div><strong>Address:</strong> {{ jobDetails?.address || 'Loading...' }}</div>
+    <div><strong>Description:</strong> {{ jobDetails?.description || 'Loading...' }}</div>
+  </div>
+</div>
+
+<div class="status-tracker">
+  <div
+    class="step"
+    *ngFor="let step of steps; let i = index"
+    [class.active]="i <= currentStep && step !== 'REJECTED'"
+    [class.rejected]="step === 'REJECTED' && i === currentStep">
+    <div class="circle">{{ i + 1 }}</div>
+    <div class="label">{{ step }}</div>
+  </div>
+</div>
+
+<div class="status-controls" *ngIf="userType === 'TRADES-PERSON'">
+  <button mat-raised-button color="primary" (click)="nextStep()"
+          [disabled]="currentStep >= steps.length - 1 || steps[this.currentStep] === 'REJECTED'">
+    Next Status
+  </button>
+  <button mat-raised-button  (click)="rejectJob()"
+          [disabled]="currentStep !== 0|| steps[this.currentStep] === 'REJECTED'">
+    Reject Job
+  </button>
+</div>
+
+<!--
+
+<div class="status-log-card">
+  <h3>Status Log</h3>
+  <table>
+    <thead>
+    <tr>
+      <th>Date & Time</th>
+      <th>Updated By</th>
+      <th>Status</th>
+      <th>Remarks</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let log of statusLogs">
+      <td>{{ log.date | date: 'short' }}</td>
+      <td>{{ log.updatedBy }}</td>
+      <td>{{ log.status }}</td>
+      <td>{{ log.note }}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+-->

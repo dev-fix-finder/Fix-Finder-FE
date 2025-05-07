@@ -27,7 +27,7 @@ import {HttpResponse} from '@angular/common/http';
 })
 export class LoginComponent {
 
-  passwordState: boolean = false;
+  passwordState: boolean = true;
 
   loginForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),

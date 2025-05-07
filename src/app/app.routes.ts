@@ -16,8 +16,16 @@ import {UserRegisterComponent} from './process/user-register/user-register.compo
 import {ProfileContextComponent} from './console/profile/profile-context/profile-context.component';
 import {MyJobsComponent} from './console/my-jobs/my-jobs.component';
 import {MyScheduleComponent} from './console/my-schedule/my-schedule.component';
-import {MessagesComponent} from './console/messages/messages.component';
 import {HireTradesmenComponent} from './console/hire-tradesmen/hire-tradesmen.component';
+import {ProfileCardComponent} from './share/components/profile-cards/profile-card/profile-card.component';
+import {
+  AdminTradesPersonVerifyComponent
+} from './console/admin-trades-person-verify/admin-trades-person-verify.component';
+import {JobDescriptionComponent} from './console/my-jobs/job-description/job-description.component';
+import {MessagesComponent} from './console/messages/messages.component';
+import {
+  TradePersonVerificationComponent
+} from './console/trade-person-verification/trade-person-verification.component';
 
 export const routes: Routes = [
   {path: '', redirectTo: 'process/home', pathMatch: 'full'},
@@ -40,11 +48,15 @@ export const routes: Routes = [
         path: 'playground', component: PlaygroundComponent, children: [
           {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
           {path: 'dashboard', component: DashboardComponent},
+          {path: 'tp-verification', component: TradePersonVerificationComponent},
           {path: 'my-schedule', component: MyScheduleComponent},
+          {path: 'messages', component: MessagesComponent},
           {path: 'hire-trades-person', component: HireTradesmenComponent},
           {path: 'my-jobs', component: MyJobsComponent},
-          {path: 'messages', component: MessagesComponent},
           {path: 'my-profile', component: ProfileContextComponent},
+          {path: 'trades-person-verify', component: AdminTradesPersonVerifyComponent},
+          {path: 'trades-person/profile/:jobListingId', component: ProfileCardComponent},
+          {path: 'JobDescriptionComponent', component: JobDescriptionComponent},
         ]
       },
     ]

@@ -9,15 +9,17 @@ export const environment = {
 
   baseUrl: 'http://localhost:8000/api/v1/',
   authUrl: "http://localhost:8000/",
+  // baseUrl: 'http://192.168.8.175:8000/api/v1/',
+  // authUrl: "http://192.168.8.175:8000/",
   googleMapsApiKey: 'AIzaSyDNydKhIv4WkXIHXxX_Qi4yitU_Ics15Qg',
   firebaseConfig: {
-    apiKey: "AIzaSyBUEZC37QIyokQlxDyewEIeIsTMftX78Hk",
-    authDomain: "finder-8b826.firebaseapp.com",
-    projectId: "finder-8b826",
-    storageBucket: "finder-8b826.firebasestorage.app",
-    messagingSenderId: "510612128492",
-    appId: "1:510612128492:web:02dd8039c9318b442ddbc9",
-    measurementId: "G-9GPB07CMKF"
+    apiKey: "AIzaSyDc-seWbLUDXmH_s_gy-EN4Jt89txphSmg",
+    authDomain: "chatroomapp-37561.firebaseapp.com",
+    projectId: "chatroomapp-37561",
+    storageBucket: "chatroomapp-37561.firebasestorage.app",
+    messagingSenderId: "1091213864189",
+    appId: "1:1091213864189:web:11fb9ba30e8778361b2294",
+    measurementId: "G-DTV92E4EF6"
   }
 };
 

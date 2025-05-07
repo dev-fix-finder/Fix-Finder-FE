@@ -11,6 +11,10 @@ import {provideToastr} from 'ngx-toastr';
 import {provideNativeDateAdapter} from '@angular/material/core';
 import {CalendarModule, DateAdapter} from 'angular-calendar';
 import {adapterFactory} from 'angular-calendar/date-adapters/moment';
+import {FullCalendarModule} from '@fullcalendar/angular';
+import {initializeApp, provideFirebaseApp} from '@angular/fire/app';
+import {environment} from '../environments/environment';
+import {getFirestore, provideFirestore} from '@angular/fire/firestore';
 
 
 export const appConfig: ApplicationConfig = {
@@ -35,7 +39,10 @@ export const appConfig: ApplicationConfig = {
       CalendarModule.forRoot({
         provide: DateAdapter,
         useFactory: adapterFactory,
-      })
-    )
+      }),
+      FullCalendarModule
+    ),
+    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
+    provideFirestore(() => getFirestore()),
   ]
 };

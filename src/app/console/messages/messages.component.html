@@ -9,7 +9,7 @@
         <img class="pfp-small" [src]="user.profilePicture" alt="User profile">
         <p>{{ user.name }}</p>
       </div>
-      <div class="status-icon" [class.online]="user.online"></div>
+<!--      <div class="status-icon" [class.online]="user.online"></div>-->
     </div>
   </div>
 
@@ -20,7 +20,7 @@
       <div class="chat-details-info">
         <h3>{{ selectedUser.name }}</h3>
         <div class="status" [class.online]="selectedUser.online">
-          {{ selectedUser.online ? 'Online' : 'Offline' }}
+<!--          {{ selectedUser.online ? 'Online' : 'Offline' }}-->
         </div>
       </div>
     </div>
@@ -36,7 +36,7 @@
           <p>{{ message.text }}</p>
         </div>
         <ng-container *ngIf="message.sentByCurrentUser">
-          <img class="pfp-small" [src]="currentUser!.profilePicture" alt="User profile">
+          <img class="pfp-small" [src]="currentUser!.profilePicUrl" alt="User profile">
         </ng-container>
       </div>
     </div>

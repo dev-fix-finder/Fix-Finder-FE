@@ -1,7 +1,6 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {Router, RouterLink} from '@angular/router';
-import {CookieManagerService} from '../../share/services/cookie-manager/cookie-manager.service';
-import {MatButton, MatButtonModule} from '@angular/material/button';
+import {MatButtonModule} from '@angular/material/button';
 
 @Component({
   selector: 'app-logout',
@@ -14,16 +13,16 @@ import {MatButton, MatButtonModule} from '@angular/material/button';
   styleUrl: './logout.component.scss'
 })
 export class LogoutComponent {
-  constructor(private router:Router, private cookieManager: CookieManagerService) {
+  constructor(private router: Router) {
 
   }
 
   logout() {
-    this.cookieManager.logout();
+    sessionStorage.clear();
     this.router.navigateByUrl('/').then()
   }
 
   ngOnInit(): void {
-    window.scrollTo(0,0);
+    window.scrollTo(0, 0);
   }
 }

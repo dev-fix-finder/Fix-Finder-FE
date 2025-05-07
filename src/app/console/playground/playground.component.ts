@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 import {MatIconModule} from '@angular/material/icon';
 import {NgIf, NgStyle} from '@angular/common';
@@ -6,11 +6,13 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatDialog} from '@angular/material/dialog';
 import {CookieManagerService} from '../../share/services/cookie-manager/cookie-manager.service';
 import {DomSanitizer} from '@angular/platform-browser';
-import {AuthService} from '../../share/services/auth/auth.service';
 import {ToastrService} from 'ngx-toastr';
 import {
   ProfilePicManagerComponent
 } from '../../share/components/image-manager/profile-pic-manager/profile-pic-manager.component';
+import {LoadingService} from '../../share/services/loading/loading.service';
+import {UserService} from '../../share/services/user/user.service';
+import {UserStateService} from '../../share/states/user-state/user-state.service';
 
 @Component({
   selector: 'app-playground',
@@ -27,9 +29,11 @@ import {
   standalone: true,
   styleUrl: './playground.component.scss'
 })
-export class PlaygroundComponent {
+export class PlaygroundComponent implements OnInit {
 
+  userType: any;
   selectedData: any;
+  userData: any;
   expanded = false;
   file: any;
   // @ts-ignore
@@ -42,10 +46,32 @@ export class PlaygroundComponent {
     private dialog: MatDialog,
     private toastr: ToastrService,
     private cookieManager: CookieManagerService,
-    private authService: AuthService,
-    // private loadingService: LoadingService,
+    private userService: UserService,
+    private userStateService: UserStateService,
+    private loadingService: LoadingService,
     private sanitizer: DomSanitizer,
   ) {
+  }
+
+  ngOnInit(): void {
+    // @ts-ignore
+    this.userData = JSON.parse(sessionStorage.getItem('personalData'));
+
+    this.userStateService.userType$.subscribe(userType => {
+      this.userType = userType;
+    })
+
+    this.loadUserProfilePictureByUserId();
+  }
+
+  loadUserProfilePictureByUserId() {
+    this.userService.getProfilePicture(this.userData?.userId).subscribe(response => {
+      if (response.code === 200) {
+        this.profileAvatar = response.data;
+      } else {
+        this.toastr.error(response.message, 'Error!');
+      }
+    })
   }
 
   onMouseEnter() {
@@ -103,6 +129,17 @@ export class PlaygroundComponent {
   }
 
   uploadAvatar() {
+    if (!this.blobData) {
+      this.toastr.warning('please Select a valid profile image', 'Warning');
+      return;
+    }
 
+    this.userService.updateProfilePicture(this.blobData, this.userData?.userId).subscribe(response => {
+      if (response.code == 203) {
+        this.loadingService.mainLoader.next(false);
+        this.profileAvatar = response.data;
+        this.toastr.success('Profile picture has been updated successfully', 'Success');
+      }
+    })
   }
 }

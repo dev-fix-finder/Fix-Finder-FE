@@ -1,0 +1,133 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #f9fdf9;
+  color: #333;
+}
+header {
+  background: linear-gradient(135deg, #328E6E, #67AE6E);
+  color: white;
+  padding: 100px 20px 80px;
+  text-align: center;
+  border-bottom-left-radius: 80px;
+  border-bottom-right-radius: 80px;
+}
+header h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+header p {
+  font-size: 1.2rem;
+  max-width: 700px;
+  margin: 0 auto 40px;
+}
+.cta-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.cta-buttons button {
+  background: #E1EEBC;
+  color: #328E6E;
+  border: none;
+  padding: 14px 28px;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.cta-buttons button:hover {
+  background: #90C67C;
+  color: white;
+}
+section {
+  padding: 70px 20px;
+  max-width: 1200px;
+  margin: auto;
+}
+.section-title {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 40px;
+  color: #328E6E;
+}
+.features, .services {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+}
+.feature, .service {
+  background: #E1EEBC;
+  border-radius: 15px;
+  padding: 30px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  transition: 0.3s ease;
+}
+.feature:hover, .service:hover {
+  background: #90C67C;
+  color: white;
+}
+.feature h3, .service h3 {
+  margin-bottom: 10px;
+  color: #328E6E;
+}
+.testimonials {
+  background: #f5fbf4;
+}
+.testimonial {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  margin: 30px auto;
+  max-width: 600px;
+  font-style: italic;
+}
+.login-section {
+  background: #F0F9F1;
+}
+.login-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+}
+.login-card {
+  background: #E1EEBC;
+  border-radius: 15px;
+  padding: 30px;
+  text-align: center;
+}
+.login-card button {
+  background-color: #328E6E;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: 600;
+  margin-top: 15px;
+}
+.login-card button:hover {
+  background-color: #67AE6E;
+}
+footer {
+  background-color: #328E6E;
+  color: white;
+  text-align: center;
+  padding: 50px 20px;
+  border-top-left-radius: 80px;
+  border-top-right-radius: 80px;
+}
+footer a {
+  color: #E1EEBC;
+  margin: 0 10px;
+  text-decoration: none;
+}

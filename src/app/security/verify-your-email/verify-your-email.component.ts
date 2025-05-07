@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
 import {AuthService} from '../../share/services/auth/auth.service';
@@ -16,7 +16,7 @@ import {MatButtonModule} from '@angular/material/button';
   standalone: true,
   styleUrl: './verify-your-email.component.scss'
 })
-export class VerifyYourEmailComponent {
+export class VerifyYourEmailComponent implements OnInit{
   constructor(private router: Router, private toastr: ToastrService, private activatedRoute: ActivatedRoute, private authService: AuthService) {
   }
 

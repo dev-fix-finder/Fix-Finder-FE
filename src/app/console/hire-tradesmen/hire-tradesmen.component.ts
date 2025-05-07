@@ -1,81 +1,81 @@
-import {Component, Input} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatSelectModule} from "@angular/material/select";
-import {FormControl, FormGroup, FormGroupDirective, ReactiveFormsModule} from '@angular/forms';
-import {GoogleMapsModule} from '@angular/google-maps';
-import {NgForOf, NgStyle} from '@angular/common';
-import {MatCheckboxModule} from '@angular/material/checkbox';
+import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
-import {MatSliderModule} from '@angular/material/slider';
-import {MatDatepickerModule, MatDatepickerToggle} from '@angular/material/datepicker';
-import {LoadingService} from '../../share/services/loading/loading.service';
+import {CommonModule} from '@angular/common';
 import {Router} from '@angular/router';
+import {JobListingService} from '../../share/services/job-listing/job-listing.service';
 import {ToastrService} from 'ngx-toastr';
+import {CategoryService} from '../../share/services/category/category.service';
 
 @Component({
   selector: 'app-hire-tradesmen',
   imports: [
-    GoogleMapsModule,
-    MatFormFieldModule,
-    MatSelectModule,
     ReactiveFormsModule,
-    NgForOf,
-    MatCheckboxModule,
+    MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    MatSliderModule,
-    MatDatepickerModule,
-    NgStyle
+    MatSelectModule,
+    CommonModule,
   ],
   templateUrl: './hire-tradesmen.component.html',
   standalone: true,
   styleUrl: './hire-tradesmen.component.scss'
 })
-export class HireTradesmenComponent {
+export class HireTradesmenComponent implements OnInit {
+  filterForm = new FormGroup({
+    category: new FormControl('MASON'),
+    minHourRate: new FormControl(''),
+    maxHourRate: new FormControl(''),
+  });
 
-  hireForm = new FormGroup({
-    category: new FormControl(),
-    date: new FormControl(),
-    min: new FormControl(),
-    max: new FormControl(),
-  })
+  jobListings: any[] = [];
+  categories: any[] = [];
 
-  center: google.maps.LatLngLiteral = {lat: 6.9341, lng: 79.84997};
-  zoom = 12;
-  markers: { position: google.maps.LatLngLiteral; title: string }[] = [];
-
-  mapOptions: google.maps.MapOptions = {
-    mapTypeId: 'terrain', // or 'satellite', 'hybrid', 'terrain'
-    disableDefaultUI: false, // Show default UI controls
-    zoomControl: true, // Enable zoom control
-    streetViewControl: false // Disable Street View control
-  };
-
-  /*onMapClick(event: google.maps.MapMouseEvent) {
-    if (event.latLng) {
-      const position = event.latLng.toJSON();
-      this.markers.push({
-        position,
-        title: 'Trades-person Location'
-      })
-    }
-  }*/
-
-  submitJobRequest(f: FormGroupDirective) {
-
+  constructor(
+    private jobListingService: JobListingService,
+    private categoryService: CategoryService,
+    private toastr: ToastrService,
+    private router: Router,
+  ) {
   }
-
-  @Input() data:any;
-
-  constructor(public loadingService: LoadingService, private router:Router,private toastr:ToastrService) { }
 
   ngOnInit(): void {
-
+    this.loadAllCategories();
+    this.loadAllListings()
   }
 
-  previewProfile(id:any){
-    this.router.navigateByUrl('/user-profile/process/'+id+'/about/'+id);
-    //window.open('http://localhost:4200/#/user-profile/process/'+id+'/about/'+id, '_blank');
+  loadAllCategories() {
+    this.categoryService.getAllCategories().subscribe(response => {
+      if (response.code === 200) {
+        this.categories = response.data;
+        console.log(this.categories)
+      } else {
+        this.toastr.error(response.message, 'Error!');
+      }
+    });
   }
+
+  loadAllListings() {
+    let category: any = this.filterForm.get('category')?.value!;
+    this.jobListingService.getAllJobListingsByFilter(category).subscribe(response => {
+      if (response.code === 200) {
+        this.jobListings = response.data;
+      } else {
+        this.toastr.error(response.message, 'Error!');
+      }
+    })
+  }
+
+  routeToTradesPersonDetails(jobListing: any) {
+    const id = jobListing?.jobListingsId;
+    if (id) {
+      this.router.navigate(['/console/playground/trades-person/profile', id]);
+    } else {
+      this.toastr.error('jobListingsId  not found', 'Navigation Error');
+    }
+  }
+
 }

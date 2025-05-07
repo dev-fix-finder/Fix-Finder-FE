@@ -1,4 +1,84 @@
-<app-main-header></app-main-header>
-<app-landing-page-main-slider></app-landing-page-main-slider>
-<app-landing-page-feature-highlights></app-landing-page-feature-highlights>
-<app-landing-page-popular-services></app-landing-page-popular-services>
+<header>
+  <h1>FixFinder – Find. Book. Fix. Fast.</h1>
+  <p>Your trusted platform to connect with verified tradespeople nearby. Hassle-free, safe, and on-demand.</p>
+  <div class="cta-buttons">
+    <button onclick="document.getElementById('login-user').scrollIntoView({ behavior: 'smooth' })">Login as User</button>
+    <button onclick="document.getElementById('login-tradesperson').scrollIntoView({ behavior: 'smooth' })">Login as Tradesperson</button>
+  </div>
+</header>
+
+<section>
+  <h2 class="section-title">How It Works</h2>
+  <div class="features">
+    <div class="feature">
+      <h3>Post Your Task</h3>
+      <p>Describe the job, upload images, and set a preferred time.</p>
+    </div>
+    <div class="feature">
+      <h3>Instant Match</h3>
+      <p>We connect you with the best-rated tradespeople instantly.</p>
+    </div>
+    <div class="feature">
+      <h3>Secure Payment</h3>
+      <p>Only pay when the job is done right. No surprises.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2 class="section-title">Top Services</h2>
+  <div class="services">
+    <div class="service">
+      <h3>Plumbing</h3>
+      <p>Fix leaks, install fixtures, and more.</p>
+    </div>
+    <div class="service">
+      <h3>Electrical</h3>
+      <p>Wiring issues, lighting upgrades, and repairs.</p>
+    </div>
+    <div class="service">
+      <h3>Carpentry</h3>
+      <p>Furniture fixes, doors, cabinets, and custom builds.</p>
+    </div>
+    <div class="service">
+      <h3>Painting</h3>
+      <p>Interior & exterior painting with a professional touch.</p>
+    </div>
+  </div>
+</section>
+
+<section class="testimonials">
+  <h2 class="section-title">What Our Users Say</h2>
+  <div class="testimonial">
+    <p>“FixFinder helped me book a reliable plumber within minutes. Stress-free and simple!” – Sarah L.</p>
+  </div>
+  <div class="testimonial">
+    <p>“I get more leads and never worry about payment delays. Great for tradespeople!” – Mike T.</p>
+  </div>
+</section>
+
+<section id="login" class="login-section">
+  <h2 class="section-title">Login to FixFinder</h2>
+  <div class="login-cards">
+    <div class="login-card" id="login-user">
+      <h3>User Login</h3>
+      <p>Book services and track task progress.</p>
+      <button (click)="routeToSignIn('CLIENT')">Login as User</button>
+    </div>
+    <div class="login-card" id="login-tradesperson">
+      <h3>Tradesperson Login</h3>
+      <p>Manage job requests and get paid easily.</p>
+      <button (click)="routeToSignIn('TRADES-PERSON')">Login as Tradesperson</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2025 FixFinder. All rights reserved.</p>
+  <p>
+    <a href="#">About</a> |
+    <a href="#">Contact</a> |
+    <a href="#">Privacy</a> |
+    <a href="#">Terms</a>
+  </p>
+</footer>

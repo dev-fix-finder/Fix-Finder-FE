@@ -1,0 +1,171 @@
+.outer {
+  width: 100%;
+}
+
+.schedule-title {
+  margin: 20px 10px 0 10px;
+  font-size: 22px;
+  color: var(--green-color);
+}
+
+.form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1rem 1rem 1rem;
+
+  .form-title {
+    margin: 0;
+    font-size: 1.5rem;
+  }
+
+  .close-btn {
+    align-self: start;
+  }
+}
+
+.form-container {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 1fr 1fr;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem;
+
+  mat-form-field {
+    width: 100%;
+  }
+
+  .description-field {
+    grid-column: span 2;
+  }
+
+  button {
+    grid-column: span 2;
+    justify-self: end;
+  }
+}
+
+$primary: #328E6E;
+$secondary: #67AE6E;
+$accent: #90C67C;
+$background: #E1EEBC;
+
+.status-tracker {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  margin-bottom: 2rem;
+  padding: 0 1rem;
+
+  .step {
+    position: relative;
+    flex: 1;
+    text-align: center;
+
+    .circle {
+      width: 36px;
+      height: 36px;
+      line-height: 36px;
+      border-radius: 50%;
+      background-color: $accent;
+      color: white;
+      margin: 0 auto;
+      font-weight: bold;
+      z-index: 2;
+      position: relative;
+    }
+
+    .label {
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 18px;
+      left: 50%;
+      height: 4px;
+      width: 100%;
+      background-color: $accent;
+      z-index: 1;
+    }
+
+    &:last-child::after {
+      display: none;
+    }
+
+    &.active .circle {
+      background-color: $primary;
+    }
+
+    &.active::after {
+      background-color: $primary;
+    }
+  }
+
+  // Space out step content to avoid overlap
+  .step:not(:last-child) {
+    margin-right: -10%;
+  }
+}
+
+.scheduler-inner {
+  width: 100%;
+  margin-top: 20px;
+
+  full-calendar {
+    width: 100% !important;
+    height: auto;
+    min-height: 600px;
+  }
+
+  .selected-time-indicator {
+    display: flex;
+    align-items: center;
+    background-color: #e8f5e9;
+    border-left: 4px solid #4caf50;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    mat-icon {
+      color: #4caf50;
+      margin-right: 10px;
+    }
+
+    span {
+      font-weight: 500;
+      color: #2e7d32;
+      flex-grow: 1;
+    }
+
+    button {
+      margin-left: 10px;
+    }
+  }
+
+  .time-selection-guide {
+    display: flex;
+    align-items: center;
+    background-color: #e3f2fd;
+    border-left: 4px solid #2196f3;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    mat-icon {
+      color: #2196f3;
+      margin-right: 10px;
+    }
+
+    span {
+      font-weight: 400;
+      color: #0d47a1;
+    }
+  }
+}

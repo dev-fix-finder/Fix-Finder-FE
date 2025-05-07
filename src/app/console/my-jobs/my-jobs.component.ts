@@ -1,8 +1,18 @@
-import {Component} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MatButtonModule} from '@angular/material/button';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
 import {MatInputModule} from '@angular/material/input';
+import {CommonModule} from '@angular/common';
+import {UserStateService} from '../../share/states/user-state/user-state.service';
+import {JobListingService} from '../../share/services/job-listing/job-listing.service';
+import {JobPoolService} from '../../share/services/job-pool/job-pool.service';
+import {TradespersonService} from '../../share/services/tradesperson/tradesperson.service';
+import {Subscription} from 'rxjs';
+import {Router} from '@angular/router';
+import {MatDialog, MatDialogModule} from '@angular/material/dialog';
+import {JobDescriptionComponent} from './job-description/job-description.component';
+import {EditJobComponent} from './edit-job/edit-job.component';
 
 @Component({
   selector: 'app-my-jobs',
@@ -10,13 +20,130 @@ import {MatInputModule} from '@angular/material/input';
     MatButtonModule,
     MatFormFieldModule,
     MatSelectModule,
-    MatInputModule
+    MatInputModule,
+    CommonModule,
+    MatDialogModule,
   ],
   templateUrl: './my-jobs.component.html',
   standalone: true,
   styleUrl: './my-jobs.component.scss'
 })
-export class MyJobsComponent {
-  cardImage: string = 'data:image/jpeg;base64,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';
+export class MyJobsComponent implements OnInit, OnDestroy {
+  userType: any;
+  userData: any;
+  jobList: any;
+  private userTypeSubscription: Subscription | undefined;
 
+  constructor(
+    private userStateService: UserStateService,
+    private jobListingService: JobListingService,
+    private jobPoolService: JobPoolService,
+    private tradespersonService: TradespersonService,
+    private router: Router,
+    private dialog: MatDialog
+  ) {
+  }
+
+  ngOnInit(): void {
+    // Get user data from session storage
+    this.userData = JSON.parse(sessionStorage.getItem('personalData') || '{}');
+
+    // Subscribe to user type changes
+    this.userTypeSubscription = this.userStateService.userType$.subscribe(userType => {
+      console.log('user type', userType);
+      this.userType = userType;
+      this.loadJobs(userType);
+    });
+  }
+
+  ngOnDestroy(): void {
+    // Clean up subscriptions to prevent memory leaks
+    if (this.userTypeSubscription) {
+      this.userTypeSubscription.unsubscribe();
+    }
+  }
+
+  loadJobs(userType: string): void {
+    if (userType === 'CLIENT') {
+      if (this.userData?.userId) {
+        this.jobPoolService.getJobsByUserId(this.userData?.userId).subscribe(
+          (response) => {
+            console.log(response)
+            if (response && response.data) {
+              this.jobList = response.data;
+            }
+          },
+          (error) => {
+            console.error('Error loading jobs for client:', error);
+          }
+        );
+      }
+    } else if (userType === 'TRADES-PERSON') {
+      // For TRADES-PERSON users, get tradesperson details by userId, then load jobs by tradePersonId
+      if (this.userData?.userId) {
+        this.tradespersonService.getTradesPersonByUserId(this.userData?.userId).subscribe(
+          (response) => {
+            if (response && response.data && response.data?.tradePersonId) {
+              const tradePersonId = response.data?.tradePersonId;
+              this.jobPoolService.getJobsByTradePersonId(tradePersonId).subscribe(
+                (jobsResponse) => {
+                  if (jobsResponse && jobsResponse.data) {
+                    this.jobList = jobsResponse.data;
+                  }
+                },
+                (error) => {
+                  console.error('Error loading jobs for tradesperson:', error);
+                }
+              );
+            }
+          },
+          (error) => {
+            console.error('Error getting tradesperson details:', error);
+          }
+        );
+      }
+    }
+  }
+
+  /**
+   * Open job description dialog when user clicks the View Details button
+   * @param jobId The ID of the job to view
+   */
+  viewJobDetails(jobId: string): void {
+    if (jobId) {
+      // Open job description dialog with the job ID
+      this.dialog.open(JobDescriptionComponent, {
+        width: '800px',
+        data: {jobId: jobId}
+      });
+    } else {
+      console.error('Job ID is missing');
+    }
+  }
+
+  /**
+   * Open edit job dialog when user clicks the Edit Job button
+   * @param jobId The ID of the job to edit
+   */
+  editJob(jobId: string): void {
+    if (jobId) {
+      // Open edit job dialog with the job ID
+      const dialogRef = this.dialog.open(EditJobComponent, {
+        width: '900px',
+        data: {jobId: jobId}
+      });
+
+      // Refresh job list when dialog is closed with a successful update
+      dialogRef.afterClosed().subscribe(result => {
+        if (result === true) {
+          // Reload jobs with current user type
+          this.loadJobs(this.userType);
+        }
+      });
+    } else {
+      console.error('Job ID is missing');
+    }
+  }
+
+  protected readonly Date = Date;
 }

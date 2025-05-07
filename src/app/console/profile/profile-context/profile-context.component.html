@@ -1,2 +1,518 @@
-<app-profile-slider></app-profile-slider>
-<app-profile-user-details></app-profile-user-details>
+<div class="profile-outer">
+  <div class="profile-card">
+    <div class="cover-photo">
+      <div class="profile-picture">
+        <img
+          src="{{profileAvatar}}"
+          alt="profile pic">
+      </div>
+      <div *ngIf="userType != 'TRADES-PERSON'" class="name">{{ userData?.firstName }} {{ userData?.lastName }}</div>
+      <div *ngIf="userType === 'TRADES-PERSON'" class="name">{{ tradesPersonData?.tradePersonName }}</div>
+      <div *ngIf="userType === 'TRADES-PERSON' && tradesPersonData?.isVerified " class="verified-state">verified</div>
+      <div *ngIf="userType === 'TRADES-PERSON' && !tradesPersonData?.isVerified" class="un-verified-state">unverified
+      </div>
+    </div>
+  </div>
+  <div class="profile-details">
+    <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+      <mat-tab label="Personal Information">
+        <div class="personal-information">
+          <div class="toggle-container">
+            <mat-slide-toggle [checked]="isEditMode" (change)="toggleEditMode($event)" color="primary">
+              Edit Personal Information
+            </mat-slide-toggle>
+          </div>
+          <form [formGroup]="personalInfoForm">
+            <div class="row form-outer">
+              <div class="col-12 col-md-4 column">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>User ID</mat-label>
+                  <input formControlName="userId" matInput type="text">
+                </mat-form-field>
+              </div>
+
+              <div class="col-12 col-md-4 column" *ngIf="userType === 'CLIENT'">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>First Name</mat-label>
+                  <input formControlName="firstName" matInput type="text">
+                </mat-form-field>
+              </div>
+
+              <div class="col-12 col-md-4 column" *ngIf="userType === 'CLIENT'">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>Last Name</mat-label>
+                  <input formControlName="lastName" matInput type="text">
+                </mat-form-field>
+              </div>
+
+              <div class="col-12 col-md-4 column" *ngIf="userType === 'TRADES-PERSON'">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>Name</mat-label>
+                  <input formControlName="name" matInput type="text">
+                </mat-form-field>
+              </div>
+
+              <div class="col-12 col-md-4 column">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>Email</mat-label>
+                  <input matInput formControlName="email" type="text">
+                </mat-form-field>
+              </div>
+
+              <div class="col-12 col-md-4 column" *ngIf="userType === 'TRADES-PERSON'">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>NIC</mat-label>
+                  <input formControlName="nic" placeholder="NIC" matInput type="text">
+                </mat-form-field>
+              </div>
+
+              <div class="col-12 col-md-4 column" *ngIf="userType === 'TRADES-PERSON'">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>Gender (Optional)</mat-label>
+                  <mat-select formControlName="gender">
+                    <mat-option value="MALE">Male</mat-option>
+                    <mat-option value="FEMALE">Female</mat-option>
+                    <mat-option value="RATHER_NOT_SAY">Rather Not Say</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <div class="col-12  col-md-4 column" *ngIf="userType === 'TRADES-PERSON'">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>Date of Birth</mat-label>
+                  <input matInput [matDatepicker]="picker" formControlName="dob">
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+              </div>
+              <div class="col-12  col-md-4 column" *ngIf="userType === 'TRADES-PERSON'">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>Mobile</mat-label>
+                  <input placeholder="7xxxxxxxx" formControlName="mobile" matInput type="text">
+                </mat-form-field>
+              </div>
+              <div class="col-12 col-md-4 column" *ngIf="userType === 'TRADES-PERSON'">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>Country</mat-label>
+                  <input formControlName="country" matInput type="text">
+                </mat-form-field>
+              </div>
+              <div class="col-12  col-md-4 column" *ngIf="userType === 'TRADES-PERSON'">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>City</mat-label>
+                  <input formControlName="city" matInput type="text">
+                </mat-form-field>
+              </div>
+              <div class="col-12 column" *ngIf="userType === 'TRADES-PERSON'">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>Address</mat-label>
+                  <textarea matInput formControlName="address" rows="3"></textarea>
+                </mat-form-field>
+              </div>
+
+              <div class="col-12 button-outer" *ngIf="isEditMode">
+                <button mat-raised-button class="update-basic-data-button" (click)="updateUserData()">
+                  Update
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </mat-tab>
+
+      <mat-tab *ngIf="userType === 'TRADES-PERSON'" label="Professional Informations">
+        <div class="professional-information">
+          <form [formGroup]="professionalInfoForm">
+            <div class="row form-outer">
+              <!-- Title -->
+              <div class="col-12 col-md-4 column">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>Title</mat-label>
+                  <input formControlName="title" matInput type="text">
+                </mat-form-field>
+              </div>
+
+              <!-- Price Per Hour -->
+              <div class="col-12 col-md-4 column">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>Price Per Hour (LKR)</mat-label>
+                  <input formControlName="pricePerHour" matInput type="number">
+                </mat-form-field>
+              </div>
+
+              <!-- Category -->
+              <div class="col-12 col-md-4 column">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>Category</mat-label>
+                  <mat-select formControlName="categoryId">
+                    <mat-option *ngFor="let category of categories" [value]="category?.categoryId">
+                      {{ category?.categoryTitle }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <!-- Description -->
+              <div class="col-12 column">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>Description</mat-label>
+                  <textarea formControlName="description" matInput></textarea>
+                </mat-form-field>
+              </div>
+
+              <div class="col-12 column">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>Your Skills</mat-label>
+                  <mat-chip-grid #chipGrid aria-label="Enter skills" [formControl]="pricingFeaturesFormControl">
+                    @for (feature of pricingFeatureList(); track feature) {
+                      <mat-chip-row (removed)="removeFeature(feature)">
+                        {{ feature }}
+                        <button matChipRemove [attr.aria-label]="'remove ' + feature">
+                          <mat-icon>cancel</mat-icon>
+                        </button>
+                      </mat-chip-row>
+                    }
+                  </mat-chip-grid>
+                  <input
+                    placeholder="Press ENTER or COMMA to add skills"
+                    [matChipInputFor]="chipGrid"
+                    (matChipInputTokenEnd)="addFeature($event)"
+                  />
+                </mat-form-field>
+              </div>
+
+
+              <!-- Image Upload -->
+              <div class="col-12 column">
+                <div class="custom-dropzone"
+                     (dragover)="handleDragOver($event)"
+                     (dragleave)="handleDragLeave($event)"
+                     (drop)="handleDrop($event, false)">
+                  <div class="dropzone-label">
+                    <mat-icon>cloud_upload</mat-icon>
+                    <span>Drop your image here or click to browse</span>
+                    <input type="file"
+                           class="file-input"
+                           accept="image/*"
+                           (change)="handleFileInput($event, false)">
+                  </div>
+                </div>
+
+                <!-- Preview of selected file -->
+                <div class="file-preview-container" *ngIf="selectedFile">
+                  <div class="file-preview">
+                    <img [src]="selectedFile" alt="Selected image">
+                    <button type="button" class="remove-file" (click)="removeSelectedFile()">
+                      <mat-icon>close</mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Submit Button -->
+              <div class="col-12 button-outer">
+                <button mat-raised-button class="update-basic-data-button" (click)="createJobListing()">
+                  Create
+                </button>
+              </div>
+            </div>
+          </form>
+
+        </div>
+      </mat-tab>
+
+
+      <mat-tab *ngIf="userType === 'TRADES-PERSON'" label="Verification">
+        <div class="verification-container">
+          <form [formGroup]="verificationForm">
+            <div class="row form-outer">
+              <!-- References Section -->
+              <div class="col-12 column">
+                <h3>References</h3>
+                <div class="references-container">
+                  <div class="row">
+                    <div class="col-12 col-md-6 column">
+                      <mat-form-field appearance="outline" class="example-full-width input-size">
+                        <mat-label>Reference 1 Name</mat-label>
+                        <input matInput formControlName="referenceName1" type="text">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-12 col-md-6 column">
+                      <mat-form-field appearance="outline" class="example-full-width input-size">
+                        <mat-label>Reference 1 Mobile</mat-label>
+                        <input placeholder="7xxxxxxxx" matInput formControlName="referenceMobile1" type="text">
+                      </mat-form-field>
+                    </div>
+
+                    <div class="col-12 col-md-6 column">
+                      <mat-form-field appearance="outline" class="example-full-width input-size">
+                        <mat-label>Reference 2 Name</mat-label>
+                        <input matInput formControlName="referenceName2" type="text">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-12 col-md-6 column">
+                      <mat-form-field appearance="outline" class="example-full-width input-size">
+                        <mat-label>Reference 2 Mobile</mat-label>
+                        <input placeholder="7xxxxxxxx" matInput formControlName="referenceMobile2" type="text">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!--&lt;!&ndash; Image Upload &ndash;&gt;
+              <div class="col-12 column">
+                <div class="custom-dropzone"
+                     (dragover)="handleDragOver($event)"
+                     (dragleave)="handleDragLeave($event)"
+                     (drop)="handleDrop($event, true)">
+                  <div class="dropzone-label">
+                    <mat-icon>cloud_upload</mat-icon>
+                    <span>Drop verification images here or click to browse</span>
+                    <p class="dropzone-hint">You can select multiple images</p>
+                    <input type="file"
+                           class="file-input"
+                           accept="image/*"
+                           multiple
+                           (change)="handleFileInput($event, true)">
+                  </div>
+                </div>
+
+                &lt;!&ndash; Preview of uploaded images &ndash;&gt;
+                <div class="file-preview-container" *ngIf="uploadedImages.length > 0">
+                  <div class="file-preview" *ngFor="let image of uploadedImages; let i = index">
+                    <img [src]="image" alt="Uploaded image">
+                    <button type="button" class="remove-file" (click)="removeImage(i)">
+                      <mat-icon>close</mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>-->
+
+              <!-- Submit Button -->
+              <div class="col-12 button-outer">
+                <button [disabled]="this.tradesPersonData?.isVerified" mat-raised-button
+                        class="update-basic-data-button" (click)="submitVerification()">
+                  Submit Verification
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+      </mat-tab>
+
+      <mat-tab *ngIf="userType === 'TRADES-PERSON'" label="My job Listings"
+               (selectionchange)="loadListingsByTradesPersonId()">
+        <div class="playlist-outer">
+          <div class="playlist" *ngFor="let listing of myListings">
+            <div class="image-and-actions">
+              <div class="left-image">
+                <img
+                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6c4RsbjczWWLXCSIE4DcQRNb10PVGJxrLMw&usqp=CAU"
+                  alt="playlist-image">
+              </div>
+              <div class="actions">
+                <button mat-icon-button (click)="editListing(listing)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="warn" (click)="deleteListing(listing.jobListingsId)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </div>
+
+            <div class="right-content">
+              <p class="playlist-title">{{ listing?.title }}</p>
+
+              <div class="info-row">
+                <span class="label">Category:</span>
+                <span>{{ listing?.category }}</span>
+              </div>
+
+              <div class="info-row">
+                <span class="label">Price Per Hour:</span>
+                <span>Rs. {{ listing?.pricePerHour }}</span>
+              </div>
+
+              <div class="info-row">
+                <span class="label">Completed Jobs:</span>
+                <span>{{ listing?.completedJobs }}</span>
+              </div>
+
+              <div class="info-row">
+                <span class="label">Ongoing Jobs:</span>
+                <span>{{ listing?.onGoingJobs }}</span>
+              </div>
+
+              <div class="info-row">
+                <span class="label">Rating:</span>
+                <span class="stars">
+          <ng-container *ngFor="let star of [1,2,3,4,5]">
+            <mat-icon [ngClass]="star <= listing.rating ? 'filled' : 'empty'">star</mat-icon>
+          </ng-container>
+        </span>
+              </div>
+
+              <div class="info-row">
+                <span class="label">Description:</span>
+                <span>{{ listing?.description }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>
+
+
+<!--            </div>-->
+
+<!--<div class="row">
+  <div class="map-panel">
+    <google-map width="600px" height="400px" [center]="center" [zoom]="zoom" [options]="mapOptions"
+                (mapClick)="onMapClick($event)">
+      <map-marker *ngFor="let marker of markers" [position]="marker.position" [label]="marker.title">
+      </map-marker>
+    </google-map>
+  </div>
+</div>-->
+
+<!--            <div class="row">-->
+<!--<div class="col-12  col-md-4 column">
+  <mat-form-field appearance="outline" class="example-full-width input-size">
+    <mat-label>Longitude</mat-label>
+    <input formControlName="longitude" matInput type="text">
+  </mat-form-field>
+</div>
+<div class="col-12  col-md-4 column">
+  <mat-form-field appearance="outline" class="example-full-width input-size">
+    <mat-label>Latitude</mat-label>
+    <input formControlName="latitude" matInput type="text">
+  </mat-form-field>
+</div>-->
+
+<!--<mat-tab label="Portfolio">
+        <div class="portfolio">
+          <form [formGroup]="portfolioForm">
+            <div class="row">
+              <div class="col-12 column">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>Work Samples (Base64)</mat-label>
+                  <textarea formControlName="workSamples" matInput rows="3"></textarea>
+                </mat-form-field>
+              </div>
+              <div class="col-12 column">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>Testimonials</mat-label>
+                  <textarea formControlName="testimonials" matInput rows="3"></textarea>
+                </mat-form-field>
+              </div>
+              <div class="col-12 column">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>Website Link</mat-label>
+                  <input matInput formControlName="websiteLink">
+                </mat-form-field>
+              </div>
+              <div class="col-12 column">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>Social Media Link</mat-label>
+                  <input matInput formControlName="socialMediaLink">
+                </mat-form-field>
+              </div>
+            </div>
+          </form>
+        </div>
+      </mat-tab>
+
+      <mat-tab label="Banking Details">
+        <div class="banking-details">
+          <form [formGroup]="bankingDetailsForm">
+            <div class="row">
+              <div class="col-12 column">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>Account Number</mat-label>
+                  <input matInput formControlName="accountNumber">
+                </mat-form-field>
+              </div>
+              <div class="col-12 column">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>Bank Branch</mat-label>
+                  <input matInput formControlName="bankBranch">
+                </mat-form-field>
+              </div>
+              <div class="col-12 column">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>Bank Name</mat-label>
+                  <input matInput formControlName="bankName">
+                </mat-form-field>
+              </div>
+              <div class="col-12 column">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>Payment Preference</mat-label>
+                  <input matInput formControlName="paymentPreference">
+                </mat-form-field>
+              </div>
+              <div class="col-12 column">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>Tax Documents</mat-label>
+                  <input matInput formControlName="taxComplianceDocuments">
+                </mat-form-field>
+              </div>
+            </div>
+          </form>
+        </div>
+      </mat-tab>
+
+      <mat-tab label="Additional Information">
+        <div class="additional-information">
+          <form [formGroup]="additionalInfoForm">
+            <div class="row">
+              <div class="col-12 column">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>Emergency Contact</mat-label>
+                  <input matInput formControlName="emergencyContact">
+                </mat-form-field>
+              </div>
+              <div class="col-12 column">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>Languages (IDs)</mat-label>
+                  <input matInput formControlName="languageIds" placeholder="e.g. 1,2">
+                </mat-form-field>
+              </div>
+              <div class="col-12 column">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>Work Radius (km)</mat-label>
+                  <input matInput type="number" formControlName="workRadius">
+                </mat-form-field>
+              </div>
+            </div>
+          </form>
+        </div>
+      </mat-tab>
+
+      <mat-tab label="Verification & Compliance">
+        <div class="verification-and-compliance">
+          <form [formGroup]="verificationForm">
+            <h1 class="title">Verification & Compliance</h1>
+            <div class="row">
+              <div class="col-12 column">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>Gov ID Proof (Base64)</mat-label>
+                  <input matInput formControlName="governmentIdProof">
+                </mat-form-field>
+              </div>
+              <div class="col-12 column">
+                <mat-form-field appearance="outline" class="example-full-width input-size">
+                  <mat-label>Professional Certification (Base64)</mat-label>
+                  <input matInput formControlName="professionalCertification">
+                </mat-form-field>
+              </div>
+              <div class="col-12 column">
+                <mat-checkbox formControlName="backgroundCheckConsent">Background Check Consent</mat-checkbox>
+              </div>
+            </div>
+          </form>
+        </div>
+      </mat-tab>-->
