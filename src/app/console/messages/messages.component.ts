@@ -18,46 +18,10 @@ import {ChatServiceService} from '../../share/services/chat/chat-service.service
   styleUrl: './messages.component.scss'
 })
 export class MessagesComponent implements OnInit {
-  users: ChatUser[] = [
-    /*{
-      id: '1',
-      name: 'Kavindu',
-      profilePicture: 'https://images.unsplash.com/photo-1739897020176-a3123626d791?q=80&w=1587&auto=format&fit=crop',
-      online: true
-    },
-    {
-      id: '2',
-      name: 'Aathif',
-      profilePicture: 'https://images.unsplash.com/photo-1728041781089-e7b9458421cd?q=80&w=1587&auto=format&fit=crop',
-      online: true
-    },
-    {
-      id: '3',
-      name: 'Tharaka Isuru',
-      profilePicture: 'https://images.unsplash.com/photo-1728588266992-a50e7adc55c2?q=80&w=1587&auto=format&fit=crop',
-      online: false
-    }*/
-  ];
+  users: ChatUser[] = [];
 
   currentUser: any;
   loggedUserId: any;
-
-  // Store a conversation for each user by user id
-  /*conversations: Conversations = {
-    1: [
-      {text: 'Hi Good Morning', sentByCurrentUser: false, user: this.users.find(u => u.id === '1')},
-      {text: 'Good Morning! What can I do for you?', sentByCurrentUser: true}
-    ],
-    2: [
-      {text: "g'day!", sentByCurrentUser: false, user: this.users.find(u => u.id === '2')},
-      {text: "greetings", sentByCurrentUser: true},
-      {text: "how goes u fergus?", sentByCurrentUser: true}
-    ],
-    3: [
-      {text: "Hi Lady Ann!", sentByCurrentUser: true},
-      {text: "Hello!", sentByCurrentUser: false, user: this.users.find(u => u.id === '3')}
-    ]
-  };*/
 
   // No default chat is loaded; user must be selected manually
   selectedUser: ChatUser | null = null;
@@ -77,12 +41,7 @@ export class MessagesComponent implements OnInit {
 
     this.loadConversations();
   }
-  // Change the active chat when a user is selected
 
-  /* selectUser(user: ChatUser): void {
-     this.selectedUser = user;
-     this.messages = this.conversations[user?.userId] || [];
-   }*/
   selectUser(user: ChatUser): void {
     this.selectedUser = user;
     const convoId = this.getConversationId(this.loggedUserId, user.userId);

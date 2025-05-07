@@ -27,7 +27,7 @@ export class TradespersonService {
   }
 
   submitVerification(verificationData: any): Observable<any> {
-    return this.http.post<any>(this.baseUrl + 'tradePerson/submit-verification', verificationData);
+    return this.http.post<any>(this.baseUrl + 'tradePerson/request-verification', verificationData);
   }
 
   getTradesPersonByUserId(userId: any) {
@@ -36,5 +36,13 @@ export class TradespersonService {
 
   getAllocatedTimes(tradespersonId: any): Observable<any> {
     return this.http.get<any>(this.baseUrl + 'job-pool/get-allocated-times?tradePersonId=' + tradespersonId);
+  }
+
+  allVerifications() {
+    return this.http.get<any>(this.baseUrl + 'tradePerson/all-verification-requests');
+  }
+
+  updateTradepersonStatus(payload: any): Observable<any> {
+    return this.http.post(this.baseUrl + 'tradePerson/decision-verification', payload);
   }
 }

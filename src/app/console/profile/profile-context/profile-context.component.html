@@ -230,52 +230,37 @@
               <div class="col-12 column">
                 <h3>References</h3>
                 <div class="references-container">
-                  <div class="reference-list">
-                    <div class="reference-item" *ngFor="let reference of references; let i = index">
-                      <div class="reference-details">
-                        <div class="info-row">
-                          <span class="label">Name:</span>
-                          <span>{{ reference.name }}</span>
-                        </div>
-                        <div class="info-row">
-                          <span class="label">Mobile:</span>
-                          <span>{{ reference.mobile }}</span>
-                        </div>
-                      </div>
-                      <div class="reference-actions">
-                        <button mat-icon-button (click)="editReference(i)">
-                          <mat-icon>edit</mat-icon>
-                        </button>
-                        <button mat-icon-button color="warn" (click)="removeReference(i)">
-                          <mat-icon>delete</mat-icon>
-                        </button>
-                      </div>
+                  <div class="row">
+                    <div class="col-12 col-md-6 column">
+                      <mat-form-field appearance="outline" class="example-full-width input-size">
+                        <mat-label>Reference 1 Name</mat-label>
+                        <input matInput formControlName="referenceName1" type="text">
+                      </mat-form-field>
                     </div>
-                  </div>
+                    <div class="col-12 col-md-6 column">
+                      <mat-form-field appearance="outline" class="example-full-width input-size">
+                        <mat-label>Reference 1 Mobile</mat-label>
+                        <input placeholder="7xxxxxxxx" matInput formControlName="referenceMobile1" type="text">
+                      </mat-form-field>
+                    </div>
 
-                  <div class="add-reference-form">
                     <div class="col-12 col-md-6 column">
                       <mat-form-field appearance="outline" class="example-full-width input-size">
-                        <mat-label>Reference Name</mat-label>
-                        <input formControlName="referenceName" matInput type="text">
+                        <mat-label>Reference 2 Name</mat-label>
+                        <input matInput formControlName="referenceName2" type="text">
                       </mat-form-field>
                     </div>
                     <div class="col-12 col-md-6 column">
                       <mat-form-field appearance="outline" class="example-full-width input-size">
-                        <mat-label>Reference Mobile</mat-label>
-                        <input formControlName="referenceMobile" matInput type="text">
+                        <mat-label>Reference 2 Mobile</mat-label>
+                        <input placeholder="7xxxxxxxx" matInput formControlName="referenceMobile2" type="text">
                       </mat-form-field>
-                    </div>
-                    <div class="reference-button-container">
-                      <button mat-raised-button color="primary" (click)="addReference()">
-                        Add Reference
-                      </button>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <!-- Image Upload -->
+              <!--&lt;!&ndash; Image Upload &ndash;&gt;
               <div class="col-12 column">
                 <div class="custom-dropzone"
                      (dragover)="handleDragOver($event)"
@@ -293,7 +278,7 @@
                   </div>
                 </div>
 
-                <!-- Preview of uploaded images -->
+                &lt;!&ndash; Preview of uploaded images &ndash;&gt;
                 <div class="file-preview-container" *ngIf="uploadedImages.length > 0">
                   <div class="file-preview" *ngFor="let image of uploadedImages; let i = index">
                     <img [src]="image" alt="Uploaded image">
@@ -302,17 +287,19 @@
                     </button>
                   </div>
                 </div>
-              </div>
+              </div>-->
 
               <!-- Submit Button -->
               <div class="col-12 button-outer">
-                <button mat-raised-button class="update-basic-data-button" (click)="submitVerification()">
+                <button [disabled]="this.tradesPersonData?.isVerified" mat-raised-button
+                        class="update-basic-data-button" (click)="submitVerification()">
                   Submit Verification
                 </button>
               </div>
             </div>
           </form>
         </div>
+
       </mat-tab>
 
       <mat-tab *ngIf="userType === 'TRADES-PERSON'" label="My job Listings"

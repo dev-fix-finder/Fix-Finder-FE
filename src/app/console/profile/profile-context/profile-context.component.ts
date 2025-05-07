@@ -94,8 +94,10 @@ export class ProfileContextComponent implements OnInit {
   });
 
   verificationForm = new FormGroup({
-    referenceName: new FormControl('', [Validators.required]),
-    referenceMobile: new FormControl('', [Validators.required, FormValidation.mobileNumber])
+    referenceName1: new FormControl('', [Validators.required]),
+    referenceMobile1: new FormControl('', [Validators.required, FormValidation.mobileNumber]),
+    referenceName2: new FormControl('', [Validators.required]),
+    referenceMobile2: new FormControl('', [Validators.required, FormValidation.mobileNumber])
   });
 
   myListings: any[] = [];
@@ -196,6 +198,16 @@ export class ProfileContextComponent implements OnInit {
         this.personalInfoForm.get('mobile')?.setValue(value.substring(1), {emitEvent: false});
       }
     });
+    this.verificationForm.get('referenceMobile1')?.valueChanges.subscribe(value => {
+      if (value && value.startsWith('0')) {
+        this.verificationForm.get('referenceMobile1')?.setValue(value.substring(1), {emitEvent: false});
+      }
+    });
+    this.verificationForm.get('referenceMobile2')?.valueChanges.subscribe(value => {
+      if (value && value.startsWith('0')) {
+        this.verificationForm.get('referenceMobile2')?.setValue(value.substring(1), {emitEvent: false});
+      }
+    });``
   }
 
   // Toggle edit mode for personal information form
@@ -259,6 +271,10 @@ export class ProfileContextComponent implements OnInit {
     this.tradespersonService.getTradesPersonByUserId(this.userData?.userId).subscribe(response => {
       if (response.code === 200) {
         this.tradesPersonData = response.data;
+
+        if(this.tradesPersonData?.isVerified === true){
+          this.verificationForm.disable();
+        }
         this.setValuesToForm();
         this.loadListingsByTradesPersonId();
       } else {
@@ -315,6 +331,10 @@ export class ProfileContextComponent implements OnInit {
       if (response.code === 200) {
         this.toastr.success(response.message, 'Success!');
         this.professionalInfoForm.reset();
+        this.pricingFeatureList.update(feature => []);
+        this.selectedFile = null;
+        this.listingFile = null;
+        this.loadListingsByTradesPersonId();
       } else {
         this.toastr.error(response.message, 'Error!');
       }
@@ -387,43 +407,6 @@ export class ProfileContextComponent implements OnInit {
     });
   }
 
-  // Reference methods
-  addReference() {
-    if (this.verificationForm.valid) {
-      const name = this.verificationForm.get('referenceName')?.value;
-      const mobile = this.verificationForm.get('referenceMobile')?.value;
-
-      if (this.editingReferenceIndex >= 0) {
-        // Update existing reference
-        this.references[this.editingReferenceIndex] = {name, mobile};
-        this.editingReferenceIndex = -1;
-      } else {
-        // Add new reference
-        this.references.push({name, mobile});
-      }
-
-      // Reset form
-      this.verificationForm.reset();
-      this.toastr.success('Reference added successfully', 'Success!');
-    } else {
-      this.toastr.error('Please fill all required fields correctly', 'Error!');
-    }
-  }
-
-  editReference(index: number) {
-    const reference = this.references[index];
-    this.verificationForm.patchValue({
-      referenceName: reference.name,
-      referenceMobile: reference.mobile
-    });
-    this.editingReferenceIndex = index;
-  }
-
-  removeReference(index: number) {
-    this.references.splice(index, 1);
-    this.toastr.success('Reference removed successfully', 'Success!');
-  }
-
   // Custom file upload methods
   handleDragOver(event: DragEvent): void {
     event.preventDefault();
@@ -463,7 +446,7 @@ export class ProfileContextComponent implements OnInit {
     }
   }
 
-  handleFileInput(event: Event, multiple: boolean = false): void {
+  handleFileInput(event: Event, multiple: boolean): void {
     const input = event.target as HTMLInputElement;
     if (input.files) {
       const files = Array.from(input.files);
@@ -540,20 +523,19 @@ export class ProfileContextComponent implements OnInit {
 
   // Verification submission
   submitVerification() {
-    if (this.references.length === 0) {
-      this.toastr.error('Please add at least one reference', 'Error!');
+    if (this.verificationForm.invalid) {
+      this.toastr.error('Please complete the reference details.', 'Validation Error');
       return;
     }
 
-    if (this.uploadedImages.length === 0) {
-      this.toastr.error('Please upload at least one verification image', 'Error!');
-      return;
-    }
+    const formValues = this.verificationForm.value;
 
     const verificationData = {
       tradePersonId: this.tradesPersonData?.tradePersonId,
-      references: this.references,
-      verificationImages: this.uploadedImages
+      referenceName1: formValues.referenceName1,
+      referenceMobile1: formValues.referenceMobile1,
+      referenceName2: formValues.referenceName2,
+      referenceMobile2: formValues.referenceMobile2,
     };
 
     this.tradespersonService.submitVerification(verificationData).subscribe(

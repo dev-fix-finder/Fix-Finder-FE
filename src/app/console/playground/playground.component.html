@@ -49,7 +49,16 @@
             Dashboard
           </div>
         </li>
-        <li class="list-inner" routerLink="/console/playground/my-jobs"
+        <li *ngIf="userType === 'SUPER_ADMIN'" class="list-inner" routerLink="/console/playground/tp-verification"
+            routerLinkActive="active">
+          <div class="icon-outer">
+            <mat-icon class="nav-icon">how_to_reg</mat-icon>
+          </div>
+          <div *ngIf="expanded" class="nav-context">
+            Trade Person Verification
+          </div>
+        </li>
+        <li *ngIf="userType != 'SUPER_ADMIN'" class="list-inner" routerLink="/console/playground/my-jobs"
             routerLinkActive="active">
           <div class="icon-outer">
             <mat-icon class="nav-icon">work</mat-icon>
@@ -58,7 +67,7 @@
             My Jobs
           </div>
         </li>
-        <li class="list-inner" routerLink="/console/playground/my-schedule"
+        <li *ngIf="userType === 'TRADES-PERSON'" class="list-inner" routerLink="/console/playground/my-schedule"
             routerLinkActive="active">
           <div class="icon-outer">
             <mat-icon class="nav-icon">schedule</mat-icon>
@@ -67,7 +76,8 @@
             My Schedule
           </div>
         </li>
-        <li *ngIf="userType === 'CLIENT'" class="list-inner" routerLink="/console/playground/hire-trades-person"
+        <li *ngIf="userType === 'CLIENT' || userType === 'SUPER_ADMIN'" class="list-inner"
+            routerLink="/console/playground/hire-trades-person"
             routerLinkActive="active">
           <div class="icon-outer">
             <mat-icon class="nav-icon">handshake</mat-icon>

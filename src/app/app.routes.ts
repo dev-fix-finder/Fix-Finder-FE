@@ -23,6 +23,9 @@ import {
 } from './console/admin-trades-person-verify/admin-trades-person-verify.component';
 import {JobDescriptionComponent} from './console/my-jobs/job-description/job-description.component';
 import {MessagesComponent} from './console/messages/messages.component';
+import {
+  TradePersonVerificationComponent
+} from './console/trade-person-verification/trade-person-verification.component';
 
 export const routes: Routes = [
   {path: '', redirectTo: 'process/home', pathMatch: 'full'},
@@ -45,6 +48,7 @@ export const routes: Routes = [
         path: 'playground', component: PlaygroundComponent, children: [
           {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
           {path: 'dashboard', component: DashboardComponent},
+          {path: 'tp-verification', component: TradePersonVerificationComponent},
           {path: 'my-schedule', component: MyScheduleComponent},
           {path: 'messages', component: MessagesComponent},
           {path: 'hire-trades-person', component: HireTradesmenComponent},

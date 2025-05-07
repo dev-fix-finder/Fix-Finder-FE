@@ -1,0 +1,102 @@
+<div class="management-outer">
+  <h1 class="main-title">Trade Person Verification Management</h1>
+  <br>
+  <div class="new-form-outer">
+    <h2 class="sub-title">View / Edit Trade Person Verification</h2>
+
+    <form [formGroup]="form">
+      <div class="row">
+        <div class="col-12 col-sm-6 col-md-4 column">
+          <mat-form-field appearance="outline" class="example-full-width input-size">
+            <mat-label>Trade Person ID</mat-label>
+            <input formControlName="tradePersonId" matInput>
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 column">
+          <mat-form-field appearance="outline" class="example-full-width input-size">
+            <mat-label>Name</mat-label>
+            <input formControlName="tradePersonName" matInput>
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 column">
+          <mat-form-field appearance="outline" class="example-full-width input-size">
+            <mat-label>Status</mat-label>
+            <mat-select formControlName="status">
+              <mat-option *ngFor="let s of statusOptions" [value]="s">
+                {{ s }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="col-12"><p>Reference 1</p></div>
+        <div class="col-12 col-sm-6 col-md-4 column">
+          <mat-form-field appearance="outline" class="example-full-width input-size">
+            <mat-label>Name</mat-label>
+            <input formControlName="referenceName1" matInput>
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 column">
+          <mat-form-field appearance="outline" class="example-full-width input-size">
+            <mat-label>Mobile</mat-label>
+            <input formControlName="referenceMobile1" matInput>
+          </mat-form-field>
+        </div>
+
+        <div class="col-12"><p>Reference 2</p></div>
+        <div class="col-12 col-sm-6 col-md-4 column">
+          <mat-form-field appearance="outline" class="example-full-width input-size">
+            <mat-label>Name</mat-label>
+            <input formControlName="referenceName2" matInput>
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 column">
+          <mat-form-field appearance="outline" class="example-full-width input-size">
+            <mat-label>Mobile</mat-label>
+            <input formControlName="referenceMobile2" matInput>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="submit-button-outer mt-4">
+        <button [disabled]="form.invalid" (click)="submitForm()" class="submit-button" mat-button>
+          Save
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <br><br>
+
+  <div class="new-form-outer">
+    <h2 class="sub-title">All Trade Persons</h2>
+    <div class="table-outer">
+      <table class="table">
+        <thead>
+        <tr>
+          <td>Action</td>
+          <td>ID</td>
+          <td>Name</td>
+          <td>Status</td>
+          <td>Reference 1</td>
+          <td>Reference 2</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let t of verificationRequests">
+          <td>
+            <div class="center">
+              <mat-icon (click)="viewTradePerson(t)">visibility</mat-icon>
+            </div>
+          </td>
+          <td>{{ t.tradePersonId }}</td>
+          <td>{{ t.tradePersonName }}</td>
+          <td>{{ t.status }}</td>
+          <td>{{ t.referenceName1 }} - {{ t.referenceMobile1 }}</td>
+          <td>{{ t.referenceName2 }} - {{ t.referenceMobile2 }}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
