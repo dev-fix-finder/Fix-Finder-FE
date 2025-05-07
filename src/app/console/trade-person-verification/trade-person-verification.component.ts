@@ -57,11 +57,6 @@ export class TradePersonVerificationComponent implements OnInit {
   constructor(
     private tradespersonService: TradespersonService,
     private toastrService: ToastrService,
-    /*  private employeeService: EmployeeService,
-      private branchService: BranchService,
-      private userTypeService: UserTypeService,
-      private snackBarService: SnackBarService,
-      private dialog: MatDialog*/
   ) {
   }
 
